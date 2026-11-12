@@ -85,12 +85,12 @@ func _build_world() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 7
 	var i := 0
-	for x in range(-16, 17, 4):
-		for row in 2:
+	for x in range(-15, 16, 6):
+		for row in 1:
 			var ps := load(scenes[(i + row) % 2]) as PackedScene
 			if ps:
 				var tr := ps.instantiate() as Node3D
-				tr.position = Vector3(x + rng.randf_range(-1.2, 1.2), 0, -8.5 - row * 4.0 + rng.randf_range(-0.8, 0.8))
+				tr.position = Vector3(x + rng.randf_range(-1.5, 1.5), 0, -9.0 - row * 4.0 + rng.randf_range(-1.0, 1.0))
 				add_child(tr)
 			i += 1
 	_cam = HD2DCamera.new()

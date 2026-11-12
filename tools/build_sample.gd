@@ -4,9 +4,9 @@ extends SceneTree
 const T := "res://textures/"
 const SUN := Vector3(-48, -38, 0)
 const CAM_PITCH := 35.0
-const X0 := -14
-const X1 := 50
-const Z0 := -16
+const X0 := -18
+const X1 := 60
+const Z0 := -22
 const Z1 := 40
 const CLEAR := Vector2(17.5, 12.5)
 
@@ -82,9 +82,7 @@ func _make_library() -> void:
 		["Slunečnice", "veg/slunecnice", 190.0, false, 1, 0, 0.8, 1.2],
 		["Strom (pixel)", "trees/strom_pixel", 78.0, true, 1, 0, 0.85, 1.2],
 		["Smrk", "trees/strom_smrk_sheet", 70.0, false, 12, _best_frame("strom_smrk", sun_ang), 0.85, 1.2],
-		["Listnatý strom", "trees/strom_listnaty_sheet", 78.0, false, 12, _best_frame("strom_listnaty", sun_ang), 0.85, 1.2],
-		["Kameny drobné", "rocks/kameny_drobne", 80.0, false, 1, 0, 0.8, 1.3],
-		["Kámen malý", "rocks/kamen_maly", 80.0, false, 1, 0, 0.8, 1.3]]
+		["Listnatý strom", "trees/strom_listnaty_sheet", 78.0, false, 12, _best_frame("strom_listnaty", sun_ang), 0.85, 1.2]]
 	for v in veg:
 		var t := VegType.new()
 		t.veg_name = v[0]
@@ -201,20 +199,6 @@ func _make_props() -> void:
 	cyl2.height = 2.0
 	_body(r, cyl2, 1.0)
 	_save_prop(r, "strom_pixel")
-	var d := DirAccess.open(T + "rocks")
-	var files := Array(d.get_files()).filter(func(f): return f.ends_with(".png"))
-	files.sort()
-	for f in files:
-		var tex := load(T + "rocks/" + f) as Texture2D
-		var rr := Node3D.new()
-		rr.name = f.get_basename()
-		rr.add_child(_sprite(tex, 70.0, false, true))
-		var wm := tex.get_width() / 70.0
-		if wm > 1.4:
-			var box := BoxShape3D.new()
-			box.size = Vector3(wm * 0.7, 0.9, 0.8)
-			_body(rr, box, 0.45)
-		_save_prop(rr, f.get_basename())
 
 
 # ---------------- mapa ----------------
@@ -223,9 +207,9 @@ func _path_x(z: float) -> float:
 
 
 func _in_meadow(x: int, z: int) -> bool:
-	var xl := 3.0 + 1.6 * nz.get_noise_1d(z * 9.0)
-	var xr := 34.0 + 1.6 * nz.get_noise_1d(z * 9.0 + 500.0)
-	var zt := 4.0 + 1.6 * nz.get_noise_1d(x * 9.0 + 900.0)
+	var xl := -5.0 + 1.6 * nz.get_noise_1d(z * 9.0)
+	var xr := 45.0 + 1.6 * nz.get_noise_1d(z * 9.0 + 500.0)
+	var zt := -9.0 + 1.6 * nz.get_noise_1d(x * 9.0 + 900.0)
 	if z >= 32:
 		return z <= Z1 - 2 and absf(x + 0.5 - _path_x(z)) <= 3.6
 	return x >= xl and x < xr and z >= zt
@@ -428,15 +412,14 @@ func _scatter_veg() -> PackedFloat32Array:
 		elif rng.randf() < 0.07:
 			var r3 := rng.randf()
 			_vi(a, fx + rng.randf(), fz + rng.randf(), 4 if r3 < 0.5 else (5 if r3 < 0.8 else 6))
-		if rng.randf() < 0.025:
-			_vi(a, fx + rng.randf(), fz + rng.randf(), 10 if rng.randf() < 0.5 else 11)
 	return a
 
 
 func _place_props(layer: Node3D, root: Node3D) -> void:
 	var trees := ["strom_listnaty", "strom_smrk", "strom_listnaty", "strom_smrk", "strom_smrk"]
 	var clusters := [[9, 8, 3.2], [9.5, 15, 2.8], [8, 22, 3.0], [11.5, 26, 2.5], [27, 7.5, 3.0], [28, 14, 3.0],
-		[27, 22, 3.2], [25, 27, 2.5], [19.5, 5.8, 1.6], [13.5, 6.0, 1.6], [24.5, 5.5, 1.5]]
+		[27, 22, 3.2], [25, 27, 2.5], [19.5, 5.8, 1.6], [13.5, 6.0, 1.6], [24.5, 5.5, 1.5],
+		[-1, 12, 3.0], [-2, 24, 2.8], [40, 10, 3.0], [41, 22, 2.8], [37, 29, 2.2], [5, -3, 3.0], [17, -5, 2.6], [31, -3, 3.0], [24, -7, 2.0]]
 	var placed: Array[Vector2] = []
 	for cl in clusters:
 		var n := int(cl[2] * 1.7)
@@ -463,13 +446,6 @@ func _place_props(layer: Node3D, root: Node3D) -> void:
 			placed.append(p)
 			got += 1
 			_inst(layer, root, trees[rng.randi() % 5], p)
-	var rocks := Array(DirAccess.open(T + "rocks").get_files()).filter(func(f): return f.ends_with(".png"))
-	rocks.sort()
-	var spots := [Vector2(9, 21.5), Vector2(10.5, 20.8), Vector2(12.5, 19.5), Vector2(26.5, 16.5), Vector2(15, 14.5),
-		Vector2(21.0, 9.5), Vector2(22, 15.5), Vector2(14, 24), Vector2(21, 24.5), Vector2(6, 17), Vector2(30, 11), Vector2(13.5, 9.0)]
-	for s in spots:
-		var f: String = rocks[rng.randi() % rocks.size()]
-		_inst(layer, root, f.get_basename(), s)
 
 
 func _inst(layer: Node3D, root: Node3D, nm: String, p: Vector2) -> void:

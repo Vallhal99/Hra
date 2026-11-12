@@ -9,6 +9,7 @@ extends Camera3D
 @export var yaw := 0.0
 @export var height_offset := 1.0
 @export var smoothing := 8.0
+@export var limit_to_map := true  ## kamera se zastaví u okraje terénu, takže nikdy neukáže prázdno
 @export_group("Efekty (jen za běhu hry)")
 @export var builtin_fx := true
 @export var tilt_shift := true
@@ -22,6 +23,9 @@ extends Camera3D
 @export_range(0.0, 1.0) var tilt_strength := 0.6  ## síla tilt-shift rozostření nahoře/dole
 
 var _snap := true
+var _bounds := Rect2()
+var _has_bounds := false
+var _bounds_tried := false
 
 
 func _init() -> void:
@@ -48,6 +52,8 @@ func _process(dt: float) -> void:
 	if t == null:
 		return
 	var focus := t.global_position + Vector3(0, height_offset, 0)
+	if limit_to_map and not Engine.is_editor_hint():
+		focus = _clamp_focus(focus)
 	var off := Vector3(0, sin(deg_to_rad(pitch)), cos(deg_to_rad(pitch))) * distance
 	var goal := focus + off.rotated(Vector3.UP, deg_to_rad(yaw))
 	if _snap or Engine.is_editor_hint():
@@ -56,6 +62,59 @@ func _process(dt: float) -> void:
 	else:
 		global_position = global_position.lerp(goal, 1.0 - exp(-smoothing * dt))
 	rotation_degrees = Vector3(-pitch, yaw, 0)
+
+
+func _find_bounds() -> void:
+	_bounds_tried = true
+	for n in get_tree().root.find_children("*", "TerrainMap", true, false):
+		var tm := n as TerrainMap
+		if tm == null or tm.cells.is_empty():
+			continue
+		var mn := Vector2(INF, INF)
+		var mx := Vector2(-INF, -INF)
+		for c: Vector2i in tm.cells:
+			mn.x = minf(mn.x, c.x)
+			mn.y = minf(mn.y, c.y)
+			mx.x = maxf(mx.x, c.x + 1)
+			mx.y = maxf(mx.y, c.y + 1)
+		_bounds = Rect2(mn, mx - mn).grow(-0.25)
+		_has_bounds = true
+		return
+
+
+func _clamp_focus(focus: Vector3) -> Vector3:
+	if not _bounds_tried:
+		_find_bounds()
+	if not _has_bounds:
+		return focus
+	# kam dopadnou rohy obrazovky na zem (rovina y = ground), relativně k bodu zaměření
+	var vs := get_viewport().get_visible_rect().size
+	var asp := vs.x / maxf(vs.y, 1.0)
+	var th := tan(deg_to_rad(fov) * 0.5)
+	var basis := Basis.from_euler(Vector3(deg_to_rad(-pitch), deg_to_rad(yaw), 0.0))
+	var off := Vector3(0, sin(deg_to_rad(pitch)), cos(deg_to_rad(pitch))).rotated(Vector3.UP, deg_to_rad(yaw)) * distance
+	var cam_y := focus.y + off.y
+	var ground := focus.y - height_offset
+	var lo := Vector2(INF, INF)
+	var hi := Vector2(-INF, -INF)
+	for sx in [-1.0, 1.0]:
+		for sy in [-1.0, 1.0]:
+			var d := basis * Vector3(sx * th * asp, sy * th, -1.0)
+			if d.y >= -0.01:
+				continue
+			var k := (ground - cam_y) / d.y
+			var h := Vector2(off.x + d.x * k, off.z + d.z * k)
+			lo = lo.min(h)
+			hi = hi.max(h)
+	var fx := _fit(focus.x, _bounds.position.x - lo.x, _bounds.end.x - hi.x, _bounds.get_center().x)
+	var fz := _fit(focus.z, _bounds.position.y - lo.y, _bounds.end.y - hi.y, _bounds.get_center().y)
+	return Vector3(fx, focus.y, fz)
+
+
+func _fit(v: float, lo: float, hi: float, mid: float) -> float:
+	if lo > hi:
+		return mid
+	return clampf(v, lo, hi)
 
 
 const POST_SHADER := """
