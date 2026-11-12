@@ -1,0 +1,15 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://textures/rocks/kameny_drobne.png" id="1_oh52s"]
+
+[node name="kameny_drobne" type="Node3D" unique_id=983455897]
+
+[node name="Sprite" type="Sprite3D" parent="." unique_id=1575301229]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3857143, 0)
+cast_shadow = 0
+pixel_size = 0.014285714
+billboard = 2
+shaded = true
+alpha_cut = 2
+texture_filter = 1
+texture = ExtResource("1_oh52s")

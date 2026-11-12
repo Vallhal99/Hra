@@ -1,0 +1,41 @@
+config_version=5
+
+[application]
+
+config/name="Babrak2"
+run/main_scene="res://scenes/louka.tscn"
+config/features=PackedStringArray("4.7", "Forward Plus")
+
+[autoload]
+
+SceneManager="*res://addons/terrain_builder/scene_manager.gd"
+Dialogue="*res://addons/terrain_builder/dialogue_box.gd"
+BattleManager="*res://battle/battle_manager.gd"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/terrain_builder/plugin.cfg")
+
+[importer_defaults]
+
+texture={
+"compress/mode": 0,
+"detect_3d/compress_to": 0,
+"mipmaps/generate": false
+}
+
+[rendering]
+
+anti_aliasing/quality/msaa_3d=3
+anti_aliasing/quality/screen_space_aa=1
+lights_and_shadows/directional_shadow/size=8192
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality=4
+lights_and_shadows/positional_shadow/soft_shadow_filter_quality=4
+textures/default_filters/anisotropic_filtering_level=4

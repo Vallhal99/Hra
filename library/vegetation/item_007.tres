@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="VegType" format=3]
+
+[ext_resource type="Script" path="res://addons/terrain_builder/veg_type.gd" id="1_5rlc5"]
+[ext_resource type="Texture2D" path="res://textures/trees/strom_pixel.png" id="2_idrtm"]
+
+[resource]
+script = ExtResource("1_5rlc5")
+veg_name = "Strom (pixel)"
+texture = ExtResource("2_idrtm")
+scale_min = 0.85
+ppm = 78.0

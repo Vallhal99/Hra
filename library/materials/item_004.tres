@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TerrainMat" format=3]
+
+[ext_resource type="Script" path="res://addons/terrain_builder/terrain_mat.gd" id="1_x3wjg"]
+[ext_resource type="Texture2D" path="res://textures/cliff/hlina_utes.png" id="2_ltvra"]
+[ext_resource type="Texture2D" path="res://textures/ground/listi.png" id="3_xu14p"]
+
+[resource]
+script = ExtResource("1_x3wjg")
+mat_name = "Listí"
+top_texture = ExtResource("3_xu14p")
+side_texture = ExtResource("2_ltvra")

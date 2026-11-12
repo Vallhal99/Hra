@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://textures/rocks/kamen_01.png" id="1_745al"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k23wp"]
+size = Vector3(5.25, 0.9, 0.8)
+
+[node name="kamen_01" type="Node3D" unique_id=1101211123]
+
+[node name="Sprite" type="Sprite3D" parent="." unique_id=1128946634]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3928572, 0)
+cast_shadow = 0
+pixel_size = 0.014285714
+billboard = 2
+shaded = true
+alpha_cut = 2
+texture_filter = 1
+texture = ExtResource("1_745al")
+
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=1703179125]
+
+[node name="@CollisionShape3D@14" type="CollisionShape3D" parent="Kolize" unique_id=1045745338]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+shape = SubResource("BoxShape3D_k23wp")

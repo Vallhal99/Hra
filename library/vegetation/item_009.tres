@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="VegType" format=3]
+
+[ext_resource type="Script" path="res://addons/terrain_builder/veg_type.gd" id="1_4xeet"]
+[ext_resource type="Texture2D" path="res://textures/trees/strom_listnaty_sheet.png" id="2_rb56c"]
+
+[resource]
+script = ExtResource("1_4xeet")
+veg_name = "Listnatý strom"
+texture = ExtResource("2_rb56c")
+scale_min = 0.85
+ppm = 78.0
+nearest = false
+hframes = 12
+frame = 4

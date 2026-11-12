@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="VegType" format=3]
+
+[ext_resource type="Script" path="res://addons/terrain_builder/veg_type.gd" id="1_0ddnj"]
+[ext_resource type="Texture2D" path="res://textures/veg/trava_klasy.png" id="2_mu5m1"]
+
+[resource]
+script = ExtResource("1_0ddnj")
+veg_name = "Tráva (klasy)"
+texture = ExtResource("2_mu5m1")
+scale_min = 0.7
+scale_max = 1.1
+ppm = 300.0
+nearest = false
+tint = Color(0.86, 0.92, 0.66, 1)

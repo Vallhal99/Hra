@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="VegType" format=3]
+
+[ext_resource type="Script" path="res://addons/terrain_builder/veg_type.gd" id="1_a37a7"]
+[ext_resource type="Texture2D" path="res://textures/trees/strom_smrk_sheet.png" id="2_dohoh"]
+
+[resource]
+script = ExtResource("1_a37a7")
+veg_name = "Smrk"
+texture = ExtResource("2_dohoh")
+scale_min = 0.85
+ppm = 70.0
+nearest = false
+hframes = 12
+frame = 4

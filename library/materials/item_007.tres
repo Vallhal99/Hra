@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="TerrainMat" format=3]
+
+[ext_resource type="Script" path="res://addons/terrain_builder/terrain_mat.gd" id="1_xrd0m"]
+[ext_resource type="Texture2D" path="res://textures/cliff/hlina_utes.png" id="2_0hy5g"]
+[ext_resource type="Texture2D" path="res://textures/ground/les.png" id="3_3r0mh"]
+
+[resource]
+script = ExtResource("1_xrd0m")
+mat_name = "Les"
+top_texture = ExtResource("3_3r0mh")
+side_texture = ExtResource("2_0hy5g")
+color = Color(0.55, 0.66, 0.55, 1)

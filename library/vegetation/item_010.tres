@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="VegType" format=3]
+
+[ext_resource type="Script" path="res://addons/terrain_builder/veg_type.gd" id="1_vxf3n"]
+[ext_resource type="Texture2D" path="res://textures/rocks/kameny_drobne.png" id="2_ct0jl"]
+
+[resource]
+script = ExtResource("1_vxf3n")
+veg_name = "Kameny drobné"
+texture = ExtResource("2_ct0jl")
+scale_max = 1.3
+ppm = 80.0
+nearest = false

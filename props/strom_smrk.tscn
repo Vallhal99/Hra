@@ -1,0 +1,51 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://textures/trees/strom_smrk_sheet.png" id="1_roxit"]
+[ext_resource type="Script" path="res://addons/terrain_builder/lit_sprite_3d.gd" id="2_byjqa"]
+
+[sub_resource type="Gradient" id="Gradient_4tlbl"]
+colors = PackedColorArray(0, 0, 0, 0.45, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cqup6"]
+gradient = SubResource("Gradient_4tlbl")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d58ec"]
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("GradientTexture2D_cqup6")
+
+[sub_resource type="QuadMesh" id="QuadMesh_6xiwo"]
+material = SubResource("StandardMaterial3D_d58ec")
+size = Vector2(0.9, 0.9)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_17knm"]
+radius = 0.35
+
+[node name="strom_smrk" type="Node3D" unique_id=1679180313]
+
+[node name="Sprite" type="Sprite3D" parent="." unique_id=810059142]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7428572, 0)
+cast_shadow = 0
+pixel_size = 0.014285714
+billboard = 2
+alpha_cut = 2
+texture_filter = 1
+texture = ExtResource("1_roxit")
+hframes = 12
+frame = 4
+script = ExtResource("2_byjqa")
+frame_angles = PackedFloat32Array(7.3, 39.2, 85.2, 118, 138.1, 153.4, 170.7, -160.8, -131.6, -109.4, -81, -36.1)
+
+[node name="@MeshInstance3D@10" type="MeshInstance3D" parent="." unique_id=1248920559]
+transform = Transform3D(2.6, 0, 0, 0, -1.13649605e-07, 2.6, 0, -2.6, -1.13649605e-07, 0, 0.03, 0)
+cast_shadow = 0
+mesh = SubResource("QuadMesh_6xiwo")
+
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=1187561876]
+
+[node name="@CollisionShape3D@11" type="CollisionShape3D" parent="Kolize" unique_id=1302653986]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_17knm")

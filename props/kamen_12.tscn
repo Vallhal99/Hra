@@ -1,0 +1,15 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://textures/rocks/kamen_12.png" id="1_eynqc"]
+
+[node name="kamen_12" type="Node3D" unique_id=1864335261]
+
+[node name="Sprite" type="Sprite3D" parent="." unique_id=912750488]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0785714, 0)
+cast_shadow = 0
+pixel_size = 0.014285714
+billboard = 2
+shaded = true
+alpha_cut = 2
+texture_filter = 1
+texture = ExtResource("1_eynqc")

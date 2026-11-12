@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="VegType" format=3]
+
+[ext_resource type="Script" path="res://addons/terrain_builder/veg_type.gd" id="1_hwbyc"]
+[ext_resource type="Texture2D" path="res://textures/veg/slunecnice.png" id="2_05h5r"]
+
+[resource]
+script = ExtResource("1_hwbyc")
+veg_name = "Slunečnice"
+texture = ExtResource("2_05h5r")
+ppm = 190.0
+nearest = false

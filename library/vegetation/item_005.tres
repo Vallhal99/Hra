@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="VegType" format=3]
+
+[ext_resource type="Script" path="res://addons/terrain_builder/veg_type.gd" id="1_5vmww"]
+[ext_resource type="Texture2D" path="res://textures/veg/levandule.png" id="2_235te"]
+
+[resource]
+script = ExtResource("1_5vmww")
+veg_name = "Levandule"
+texture = ExtResource("2_235te")
+ppm = 280.0
+nearest = false

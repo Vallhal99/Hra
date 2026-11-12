@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="TerrainMat" format=3]
+
+[ext_resource type="Script" path="res://addons/terrain_builder/terrain_mat.gd" id="1_5ocr0"]
+[ext_resource type="Texture2D" path="res://textures/cliff/hlina_utes.png" id="2_64538"]
+[ext_resource type="Texture2D" path="res://textures/ground/sterk.png" id="3_6atyq"]
+
+[resource]
+script = ExtResource("1_5ocr0")
+mat_name = "Štěrk"
+top_texture = ExtResource("3_6atyq")
+side_texture = ExtResource("2_64538")
+color = Color(0.6, 0.56, 0.5, 1)

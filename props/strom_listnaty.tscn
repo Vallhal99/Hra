@@ -1,0 +1,51 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://textures/trees/strom_listnaty_sheet.png" id="1_sicp3"]
+[ext_resource type="Script" path="res://addons/terrain_builder/lit_sprite_3d.gd" id="2_xr8f0"]
+
+[sub_resource type="Gradient" id="Gradient_3vey4"]
+colors = PackedColorArray(0, 0, 0, 0.45, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ygea3"]
+gradient = SubResource("Gradient_3vey4")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g4wi1"]
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("GradientTexture2D_ygea3")
+
+[sub_resource type="QuadMesh" id="QuadMesh_3vigt"]
+material = SubResource("StandardMaterial3D_g4wi1")
+size = Vector2(0.9, 0.9)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_qjys5"]
+radius = 0.35
+
+[node name="strom_listnaty" type="Node3D" unique_id=758494302]
+
+[node name="Sprite" type="Sprite3D" parent="." unique_id=892615332]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4615386, 0)
+cast_shadow = 0
+pixel_size = 0.012820513
+billboard = 2
+alpha_cut = 2
+texture_filter = 1
+texture = ExtResource("1_sicp3")
+hframes = 12
+frame = 4
+script = ExtResource("2_xr8f0")
+frame_angles = PackedFloat32Array(-21.8, 41.1, 87.5, 110.2, 137.6, 169.5, -165, -147.2, -138.1, -119, -81.1, -57.1)
+
+[node name="@MeshInstance3D@8" type="MeshInstance3D" parent="." unique_id=1261890905]
+transform = Transform3D(2.6, 0, 0, 0, -1.13649605e-07, 2.6, 0, -2.6, -1.13649605e-07, 0, 0.03, 0)
+cast_shadow = 0
+mesh = SubResource("QuadMesh_3vigt")
+
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=442340612]
+
+[node name="@CollisionShape3D@9" type="CollisionShape3D" parent="Kolize" unique_id=1308443067]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_qjys5")

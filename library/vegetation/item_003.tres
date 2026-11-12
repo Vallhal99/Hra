@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="VegType" format=3]
+
+[ext_resource type="Script" path="res://addons/terrain_builder/veg_type.gd" id="1_rslbw"]
+[ext_resource type="Texture2D" path="res://textures/veg/kapradi.png" id="2_cifh0"]
+
+[resource]
+script = ExtResource("1_rslbw")
+veg_name = "Kapradí"
+texture = ExtResource("2_cifh0")
+ppm = 230.0
+nearest = false
+tint = Color(0.86, 0.92, 0.66, 1)

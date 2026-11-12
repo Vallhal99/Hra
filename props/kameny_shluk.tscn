@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://textures/rocks/kameny_shluk.png" id="1_h17xc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6fyc4"]
+size = Vector3(2.71, 0.9, 0.8)
+
+[node name="kameny_shluk" type="Node3D" unique_id=1144921104]
+
+[node name="Sprite" type="Sprite3D" parent="." unique_id=954625269]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0428572, 0)
+cast_shadow = 0
+pixel_size = 0.014285714
+billboard = 2
+shaded = true
+alpha_cut = 2
+texture_filter = 1
+texture = ExtResource("1_h17xc")
+
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=1426174911]
+
+[node name="@CollisionShape3D@27" type="CollisionShape3D" parent="Kolize" unique_id=1982016761]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+shape = SubResource("BoxShape3D_6fyc4")
