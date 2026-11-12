@@ -23,9 +23,9 @@ size = Vector2(0.9, 0.9)
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_e7mvb"]
 radius = 0.35
 
-[node name="strom_pixel" type="Node3D" unique_id=870636873]
+[node name="strom_pixel" type="Node3D" unique_id=1573290957]
 
-[node name="Sprite" type="Sprite3D" parent="." unique_id=459209206]
+[node name="Sprite" type="Sprite3D" parent="." unique_id=1461916383]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4615386, 0)
 cast_shadow = 0
 pixel_size = 0.012820513
@@ -35,13 +35,13 @@ alpha_cut = 1
 texture_filter = 0
 texture = ExtResource("1_7nmcp")
 
-[node name="@MeshInstance3D@12" type="MeshInstance3D" parent="." unique_id=1267877374]
+[node name="@MeshInstance3D@13" type="MeshInstance3D" parent="." unique_id=457918471]
 transform = Transform3D(2.8, 0, 0, 0, -1.2239188e-07, 2.8, 0, -2.8, -1.2239188e-07, 0, 0.03, 0)
 cast_shadow = 0
 mesh = SubResource("QuadMesh_7213u")
 
-[node name="Kolize" type="StaticBody3D" parent="." unique_id=338828463]
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=655780069]
 
-[node name="@CollisionShape3D@13" type="CollisionShape3D" parent="Kolize" unique_id=289747893]
+[node name="@CollisionShape3D@14" type="CollisionShape3D" parent="Kolize" unique_id=595236369]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CylinderShape3D_e7mvb")

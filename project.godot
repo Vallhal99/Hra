@@ -11,6 +11,7 @@ config/features=PackedStringArray("4.7", "Forward Plus")
 SceneManager="*res://addons/terrain_builder/scene_manager.gd"
 Dialogue="*res://addons/terrain_builder/dialogue_box.gd"
 BattleManager="*res://battle/battle_manager.gd"
+Inventory="*res://loot/inventory.gd"
 
 [display]
 

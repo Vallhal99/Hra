@@ -551,7 +551,10 @@ func _place_models(layer: Node3D, root: Node3D) -> void:
 	_inst3(layer, root, "lp_stan", CLEAR + Vector2(-0.8, -1.6), -12.0, 1.0)
 	_inst3(layer, root, "lp_barel", CLEAR + Vector2(2.2, -1.2), 20.0, 1.0)
 	_inst3(layer, root, "lp_barel", CLEAR + Vector2(3.0, -0.4), 70.0, 0.9)
-	_inst3(layer, root, "lp_truhla", CLEAR + Vector2(-3.4, -0.6), 25.0, 1.0)
+	var ch := _inst3(layer, root, "lp_truhla", CLEAR + Vector2(-3.4, -0.6), 25.0, 1.0)
+	_make_chest(ch, 1, [["zelezny_mec", 1], ["helma", 1], ["paklic", 2], ["gold", 60]])
+	var ch2 := _inst3(layer, root, "lp_truhla", Vector2(26.6, 16.6), 200.0, 1.0)
+	_make_chest(ch2, 3, [["telo", 1], ["kalhoty", 1], ["boty", 1], ["rukavice", 1], ["ozdobny_mec", 1], ["gold", 250]])
 	# velké kameny
 	for s in [Vector2(21.8, 8.6), Vector2(10.0, 28.6), Vector2(30.6, 24.2), Vector2(-1.8, 2.0), Vector2(40.5, 13.5), Vector2(8.0, -3.5), Vector2(28.0, -2.5), Vector2(3.0, 16.5)]:
 		_inst3(layer, root, "lp_kamen_velky", s, rng.randf_range(0, 360), rng.randf_range(0.85, 1.2))
@@ -574,10 +577,18 @@ func _place_models(layer: Node3D, root: Node3D) -> void:
 
 
 
-func _inst3(layer: Node3D, root: Node3D, nm: String, p: Vector2, yaw: float, sc: float) -> void:
+func _make_chest(n: Node3D, level: int, loot: Array) -> void:
+	if n == null:
+		return
+	n.set_script(load("res://loot/chest.gd"))
+	n.set("lock_level", level)
+	n.set("loot", loot)
+
+
+func _inst3(layer: Node3D, root: Node3D, nm: String, p: Vector2, yaw: float, sc: float) -> Node3D:
 	var h := tm.height_at(p.x, p.y)
 	if is_inf(h):
-		return
+		return null
 	var ps := load("res://props/%s.tscn" % nm) as PackedScene
 	var n := ps.instantiate() as Node3D
 	n.position = Vector3(p.x, h, p.y)
@@ -585,6 +596,7 @@ func _inst3(layer: Node3D, root: Node3D, nm: String, p: Vector2, yaw: float, sc:
 	n.scale = Vector3.ONE * sc
 	layer.add_child(n)
 	n.owner = root
+	return n
 
 
 func _inst(layer: Node3D, root: Node3D, nm: String, p: Vector2) -> void:
