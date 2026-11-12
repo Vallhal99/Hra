@@ -199,6 +199,102 @@ func _make_props() -> void:
 	cyl2.height = 2.0
 	_body(r, cyl2, 1.0)
 	_save_prop(r, "strom_pixel")
+	_make_models()
+
+
+# ---------------- 3D modely (lowpoly) ----------------
+# název props : [glb, měřítko, tvar kolize ("box"/"cyl"/""), velikost]
+const MODELS := {
+	"lp_stan": ["Tent", 1.7, "box", Vector3(3.3, 2.6, 4.6)],
+	"lp_barel": ["Barrel", 1.25, "cyl", Vector3(0.5, 1.1, 0)],
+	"lp_truhla": ["Chest", 1.3, "box", Vector3(1.3, 0.9, 0.85)],
+	"lp_kamen_velky": ["Rock_Big", 1.5, "box", Vector3(2.9, 1.5, 2.3)],
+	"lp_kamen_1": ["Rock_S1", 1.8, "cyl", Vector3(0.45, 0.6, 0)],
+	"lp_kamen_2": ["Rock_S2", 1.8, "cyl", Vector3(0.5, 0.35, 0)],
+	"lp_kamen_3": ["Rock_S3", 1.8, "cyl", Vector3(0.45, 0.7, 0)],
+	"lp_kamen_4": ["Rock_S4", 1.8, "cyl", Vector3(0.5, 0.5, 0)],
+	"lp_domek": ["House_Cabin", 1.0, "box", Vector3(5.2, 3.5, 4.0)],
+	"lp_obchod_1": ["House_Shop1", 1.0, "box", Vector3(5.6, 4.0, 5.0)],
+	"lp_obchod_2": ["House_Shop2", 1.0, "box", Vector3(4.8, 4.5, 4.5)],
+	"lp_dub": ["Tree_Oak", 1.4, "cyl", Vector3(0.45, 2.0, 0)],
+	"lp_borovice": ["Tree_Pine", 1.4, "cyl", Vector3(0.4, 2.0, 0)]}
+var _tex_cache := {}
+
+
+func _make_models() -> void:
+	DirAccess.make_dir_recursive_absolute("res://textures/models")
+	for key in MODELS:
+		var def: Array = MODELS[key]
+		var ps := load("res://models/%s.glb" % def[0]) as PackedScene
+		if ps == null:
+			push_warning("Chybí model " + def[0])
+			continue
+		var root := Node3D.new()
+		root.name = key
+		var m := ps.instantiate() as Node3D
+		m.name = "Model"
+		m.scale = Vector3.ONE * float(def[1])
+		root.add_child(m)
+		_fix_mats(m, key)
+		if def[2] == "box":
+			var bs := BoxShape3D.new()
+			bs.size = def[3]
+			_body(root, bs, def[3].y * 0.5)
+		elif def[2] == "cyl":
+			var cs := CylinderShape3D.new()
+			cs.radius = def[3].x
+			cs.height = def[3].y
+			_body(root, cs, def[3].y * 0.5)
+		_save_prop(root, key)
+
+
+func _fix_mats(n: Node, key: String) -> void:
+	if n is MeshInstance3D:
+		var mi := n as MeshInstance3D
+		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+		for i in mi.mesh.get_surface_count():
+			var src := mi.mesh.surface_get_material(i) as StandardMaterial3D
+			if src == null:
+				continue
+			var nm := src.duplicate() as StandardMaterial3D
+			var low := String(src.resource_name).to_lower()
+			nm.roughness = 0.92
+			nm.metallic = 0.25 if low.contains("metal") else 0.0
+			nm.metallic_specular = 0.25
+			nm.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+			nm.cull_mode = BaseMaterial3D.CULL_DISABLED if (low.contains("leaves") or low.contains("canvas")) else BaseMaterial3D.CULL_BACK
+			if nm.albedo_texture:
+				nm.albedo_texture = _enhance(nm.albedo_texture, key + "_" + str(i) + "_" + low)
+			mi.set_surface_override_material(i, nm)
+	for c in n.get_children():
+		_fix_mats(c, key)
+
+
+# zvýší kontrast a sytost, přidá jemné zrno a uloží jako vlastní texturu
+func _enhance(tex: Texture2D, id: String) -> Texture2D:
+	var path := "res://textures/models/%s.res" % id.validate_filename()
+	if _tex_cache.has(path):
+		return _tex_cache[path]
+	var img := tex.get_image()
+	if img.is_compressed():
+		img.decompress()
+	img.convert(Image.FORMAT_RGBA8)
+	img.adjust_bcs(0.82 if id.begins_with("lp_kamen") else 0.9, 1.12, 1.15)
+	var gn := FastNoiseLite.new()
+	gn.seed = id.hash()
+	gn.frequency = 0.35
+	for y in img.get_height():
+		for x in img.get_width():
+			var c := img.get_pixel(x, y)
+			var k := 1.0 + gn.get_noise_2d(x, y) * 0.12
+			img.set_pixel(x, y, Color(c.r * k, c.g * k, c.b * k, c.a))
+	img.generate_mipmaps()
+	var out := ImageTexture.create_from_image(img)
+	ResourceSaver.save(out, path)
+	var loaded := load(path) as Texture2D
+	_tex_cache[path] = loaded if loaded else out
+	return _tex_cache[path]
+
 
 
 # ---------------- mapa ----------------
@@ -446,6 +542,49 @@ func _place_props(layer: Node3D, root: Node3D) -> void:
 			placed.append(p)
 			got += 1
 			_inst(layer, root, trees[rng.randi() % 5], p)
+
+	_place_models(layer, root)
+
+
+func _place_models(layer: Node3D, root: Node3D) -> void:
+	# tábor na paloučku: stan, sudy, truhla
+	_inst3(layer, root, "lp_stan", CLEAR + Vector2(-0.8, -1.6), -12.0, 1.0)
+	_inst3(layer, root, "lp_barel", CLEAR + Vector2(2.2, -1.2), 20.0, 1.0)
+	_inst3(layer, root, "lp_barel", CLEAR + Vector2(3.0, -0.4), 70.0, 0.9)
+	_inst3(layer, root, "lp_truhla", CLEAR + Vector2(-3.4, -0.6), 25.0, 1.0)
+	# velké kameny
+	for s in [Vector2(21.8, 8.6), Vector2(10.0, 28.6), Vector2(30.6, 24.2), Vector2(-1.8, 2.0), Vector2(40.5, 13.5), Vector2(8.0, -3.5), Vector2(28.0, -2.5), Vector2(3.0, 16.5)]:
+		_inst3(layer, root, "lp_kamen_velky", s, rng.randf_range(0, 360), rng.randf_range(0.85, 1.2))
+	# drobné kameny roztroušené po louce (mimo cestu a paloučky)
+	var n := 0
+	var tries := 0
+	while n < 46 and tries < 600:
+		tries += 1
+		var p := Vector2(rng.randf_range(X0 + 12, X1 - 14), rng.randf_range(Z0 + 14, Z1 - 4))
+		var c := Vector2i(floori(p.x), floori(p.y))
+		if kind.get(c, 0) != 1:
+			continue
+		if p.y > 10.0 and absf(p.x - _path_x(p.y)) < 3.0:
+			continue
+		if p.distance_to(CLEAR) < 5.2:
+			continue
+		var nm := "lp_kamen_%d" % (1 + rng.randi() % 4)
+		_inst3(layer, root, nm, p, rng.randf_range(0, 360), rng.randf_range(0.7, 1.3))
+		n += 1
+
+
+
+func _inst3(layer: Node3D, root: Node3D, nm: String, p: Vector2, yaw: float, sc: float) -> void:
+	var h := tm.height_at(p.x, p.y)
+	if is_inf(h):
+		return
+	var ps := load("res://props/%s.tscn" % nm) as PackedScene
+	var n := ps.instantiate() as Node3D
+	n.position = Vector3(p.x, h, p.y)
+	n.rotation_degrees.y = yaw
+	n.scale = Vector3.ONE * sc
+	layer.add_child(n)
+	n.owner = root
 
 
 func _inst(layer: Node3D, root: Node3D, nm: String, p: Vector2) -> void:
