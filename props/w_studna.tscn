@@ -1,0 +1,435 @@
+[gd_scene format=4]
+
+[ext_resource type="PackedScene" path="res://models/well/Well.glb" id="1_d32uj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hauxg"]
+resource_name = "woodd"
+cull_mode = 2
+albedo_color = Color(0.58383155, 0.47312066, 0.3491902, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_81rl5"]
+_surfaces = [{
+"aabb": AABB(-0.051961523, -1.05, -0.06, 0.103923045, 2.1, 0.12),
+"format": 34896613377,
+"index_count": 60,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIABQADAAAABQACAAYAAwAHAAQACAAFAAYAAwAFAAkACQAFAAgAAwAJAAcABwAKAAQABwAJAAoAAgAEAAsAAgALAAYACwAEAAoACAAGAAsACQALAAoACQAIAAsA"),
+"name": "woodd",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 12,
+"vertex_data": PackedByteArray("/38AAAAAAAD//////z8AAP9///8AAAAA//8AAP8/AAD//////78AAAAAAAD/PwAAAAD///8/AAD//wAA/78AAAAAAAD/vwAA/38AAP//AAD/f/////8AAAAA////vwAA")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_oc66x"]
+resource_name = "Well_Cylinder_018"
+_surfaces = [{
+"aabb": AABB(-0.051961523, -1.05, -0.06, 0.103923045, 2.1, 0.12),
+"attribute_data": PackedByteArray("//+kwKnq/3////9/qeqkwKnqpMBU1f9/qer/f1TVpMBU1aTA/7//f1TV/3//v6TA/7+kwKmq/3//v/9/qaqkwJm6e/D/n+/Bmbpz0WSFe/D/n///ZIVz0amqpMBUlf9/qar/f1SVpMBUlaTA/3//f1SV/3//f6TAZMVz0Zn6c9H/3+/B/9///2TFe/CZ+nvw"),
+"format": 34896613399,
+"index_count": 60,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEQAQABMAEwAQABQAEQATABUAFgAXABgAFgAZABcAGgAbABwAGgAdABsAHgAfACAAHwAeACEAIQAeACIAHwAhACMA"),
+"material": SubResource("StandardMaterial3D_hauxg"),
+"name": "woodd",
+"primitive": 3,
+"uv_scale": Vector4(2, 1.98, 0, 0),
+"vertex_count": 36,
+"vertex_data": PackedByteArray("/38AAAAAqer//////z+p6v9///8AAKnq//8AAP8/qer//wAA/z//v///////v/+///////8//7///wAA/7//v///AAD/v1SV/3//////VJX//////79Ulf9/AAD//1SV/38AAP//VJUAAP///79Ulf9//////1SVAAAAAP+/VJX//////7//v/9///8AAP+///////8//78AAP///7//v/9///////+/AAD///8//78AAAAA/7//vwAA////P/+/AAD///+//78AAAAA/z//vwAAAAD/P6nq/3///wAAqeoAAP///z+p6v9/AAAAAKnqAAAAAP8//z///wAA/z//P/9/AAAAAP8//38AAP///z8AAAAA/7//P///AAD/v/8//38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/3////9/////f////3///////3////9/////f////3////9/////f/9/////f////3////9/////f////3////9/////f///AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_81rl5")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3k031"]
+resource_name = "woodd"
+albedo_color = Color(0.58383155, 0.47312066, 0.3491902, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2ml6v"]
+resource_name = "wood"
+cull_mode = 2
+albedo_color = Color(0.72202736, 0.60124344, 0.43662706, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_c01y1"]
+_surfaces = [{
+"aabb": AABB(-0.18, -0.15, -0.18, 0.36, 0.3, 0.36),
+"format": 34896613377,
+"index_count": 84,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIABQADAAAABQACAAYAAgAHAAYABAAHAAIACAAFAAYACAAGAAcAAwAJAAQACgAFAAgACgAIAAcABQALAAMACwAFAAoAAwALAAkACQAMAAQACQALAAwADQAEAAwABwAEAA0ACwANAAwACgAHAA4ABwANAA4ACwAKAA8ACwAPAA0ADwAKAA4ADwAOAA0A"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("/38AAAAAAACB2v//fSUAAP9///8AAAAAgdoAAH0lAAD//////38AAH0lAAB9JQAAfSX//30lAAAAAP///38AAAAAAAD/fwAA//8AAP9/AAB9JQAAgdoAAIHaAACB2gAAgdr//4HaAAD/f/////8AAH0l//+B2gAA/38AAP//AAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_6r6cc"]
+resource_name = "Well_Cylinder_019"
+_surfaces = [{
+"aabb": AABB(-0.18, -0.15, -0.18, 0.36, 0.3, 0.36),
+"attribute_data": PackedByteArray("////f//fAAD//wAA/9//f//f/3//vwAA/98AAP+//3//v/9//58AAP+/AAD/n/9//5//f/9/AAD/nwAA/3//f/9//3//XwAA/38AAP9f/3//X/9//z8AAP9fAAD/P/9/cH3/v/8/joJxa42UjwL/v44UjZT/P2/9cWtw644UcOv/P/9//x8AAP8/AAD/H/9//x//fwAAAAD/HwAAAAD/f42UjZRw642U/7+OgnDrcOtv/f+/jZRw646C/7//v2/9"),
+"format": 34896613399,
+"index_count": 84,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAGQAbABwAGwAYAB0AHQAYAB4AGwAdAB8AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkAKQArACwAKwAoAC0ALQAoAC4AKwAtAC8A"),
+"material": SubResource("StandardMaterial3D_2ml6v"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 48,
+"vertex_data": PackedByteArray("/38AAAAA/u+B2v//fSX+7/9///8AAP7vgdoAAH0l/u+B2gAAfSX/z///////f//Pgdr//30l/8///wAA/3//z///AAD/f/+vgdr//4Ha/6///////3//r4HaAACB2v+vgdoAAIHa/4//f///////j4Ha//+B2v+P/38AAP///4//fwAA////j30l//+B2v+P/3///////499JQAAgdr/j30lAACB2v+vAAD///9//699Jf//gdr/rwAAAAD/f/+v//////9//7//f///AAD/v4Ha//99Jf+/AAD///9//799Jf//fSX/v/9///////+/gdr//4Ha/799Jf//gdr/vwAAAAD/f//PfSX//30l/88AAP///3//z30lAAB9Jf/PfSUAAH0l/u//f///AAD+730l//99Jf7v/38AAAAA/u99JQAAfSX/P4HaAAB9Jf8//38AAAAA/z+B2gAAgdr/P///AAD/f/8/fSUAAIHa/z8AAAAA/3//P/9/AAD///8//38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/////f////3////9/////f////3////9/////f///////f////3////9/////f////3////9/////f////3//f////3////9/////f////3////9/////f////3///wAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_c01y1")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_80xa6"]
+resource_name = "wood"
+albedo_color = Color(0.72202736, 0.60124344, 0.43662706, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_oubst"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIAAwAAAAUABAAGAAIABQACAAYAAwAHAAQAAwAFAAcABwAGAAQABwAFAAYA"),
+"name": "woodd",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP//AAAAAAAA/////wAAAAAAAAAAAAD/////AAAAAP//AAD//wAA////////AAD//wAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_c407r"]
+resource_name = "Well_Cube_036"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/1////+f/7//n////1//v/9f/7//n/9//5//v/9f/3//X/9//5//P/+f/3//X/8//1//P/+fAAD/n/8//18AAP8f/3//X/8//1//f/8f/z//n/9//9//P//f/3//n/8/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_hauxg"),
+"name": "woodd",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP//VNUAAP//AABU1QAA/////1TVAAAAAAAAVNUAAAAAAAD///////8AAP//AAD//wAA/////wAAAAD/////AAAAAFTV////////VNX/////AABU1f//AAD//1TV//8AAP///78AAP//////v/////////+/AAAAAP///78AAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////v/////8AAP//AAD///////8AAP//AAD/////////////VNVU1VTVVNVU1VTVVNVU1f+//7//v/+//7//v/+//7+qKqoqqiqqKqoqqiqqKqoq/////////////////////wAA/38AAP9/AAD/fwAA/3//f/+//3//v/9//7//f/+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_oubst")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lils7"]
+resource_name = "woodd"
+albedo_color = Color(0.58383155, 0.47312066, 0.3491902, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_1p8ux"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIAAwAAAAUABAAGAAIABQACAAYAAwAHAAQAAwAFAAcABwAGAAQABwAFAAYA"),
+"name": "woodd",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP//AAAAAAAA/////wAAAAAAAAAAAAD/////AAAAAP//AAD//wAA////////AAD//wAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_mt6pk"]
+resource_name = "Well_Cube_037"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/1////+f/7//n////1//v/9f/7//n/9//5//v/9f/3//X/9//5//P/+f/3//X/8//1//P/+fAAD/n/8//18AAP8f/3//X/8//1//f/8f/z//n/9//9//P//f/3//n/8/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_hauxg"),
+"name": "woodd",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP//VNUAAP//AABU1QAA/////1TVAAAAAAAAVNUAAAAAAAD///////8AAP//AAD//wAA/////wAAAAD/////AAAAAFTV////////VNX/////AABU1f//AAD//1TV//8AAP///78AAP//////v/////////+/AAAAAP///78AAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////v/////8AAP//AAD///////8AAP//AAD/////////////VNVU1VTVVNVU1VTVVNVU1f+//7//v/+//7//v/+//7+qKqoqqiqqKqoqqiqqKqoq/////////////////////wAA/38AAP9/AAD/fwAA/3//f/+//3//v/9//7//f/+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_1p8ux")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fclbn"]
+resource_name = "woodd"
+albedo_color = Color(0.58383155, 0.47312066, 0.3491902, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_g2a47"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIAAwAAAAUABAAGAAIABQACAAYAAwAHAAQAAwAFAAcABwAGAAQABwAFAAYA"),
+"name": "woodd",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP//AAAAAAAA/////wAAAAAAAAAAAAD/////AAAAAP//AAD//wAA////////AAD//wAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_axpdc"]
+resource_name = "Well_Cube_040"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/1////+f/7//n////1//v/9f/7//n/9//5//v/9f/3//X/9//5//P/+f/3//X/8//1//P/+fAAD/n/8//18AAP8f/3//X/8//1//f/8f/z//n/9//9//P//f/3//n/8/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_hauxg"),
+"name": "woodd",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP//VNUAAP//AABU1QAA/////1TVAAAAAAAAVNUAAAAAAAD///////8AAP//AAD//wAA/////wAAAAD/////AAAAAFTV////////VNX/////AABU1f//AAD//1TV//8AAP///78AAP//////v/////////+/AAAAAP///78AAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////v/////8AAP//AAD///////8AAP//AAD/////////////VNVU1VTVVNVU1VTVVNVU1f+//7//v/+//7//v/+//7+qKqoqqiqqKqoqqiqqKqoq/////////////////////wAA/38AAP9/AAD/fwAA/3//f/+//3//v/9//7//f/+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_g2a47")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lsya1"]
+resource_name = "woodd"
+albedo_color = Color(0.58383155, 0.47312066, 0.3491902, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ybol8"]
+resource_name = "stone"
+cull_mode = 2
+albedo_color = Color(0.7483791, 0.735357, 0.72202736, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_g2umd"]
+_surfaces = [{
+"aabb": AABB(-0.95105654, -0.45, -1, 1.9021131, 0.9, 2),
+"format": 34896613377,
+"index_count": 108,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIABQADAAAABQACAAYABwAFAAYAAgAIAAYABwAGAAgABAAIAAIACQAFAAcACQAHAAgABQAKAAMACgAFAAkAAwALAAQAAwAKAAsACwAMAAQACwAKAAwADQAEAAwACAAEAA0ACgANAAwACQAIAA4ACgAPAA0AEAAJAA4ACgAJABEAEQAJABAACgARAA8ADwASAA0ADwARABIACAANABMACAATAA4AEwANABIAEAAOABMAEQATABIAEQAQABMA"),
+"name": "stone",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 20,
+"vertex_data": PackedByteArray("/38AAAAAAAAaz///chgAAP9///8AAAAAGs8AAHIYAAD/////cVgAAOQwAAByGAAA5DD//3IYAAAAAAAAcVgAAAAA//9xWAAAAAAAAI2nAAD//wAAjacAAP//AABxWAAA/////42nAAAaz///jOcAAAAA//+NpwAAGs8AAIznAADkMAAAjOcAAP9/AAD//wAA/3//////AADkMP//jOcAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_4bu5l"]
+resource_name = "Well_Cylinder_016"
+_surfaces = [{
+"aabb": AABB(-0.95105654, -0.45, -1, 1.9021131, 0.9, 2),
+"attribute_data": PackedByteArray("//+kwDLz/3////9/MvOkwDLzpMBl5v9/MvP/f2XmpMBl5qTAmNn/f2Xm/3+Y2aTAmNmkwMvM/3+Y2f9/y8ykwMvMpMD/v/9/y8z/f/+/pMD/v6TAMrP/f/+//38ys6TAMrOkwGWm/38ys/9/ZaakwGWmpMCYmf9/Zab/f5iZpMA2vWDX/5/vwQ2y3MfIgmDX8I3cxw2yEfo2vY7q8I0R+v+f///Igo7qmJmkwMyM/3+Ymf9/zIykwMyMpMD/f/9/zIz/f/9/pMDwzdzHDfLcx//f78E2/Y7qNv1g18fCjurHwmDX/9////DNEfoN8hH6"),
+"format": 34896613399,
+"index_count": 108,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAIQAjACQAIwAgACUAJQAgACYAIwAlACcAJwAlACgAIwAnACkAKgArACwAKgAtACsALgAvADAALgAxAC8AMgAzADQAMgA1ADMAMwA1ADYANQAyADcANwAyADgANQA3ADkAOQA3ADoANQA5ADsA"),
+"material": SubResource("StandardMaterial3D_ybol8"),
+"name": "stone",
+"primitive": 3,
+"uv_scale": Vector4(2, 1.98, 0, 0),
+"vertex_count": 60,
+"vertex_data": PackedByteArray("/38AAAAAMvMaz///chgy8/9///8AADLzGs8AAHIYMvMazwAAchiY2f////9xWJjZGs///3IYmNn//wAAcViY2f//AABxWP+//////42n/7//////cVj/v///AACNp/+///8AAI2nZaYaz///jOdlpv////+Np2WmGs8AAIznZaYazwAAjOfLjP9//////8uMGs///4zny4z/fwAA///LjP9/AAD//8uM5DD//4zny4z/f//////LjOQwAACM58uM5DAAAIznZaYAAP//jadlpuQw//+M52WmAAAAAI2nZaYAAAAAjaf/vwAA//9xWP+/AAD//42n/78AAAAAcVj/v/////9xWP+//3///wAA/78az///chj/vwAA//9xWP+/5DD//3IY/78az///jOf/v/////+Np/+/5DD//4zn/7//f///////vwAA//+Np/+/AAAAAHFYmNnkMP//chiY2QAA//9xWJjZ5DAAAHIYmNnkMAAAchgy8/9///8AADLz5DD//3IYMvP/fwAAAAAy8+QwAAByGP8/Gs8AAHIY/z//fwAAAAD/P///AACNp/8///8AAHFY/z8AAAAAjaf/PwAAAABxWP8//38AAP///z/kMAAAjOf/PxrPAACM5/8//38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/f////3////9/////f////3////9/////f////3////9/////f////3////9///////9/////f/7//3////9/////f////3/+//9/////f////3/+//9//3////9/////f////3////9/////f////3////9///8AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_g2umd")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3r8gn"]
+resource_name = "stone"
+albedo_color = Color(0.7483791, 0.735357, 0.72202736, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_fgfbo"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIAAwAAAAUABAAGAAIABQACAAYAAwAHAAQAAwAFAAcABwAGAAQABwAFAAYA"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP//AAAAAAAA/////wAAAAAAAAAAAAD/////AAAAAP//AAD//wAA////////AAD//wAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_gd3b4"]
+resource_name = "Well_Cube_039"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/1////+f/7//n////1//v/9f/7//n/9//5//v/9f/3//X/9//5//P/+f/3//X/8//1//P/+fAAD/n/8//18AAP8f/3//X/8//1//f/8f/z//n/9//9//P//f/3//n/8/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_2ml6v"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP//VNUAAP//AABU1QAA/////1TVAAAAAAAAVNUAAAAAAAD///////8AAP//AAD//wAA/////wAAAAD/////AAAAAFTV////////VNX/////AABU1f//AAD//1TV//8AAP///78AAP//////v/////////+/AAAAAP///78AAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////v/////8AAP//AAD///////8AAP//AAD/////////////VNVU1VTVVNVU1VTVVNVU1f+//7//v/+//7//v/+//7+qKqoqqiqqKqoqqiqqKqoq/////////////////////wAA/38AAP9/AAD/fwAA/3//f/+//3//v/9//7//f/+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_fgfbo")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c7ps4"]
+resource_name = "wood"
+albedo_color = Color(0.72202736, 0.60124344, 0.43662706, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_owrgf"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIAAwAAAAUABAAGAAIABQACAAYAAwAHAAQAAwAFAAcABwAGAAQABwAFAAYA"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP//AAAAAAAA/////wAAAAAAAAAAAAD/////AAAAAP//AAD//wAA////////AAD//wAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_5n0vv"]
+resource_name = "Well_Cube_038"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/1////+f/7//n////1//v/9f/7//n/9//5//v/9f/3//X/9//5//P/+f/3//X/8//1//P/+fAAD/n/8//18AAP8f/3//X/8//1//f/8f/z//n/9//9//P//f/3//n/8/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_2ml6v"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP//VNUAAP//AABU1QAA/////1TVAAAAAAAAVNUAAAAAAAD///////8AAP//AAD//wAA/////wAAAAD/////AAAAAFTV////////VNX/////AABU1f//AAD//1TV//8AAP///78AAP//////v/////////+/AAAAAP///78AAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////v/////8AAP//AAD///////8AAP//AAD/////////////VNVU1VTVVNVU1VTVVNVU1f+//7//v/+//7//v/+//7+qKqoqqiqqKqoqqiqqKqoq/////////////////////wAA/38AAP9/AAD/fwAA/3//f/+//3//v/9//7//f/+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_owrgf")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lw5yp"]
+resource_name = "wood"
+albedo_color = Color(0.72202736, 0.60124344, 0.43662706, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eu6ql"]
+resource_name = "water"
+cull_mode = 2
+albedo_color = Color(0.48452926, 0.7014107, 0.85430586, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_jvuvs"]
+_surfaces = [{
+"aabb": AABB(-0.7418241, -0.02, -0.78, 1.4836482, 0.04, 1.56),
+"format": 34896613377,
+"index_count": 108,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIABQADAAAABQACAAYABwAFAAYAAgAIAAYABwAGAAgABAAIAAIACQAFAAcACQAHAAgABQAKAAMACgAFAAkAAwALAAQAAwAKAAsACwAMAAQACwAKAAwADQAEAAwACAAEAA0ACgANAAwACQAIAA4ACgAPAA0AEAAJAA4ACgAJABEAEQAJABAACgARAA8ADwASAA0ADwARABIACAANABMACAATAA4AEwANABIAEAAOABMAEQATABIAEQAQABMA"),
+"name": "water",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 20,
+"vertex_data": PackedByteArray("/38AAAAAAAAaz///chgAAP9///8AAAAAGs8AAHIYAAD/////cVgAAOQwAAByGAAA5DD//3IYAAAAAAAAcVgAAAAA//9xWAAAAAAAAI2nAAD//wAAjacAAP//AABxWAAA/////42nAAAaz///jOcAAAAA//+NpwAAGs8AAIznAADkMAAAjOcAAP9/AAD//wAA/3//////AADkMP//jOcAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_s0xe6"]
+resource_name = "Well_Cylinder_017"
+_surfaces = [{
+"aabb": AABB(-0.7418241, -0.02, -0.78, 1.4836482, 0.04, 1.56),
+"attribute_data": PackedByteArray("//+kwDLz/3////9/MvOkwDLzpMBl5v9/MvP/f2XmpMBl5qTAmNn/f2Xm/3+Y2aTAmNmkwMvM/3+Y2f9/y8ykwMvMpMD/v/9/y8z/f/+/pMD/v6TAMrP/f/+//38ys6TAMrOkwGWm/38ys/9/ZaakwGWmpMCYmf9/Zab/f5iZpMA2vWDX/5/vwQ2y3MfIgmDX8I3cxw2yEfo2vY7q8I0R+v+f///Igo7qmJmkwMyM/3+Ymf9/zIykwMyMpMD/f/9/zIz/f/9/pMDwzdzHDfLcx//f78E2/Y7qNv1g18fCjurHwmDX/9////DNEfoN8hH6"),
+"format": 34896613399,
+"index_count": 108,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAIQAjACQAIwAgACUAJQAgACYAIwAlACcAJwAlACgAIwAnACkAKgArACwAKgAtACsALgAvADAALgAxAC8AMgAzADQAMgA1ADMAMwA1ADYANQAyADcANwAyADgANQA3ADkAOQA3ADoANQA5ADsA"),
+"material": SubResource("StandardMaterial3D_eu6ql"),
+"name": "water",
+"primitive": 3,
+"uv_scale": Vector4(2, 1.98, 0, 0),
+"vertex_count": 60,
+"vertex_data": PackedByteArray("/38AAAAAMvMaz///chgy8/9///8AADLzGs8AAHIYMvMazwAAchiY2f////9xWJjZGs///3IYmNn//wAAcViY2f//AABxWP+//////42n/7//////cVj/v///AACNp/+///8AAI2nZaYaz///jOdlpv////+Np2WmGs8AAIznZaYazwAAjOfLjP9//////8uMGs///4zny4z/fwAA///LjP9/AAD//8uM5DD//4zny4z/f//////LjOQwAACM58uM5DAAAIznZaYAAP//jadlpuQw//+M52WmAAAAAI2nZaYAAAAAjaf/vwAA//9xWP+/AAD//42n/78AAAAAcVj/v/////9xWP+//3///wAA/78az///chj/vwAA//9xWP+/5DD//3IY/78az///jOf/v/////+Np/+/5DD//4zn/7//f///////vwAA//+Np/+/AAAAAHFYmNnkMP//chiY2QAA//9xWJjZ5DAAAHIYmNnkMAAAchgy8/9///8AADLz5DD//3IYMvP/fwAAAAAy8+QwAAByGP8/Gs8AAHIY/z//fwAAAAD/P///AACNp/8///8AAHFY/z8AAAAAjaf/PwAAAABxWP8//38AAP///z/kMAAAjOf/PxrPAACM5/8//38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/f////3////9/////f////3////9/////f////3////9/////f////3////9///////9/////f/7//3////9/////f////3////9/////f////3/+//9//3////9/////f////3////9/////f////3////9///8AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_jvuvs")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jwjjx"]
+resource_name = "water"
+albedo_color = Color(0.48452926, 0.7014107, 0.85430586, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_wvjbm"]
+height = 3.1933012
+radius = 1.034223
+
+[node name="w_studna" type="Node3D" unique_id=301845304]
+
+[node name="Model" type="Node3D" parent="." unique_id=555864815 instance=ExtResource("1_d32uj")]
+
+[node name="Well" type="Node3D" parent="Model" unique_id=1204474708]
+
+[node name="Well_Axle" type="MeshInstance3D" parent="Model/Well" unique_id=83905382]
+transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 0, 2, 0)
+mesh = SubResource("ArrayMesh_oc66x")
+surface_material_override/0 = SubResource("StandardMaterial3D_3k031")
+
+[node name="Well_Bucket" type="MeshInstance3D" parent="Model/Well" unique_id=151480210]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.4, 0)
+mesh = SubResource("ArrayMesh_6r6cc")
+surface_material_override/0 = SubResource("StandardMaterial3D_80xa6")
+
+[node name="Well_Post" type="MeshInstance3D" parent="Model/Well" unique_id=1003090067]
+transform = Transform3D(0.14, 0, 0, 0, 2, 0, 0, 0, 0.14, -1, 1.6, 0)
+mesh = SubResource("ArrayMesh_c407r")
+surface_material_override/0 = SubResource("StandardMaterial3D_lils7")
+
+[node name="Well_Post_001" type="MeshInstance3D" parent="Model/Well" unique_id=1078552478]
+transform = Transform3D(0.14, 0, 0, 0, 2, 0, 0, 0, 0.14, 1, 1.6, 0)
+mesh = SubResource("ArrayMesh_mt6pk")
+surface_material_override/0 = SubResource("StandardMaterial3D_fclbn")
+
+[node name="Well_Ridge" type="MeshInstance3D" parent="Model/Well" unique_id=1552153241]
+transform = Transform3D(2.6, 0, 0, 0, 0.12, 0, 0, 0, 0.12, 0, 3.12, 0)
+mesh = SubResource("ArrayMesh_axpdc")
+surface_material_override/0 = SubResource("StandardMaterial3D_lsya1")
+
+[node name="Well_Ring" type="MeshInstance3D" parent="Model/Well" unique_id=1722582965]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+mesh = SubResource("ArrayMesh_4bu5l")
+surface_material_override/0 = SubResource("StandardMaterial3D_3r8gn")
+
+[node name="Well_RoofB" type="MeshInstance3D" parent="Model/Well" unique_id=1119321946]
+transform = Transform3D(2.5, 0, 0, 0, 0.08660254, 0.7, 0, -0.05, 1.2124355, 0, 2.8, -0.6)
+mesh = SubResource("ArrayMesh_gd3b4")
+surface_material_override/0 = SubResource("StandardMaterial3D_c7ps4")
+
+[node name="Well_RoofF" type="MeshInstance3D" parent="Model/Well" unique_id=444236655]
+transform = Transform3D(2.5, 0, 0, 0, 0.08660254, -0.7, 0, 0.05, 1.2124355, 0, 2.8, 0.6)
+mesh = SubResource("ArrayMesh_5n0vv")
+surface_material_override/0 = SubResource("StandardMaterial3D_lw5yp")
+
+[node name="Well_Water" type="MeshInstance3D" parent="Model/Well" unique_id=102026205]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.88, 0)
+mesh = SubResource("ArrayMesh_s0xe6")
+surface_material_override/0 = SubResource("StandardMaterial3D_jwjjx")
+
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=991282466]
+
+[node name="@CollisionShape3D@30" type="CollisionShape3D" parent="Kolize" unique_id=1115427457]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5966506, 0)
+shape = SubResource("CylinderShape3D_wvjbm")

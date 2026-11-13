@@ -1,0 +1,267 @@
+[gd_scene format=4]
+
+[ext_resource type="PackedScene" path="res://models/well/LampPost.glb" id="1_pfffm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7jsql"]
+resource_name = "iron"
+cull_mode = 2
+albedo_color = Color(0.50638646, 0.50638646, 0.54685426, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_j51aq"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIAAwAAAAUABAAGAAIABQACAAYAAwAHAAQAAwAFAAcABwAGAAQABwAFAAYA"),
+"name": "iron",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP//AAAAAAAA/////wAAAAAAAAAAAAD/////AAAAAP//AAD//wAA////////AAD//wAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_ed4tm"]
+resource_name = "LampPost_Cube_034"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/1////+f/7//n////1//v/9f/7//n/9//5//v/9f/3//X/9//5//P/+f/3//X/8//1//P/+fAAD/n/8//18AAP8f/3//X/8//1//f/8f/z//n/9//9//P//f/3//n/8/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_7jsql"),
+"name": "iron",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP//VNUAAP//AABU1QAA/////1TVAAAAAAAAVNUAAAAAAAD///////8AAP//AAD//wAA/////wAAAAD/////AAAAAFTV////////VNX/////AABU1f//AAD//1TV//8AAP///78AAP//////v/////////+/AAAAAP///78AAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////v/////8AAP//AAD///////8AAP//AAD/////////////VNVU1VTVVNVU1VTVVNVU1f+//7//v/+//7//v/+//7+qKqoqqiqqKqoqqiqqKqoq/////////////////////wAA/38AAP9/AAD/fwAA/3//f/+//3//v/9//7//f/+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_j51aq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lhgpy"]
+resource_name = "iron"
+albedo_color = Color(0.50638646, 0.50638646, 0.54685426, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fyh42"]
+resource_name = "stone"
+cull_mode = 2
+albedo_color = Color(0.7483791, 0.735357, 0.72202736, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_id4of"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIAAwAAAAUABAAGAAIABQACAAYAAwAHAAQAAwAFAAcABwAGAAQABwAFAAYA"),
+"name": "stone",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP//AAAAAAAA/////wAAAAAAAAAAAAD/////AAAAAP//AAD//wAA////////AAD//wAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_aw11m"]
+resource_name = "LampPost_Cube_033"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/1////+f/7//n////1//v/9f/7//n/9//5//v/9f/3//X/9//5//P/+f/3//X/8//1//P/+fAAD/n/8//18AAP8f/3//X/8//1//f/8f/z//n/9//9//P//f/3//n/8/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_fyh42"),
+"name": "stone",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP//VNUAAP//AABU1QAA/////1TVAAAAAAAAVNUAAAAAAAD///////8AAP//AAD//wAA/////wAAAAD/////AAAAAFTV////////VNX/////AABU1f//AAD//1TV//8AAP///78AAP//////v/////////+/AAAAAP///78AAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////v/////8AAP//AAD///////8AAP//AAD/////////////VNVU1VTVVNVU1VTVVNVU1f+//7//v/+//7//v/+//7+qKqoqqiqqKqoqqiqqKqoq/////////////////////wAA/38AAP9/AAD/fwAA/3//f/+//3//v/9//7//f/+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_id4of")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2sc1k"]
+resource_name = "stone"
+albedo_color = Color(0.7483791, 0.735357, 0.72202736, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_db5w1"]
+resource_name = "lamp"
+cull_mode = 2
+albedo_color = Color(1, 0.9309246, 0.6651851, 1)
+emission_enabled = true
+emission = Color(1, 0.9309246, 0.6651851, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_hhodj"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIAAwAAAAUABAAGAAIABQACAAYAAwAHAAQAAwAFAAcABwAGAAQABwAFAAYA"),
+"name": "lamp",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP//AAAAAAAA/////wAAAAAAAAAAAAD/////AAAAAP//AAD//wAA////////AAD//wAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_thfl8"]
+resource_name = "LampPost_Cube_035"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/1////+f/7//n////1//v/9f/7//n/9//5//v/9f/3//X/9//5//P/+f/3//X/8//1//P/+fAAD/n/8//18AAP8f/3//X/8//1//f/8f/z//n/9//9//P//f/3//n/8/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_db5w1"),
+"name": "lamp",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP//VNUAAP//AABU1QAA/////1TVAAAAAAAAVNUAAAAAAAD///////8AAP//AAD//wAA/////wAAAAD/////AAAAAFTV////////VNX/////AABU1f//AAD//1TV//8AAP///78AAP//////v/////////+/AAAAAP///78AAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////v/////8AAP//AAD///////8AAP//AAD/////////////VNVU1VTVVNVU1VTVVNVU1f+//7//v/+//7//v/+//7+qKqoqqiqqKqoqqiqqKqoq/////////////////////wAA/38AAP9/AAD/fwAA/3//f/+//3//v/9//7//f/+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_hhodj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_62kra"]
+resource_name = "lamp"
+albedo_color = Color(1, 0.9309246, 0.6651851, 1)
+metallic_specular = 0.25
+roughness = 0.92
+emission_enabled = true
+emission = Color(1, 0.9309246, 0.6651851, 1)
+emission_energy_multiplier = 4.0
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_3wp0x"]
+_surfaces = [{
+"aabb": AABB(-0.07, -1.1, -0.07, 0.14, 2.2, 0.14),
+"format": 34896613377,
+"index_count": 84,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIABQADAAAABQACAAYAAgAHAAYABAAHAAIACAAFAAYACAAGAAcAAwAJAAQACgAFAAgACgAIAAcABQALAAMACwAFAAoAAwALAAkACQAMAAQACQALAAwADQAEAAwABwAEAA0ACwANAAwACgAHAA4ABwANAA4ACwAKAA8ACwAPAA0ADwAKAA4ADwAOAA0A"),
+"name": "iron",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("/38AAAAAAACB2v//fSUAAP9///8AAAAAgdoAAH0lAAD//////38AAH0lAAB9JQAAfSX//30lAAAAAP///38AAAAAAAD/fwAA//8AAP9/AAB9JQAAgdoAAIHaAACB2gAAgdr//4HaAAD/f/////8AAH0l//+B2gAA/38AAP//AAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_8151p"]
+resource_name = "LampPost_Cylinder_015"
+_surfaces = [{
+"aabb": AABB(-0.07, -1.1, -0.07, 0.14, 2.2, 0.14),
+"attribute_data": PackedByteArray("////f//fAAD//wAA/9//f//f/3//vwAA/98AAP+//3//v/9//58AAP+/AAD/n/9//5//f/9/AAD/nwAA/3//f/9//3//XwAA/38AAP9f/3//X/9//z8AAP9fAAD/P/9/cH3/v/8/joJxa42UjwL/v44UjZT/P2/9cWtw644UcOv/P/9//x8AAP8/AAD/H/9//x//fwAAAAD/HwAAAAD/f42UjZRw642U/7+OgnDrcOtv/f+/jZRw646C/7//v2/9"),
+"format": 34896613399,
+"index_count": 84,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAGQAbABwAGwAYAB0AHQAYAB4AGwAdAB8AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkAKQArACwAKwAoAC0ALQAoAC4AKwAtAC8A"),
+"material": SubResource("StandardMaterial3D_7jsql"),
+"name": "iron",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 48,
+"vertex_data": PackedByteArray("/38AAAAA/u+B2v//fSX+7/9///8AAP7vgdoAAH0l/u+B2gAAfSX/z///////f//Pgdr//30l/8///wAA/3//z///AAD/f/+vgdr//4Ha/6///////3//r4HaAACB2v+vgdoAAIHa/4//f///////j4Ha//+B2v+P/38AAP///4//fwAA////j30l//+B2v+P/3///////499JQAAgdr/j30lAACB2v+vAAD///9//699Jf//gdr/rwAAAAD/f/+v//////9//7//f///AAD/v4Ha//99Jf+/AAD///9//799Jf//fSX/v/9///////+/gdr//4Ha/799Jf//gdr/vwAAAAD/f//PfSX//30l/88AAP///3//z30lAAB9Jf/PfSUAAH0l/u//f///AAD+730l//99Jf7v/38AAAAA/u99JQAAfSX/P4HaAAB9Jf8//38AAAAA/z+B2gAAgdr/P///AAD/f/8/fSUAAIHa/z8AAAAA/3//P/9/AAD///8//38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/////f////3////9/////f////3////9/////f///////f////3////9/////f////3////9/////f////3//f////3////9/////f////3////9/////f////3///wAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_3wp0x")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eoqo8"]
+resource_name = "iron"
+albedo_color = Color(0.50638646, 0.50638646, 0.54685426, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_r0dwb"]
+_surfaces = [{
+"aabb": AABB(-0.28, -0.1, -0.28, 0.56, 0.2, 0.56),
+"format": 34896613377,
+"index_count": 18,
+"index_data": PackedByteArray("AAABAAIAAQADAAIAAAADAAEAAwAEAAIABAAAAAIAAAAEAAMA"),
+"name": "iron",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 5,
+"vertex_data": PackedByteArray("/38AAAAAAAD//wAA/38AAP9/////fwAA/38AAP//AAAAAAAA/38AAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_ae7s4"]
+resource_name = "LampPost_Cone_005"
+_surfaces = [{
+"aabb": AABB(-0.28, -0.1, -0.28, 0.56, 0.2, 0.56),
+"attribute_data": PackedByteArray("/z+OgnB9/7//P/+/cH3/v/8/b/3/P/+//7+Ogv+/b/1v/f+/joL/v/8/b/2PAv+//z//v48C/7//P46C/z//vw=="),
+"format": 34896613399,
+"index_count": 18,
+"index_data": PackedByteArray("AAABAAIAAwAEAAUABgAHAAgABgAJAAcACgALAAwADQAOAA8A"),
+"material": SubResource("StandardMaterial3D_7jsql"),
+"name": "iron",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("/38AAAAAq9f//wAA/3+r1/9/////f6vX//8AAP9/4bD/fwAA///hsP9/////f+Gw/38AAAAA/z//fwAA////P///AAD/f/8/AAAAAP9//z//fwAA///hsAAAAAD/f+Gw/3////9/4bAAAAAA/3+r1/9/AAAAAKvX/3////9/q9cN1b1kDdW9ZA3VvWQtxCZqLcQmai3EJmoAAP9/AAD/fwAA/38AAP9/JerRuyXq0bsl6tG7veTwqr3k8Kq95PCq")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_r0dwb")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tky86"]
+resource_name = "iron"
+albedo_color = Color(0.50638646, 0.50638646, 0.54685426, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_326hv"]
+height = 3.144
+radius = 0.39914766
+
+[node name="w_lampa" type="Node3D" unique_id=1798128552]
+
+[node name="Model" type="Node3D" parent="." unique_id=947006859 instance=ExtResource("1_pfffm")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
+
+[node name="LampPost" type="Node3D" parent="Model" unique_id=1380844467]
+
+[node name="LampPost_Arm" type="MeshInstance3D" parent="Model/LampPost" unique_id=224866879]
+transform = Transform3D(0.5, 0, 0, 0, 0.06, 0, 0, 0, 0.06, 0.25, 2.4, 0)
+mesh = SubResource("ArrayMesh_ed4tm")
+surface_material_override/0 = SubResource("StandardMaterial3D_lhgpy")
+
+[node name="LampPost_Base" type="MeshInstance3D" parent="Model/LampPost" unique_id=1435075803]
+transform = Transform3D(0.4, 0, 0, 0, 0.3, 0, 0, 0, 0.4, 0, 0.15, 0)
+mesh = SubResource("ArrayMesh_aw11m")
+surface_material_override/0 = SubResource("StandardMaterial3D_2sc1k")
+
+[node name="LampPost_Lantern" type="MeshInstance3D" parent="Model/LampPost" unique_id=1921719796]
+transform = Transform3D(0.3, 0, 0, 0, 0.4, 0, 0, 0, 0.3, 0.5, 2.2, 0)
+mesh = SubResource("ArrayMesh_thfl8")
+surface_material_override/0 = SubResource("StandardMaterial3D_62kra")
+
+[node name="LampPost_Pole" type="MeshInstance3D" parent="Model/LampPost" unique_id=991070409]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+mesh = SubResource("ArrayMesh_8151p")
+surface_material_override/0 = SubResource("StandardMaterial3D_eoqo8")
+
+[node name="LampPost_Roof" type="MeshInstance3D" parent="Model/LampPost" unique_id=491586358]
+transform = Transform3D(0.7071068, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, 0.7071068, 0.5, 2.52, 0)
+mesh = SubResource("ArrayMesh_ae7s4")
+surface_material_override/0 = SubResource("StandardMaterial3D_tky86")
+
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=1573767046]
+
+[node name="@CollisionShape3D@34" type="CollisionShape3D" parent="Kolize" unique_id=1543855129]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.41758788, 1.572, 0)
+shape = SubResource("CylinderShape3D_326hv")
+
+[node name="Svetlo" type="OmniLight3D" parent="." unique_id=836164482]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+light_color = Color(1, 0.78, 0.45, 1)
+light_energy = 2.4
+omni_range = 7.0

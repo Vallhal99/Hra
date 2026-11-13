@@ -96,7 +96,7 @@ metadata/_gltf_primary_texture_coord = 0
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_vehbr"]
 radius = 0.4
 
-[node name="lp_borovice" type="Node3D" unique_id=1963422788]
+[node name="lp_borovice" type="Node3D" unique_id=1815034612]
 
 [node name="Model" type="Node3D" parent="." unique_id=90176458 instance=ExtResource("1_ifeo5")]
 transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0, 0)
@@ -106,8 +106,8 @@ mesh = SubResource("ArrayMesh_4ragk")
 surface_material_override/0 = SubResource("StandardMaterial3D_6c572")
 surface_material_override/1 = SubResource("StandardMaterial3D_5supe")
 
-[node name="Kolize" type="StaticBody3D" parent="." unique_id=901462970]
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=1508433307]
 
-[node name="@CollisionShape3D@28" type="CollisionShape3D" parent="Kolize" unique_id=1820640833]
+[node name="@CollisionShape3D@28" type="CollisionShape3D" parent="Kolize" unique_id=1628278072]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CylinderShape3D_vehbr")

@@ -217,7 +217,22 @@ const MODELS := {
 	"lp_obchod_1": ["House_Shop1", 1.0, "box", Vector3(5.6, 4.0, 5.0)],
 	"lp_obchod_2": ["House_Shop2", 1.0, "box", Vector3(4.8, 4.5, 4.5)],
 	"lp_dub": ["Tree_Oak", 1.4, "cyl", Vector3(0.45, 2.0, 0)],
-	"lp_borovice": ["Tree_Pine", 1.4, "cyl", Vector3(0.4, 2.0, 0)]}
+	"lp_borovice": ["Tree_Pine", 1.4, "cyl", Vector3(0.4, 2.0, 0)],
+	# --- balík "Well" (bez textur, jen barvy materiálů; textury doplní autor) ---
+	"w_kovarna": ["well/Blacksmith", 1.0, "auto"], "w_studna": ["well/Well", 1.0, "cylauto"],
+	"w_ohniste": ["well/Campfire", 1.0, "cylauto", 0.55, Color(1.0, 0.62, 0.28), 3.2, 0.5],
+	"w_kotlik": ["well/Cauldron", 1.0, "cylauto"], "w_ohnisko_miska": ["well/Brazier", 1.2, "cylauto", 1.5, Color(1.0, 0.65, 0.3), 2.6, 1.6],
+	"w_lampa": ["well/LampPost", 1.2, "cylauto", 0.3, Color(1.0, 0.78, 0.45), 2.4, 3.0], "w_vlajka": ["well/Banner", 1.0, "cylauto"],
+	"w_trh": ["well/MarketStall", 1.0, "auto"], "w_vuz": ["well/Cart", 1.0, "auto"], "w_seno": ["well/HayBales", 1.1, "auto"],
+	"w_pytle": ["well/Sacks", 1.2, "auto"], "w_bedna_velka": ["well/CrateLarge", 1.2, "auto"], "w_bedna_mala": ["well/CrateSmall", 1.2, "auto"],
+	"w_bedna_otevrena": ["well/CrateOpen", 1.2, "auto"], "w_sud": ["well/Barrel", 1.25, "cylauto"], "w_truhla": ["well/Chest", 1.2, "auto"],
+	"w_plot": ["well/Fence", 1.0, "auto"], "w_rozcestnik": ["well/Signpost", 1.1, "auto"], "w_strasak": ["well/Scarecrow", 1.2, "cylauto"],
+	"w_stojan_zbroje": ["well/ArmorStand", 1.2, "cylauto"], "w_pult": ["well/Lectern", 1.2, "auto"], "w_socha": ["well/Statue", 1.2, "cylauto"],
+	"w_hrob": ["well/GraveCross", 1.0, "auto"], "w_krystaly": ["well/Crystals", 1.0, "cylauto"], "w_houba": ["well/GiantMushroom", 1.0, "cylauto"],
+	"w_menhir": ["well/Menhir", 1.2, "auto"], "w_kamenny_kopec": ["well/Cairn", 1.0, "cylauto"], "w_plochy_kamen": ["well/FlatSlab", 1.0, "none"],
+	"w_oblazky": ["well/PebbleCluster", 1.0, "none"], "w_skala": ["well/Outcrop", 1.0, "cylauto"], "w_balvan": ["well/Boulder", 1.0, "cylauto"],
+	"w_kamen_mechovy": ["well/MossyRock", 1.0, "cylauto"], "w_kamen_stredni": ["well/RockMedium", 1.0, "cylauto"],
+	"w_kamen_dvojice": ["well/RockPair", 1.0, "auto"], "w_kamen_maly": ["well/RockSmall", 1.2, "cylauto"]}
 var _tex_cache := {}
 
 
@@ -226,6 +241,7 @@ func _make_models() -> void:
 	for key in MODELS:
 		var def: Array = MODELS[key]
 		var ps := load("res://models/%s.glb" % def[0]) as PackedScene
+		var mkind: String = def[2]
 		if ps == null:
 			push_warning("Chybí model " + def[0])
 			continue
@@ -236,16 +252,59 @@ func _make_models() -> void:
 		m.scale = Vector3.ONE * float(def[1])
 		root.add_child(m)
 		_fix_mats(m, key)
-		if def[2] == "box":
+		if mkind == "auto" or mkind == "cylauto":
+			var bb := _aabb_of(m, Transform3D(Basis.from_scale(m.scale), Vector3.ZERO), true)
+			var shrink: float = def[3] if def.size() > 3 and mkind == "cylauto" and float(def[3]) > 0.0 else 1.0
+			var cs2 := CollisionShape3D.new()
+			if mkind == "auto":
+				var b2 := BoxShape3D.new()
+				b2.size = bb.size * 0.92
+				cs2.shape = b2
+			else:
+				var c2 := CylinderShape3D.new()
+				c2.radius = minf(bb.size.x, bb.size.z) * 0.42
+				c2.height = bb.size.y
+				cs2.shape = c2
+			cs2.position = bb.get_center()
+			var sb2 := StaticBody3D.new()
+			sb2.name = "Kolize"
+			sb2.add_child(cs2)
+			root.add_child(sb2)
+		if def.size() > 4:
+			var lt := OmniLight3D.new()
+			lt.name = "Svetlo"
+			lt.light_color = def[4]
+			lt.light_energy = def[5]
+			lt.omni_range = 7.0
+			lt.position = Vector3(0, def[6] if def.size() > 6 else 1.0, 0)
+			root.add_child(lt)
+		if mkind == "box":
 			var bs := BoxShape3D.new()
 			bs.size = def[3]
 			_body(root, bs, def[3].y * 0.5)
-		elif def[2] == "cyl":
+		elif mkind == "cyl":
 			var cs := CylinderShape3D.new()
 			cs.radius = def[3].x
 			cs.height = def[3].y
 			_body(root, cs, def[3].y * 0.5)
 		_save_prop(root, key)
+
+
+func _aabb_of(n: Node, t: Transform3D, first := false) -> AABB:
+	var tt := t
+	if n is Node3D and not first:
+		tt = t * (n as Node3D).transform
+	var res := AABB()
+	var have := false
+	if n is MeshInstance3D:
+		res = tt * (n as MeshInstance3D).get_aabb()
+		have = true
+	for c in n.get_children():
+		var a := _aabb_of(c, tt)
+		if a.size != Vector3.ZERO:
+			res = a if not have else res.merge(a)
+			have = true
+	return res
 
 
 func _fix_mats(n: Node, key: String) -> void:
@@ -559,6 +618,13 @@ func _place_props(layer: Node3D, root: Node3D) -> void:
 func _place_models(layer: Node3D, root: Node3D) -> void:
 	# tábor na paloučku: stan, sudy, truhla
 	_inst3(layer, root, "lp_stan", CLEAR + Vector2(-0.8, -1.6), -12.0, 1.0)
+	_inst3(layer, root, "w_ohniste", CLEAR + Vector2(-1.2, 2.5), 0.0, 1.0)
+	_inst3(layer, root, "w_kotlik", CLEAR + Vector2(-3.5, 1.6), 30.0, 1.0)
+	_inst3(layer, root, "w_pytle", CLEAR + Vector2(4.4, 0.8), 15.0, 1.0)
+	_inst3(layer, root, "w_bedna_velka", CLEAR + Vector2(-2.9, -2.8), 40.0, 1.0)
+	_inst3(layer, root, "w_rozcestnik", Vector2(_path_x(33.5) + 2.6, 33.5), 190.0, 1.0)
+	_inst3(layer, root, "w_vuz", Vector2(_path_x(21.0) + 4.4, 21.0), 70.0, 1.0)
+	_inst3(layer, root, "w_seno", Vector2(_path_x(21.0) + 6.4, 23.0), 15.0, 1.0)
 	_inst3(layer, root, "lp_barel", CLEAR + Vector2(2.2, -1.2), 20.0, 1.0)
 	_inst3(layer, root, "lp_barel", CLEAR + Vector2(3.0, -0.4), 70.0, 0.9)
 	var ch := _inst3(layer, root, "lp_truhla", CLEAR + Vector2(-3.4, -0.6), 25.0, 1.0)
@@ -584,6 +650,22 @@ func _place_models(layer: Node3D, root: Node3D) -> void:
 		var nm := "lp_kamen_%d" % (1 + rng.randi() % 4)
 		_inst3(layer, root, nm, p, rng.randf_range(0, 360), rng.randf_range(0.7, 1.3))
 		n += 1
+	# kameny z balíku Well
+	var wr := ["w_kamen_stredni", "w_kamen_mechovy", "w_kamen_dvojice", "w_skala", "w_balvan", "w_kamen_maly", "w_oblazky", "w_kamenny_kopec", "w_kamen_stredni", "w_kamen_maly"]
+	n = 0
+	tries = 0
+	while n < 22 and tries < 600:
+		tries += 1
+		var p2 := Vector2(rng.randf_range(X0 + 12, X1 - 14), rng.randf_range(Z0 + 14, Z1 - 4))
+		var c2 := Vector2i(floori(p2.x), floori(p2.y))
+		if kind.get(c2, 0) != 1 or p2.distance_to(CLEAR) < 6.0:
+			continue
+		if p2.y > 10.0 and absf(p2.x - _path_x(p2.y)) < 3.4:
+			continue
+		_inst3(layer, root, wr[rng.randi() % wr.size()], p2, rng.randf_range(0, 360), rng.randf_range(0.8, 1.25))
+		n += 1
+	_inst3(layer, root, "w_menhir", Vector2(34.0, 12.0), 15.0, 1.0)
+	_inst3(layer, root, "w_menhir", Vector2(6.0, 21.0), 200.0, 0.9)
 
 
 

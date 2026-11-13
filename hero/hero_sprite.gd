@@ -5,7 +5,7 @@ extends Sprite3D
 
 const SLOTS := ["helma", "telo", "rukavice", "kalhoty", "boty", "zbran"]
 const PPM := 115.0  ## pixelů na metr (hrdina je vysoký 252 px = 1,9 m)
-const FPS := {"Idle": 6.0, "Walk": 10.0, "Run": 13.0, "Swordslash": 12.0, "Attackthrust": 12.0, "Attackranged": 10.0, "Castspell": 10.0, "Attackcombo3hit": 12.0}
+const FPS := {"Idle": 6.0, "Walk": 10.0, "Run": 13.0, "Swordslash": 12.0, "Attackthrust": 12.0, "Attackranged": 10.0, "Castspell": 10.0, "Attackcombo3hit": 12.0, "Block": 8.0, "Hurt": 10.0, "Death": 8.0, "Chargeup": 10.0, "Climb": 8.0, "Victory": 8.0}
 static var _atlas: Dictionary = {}
 static var _cache: Dictionary = {}
 

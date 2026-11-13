@@ -96,7 +96,7 @@ metadata/_gltf_primary_texture_coord = 0
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_l7qtn"]
 height = 1.1
 
-[node name="lp_barel" type="Node3D" unique_id=451730254]
+[node name="lp_barel" type="Node3D" unique_id=275875889]
 
 [node name="Model" type="Node3D" parent="." unique_id=172153682 instance=ExtResource("1_pxymf")]
 transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 0, 0)
@@ -107,8 +107,8 @@ mesh = SubResource("ArrayMesh_0lley")
 surface_material_override/0 = SubResource("StandardMaterial3D_dcq6j")
 surface_material_override/1 = SubResource("StandardMaterial3D_v47ot")
 
-[node name="Kolize" type="StaticBody3D" parent="." unique_id=804537693]
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=2138427957]
 
-[node name="@CollisionShape3D@17" type="CollisionShape3D" parent="Kolize" unique_id=1498371145]
+[node name="@CollisionShape3D@17" type="CollisionShape3D" parent="Kolize" unique_id=450374286]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
 shape = SubResource("CylinderShape3D_l7qtn")

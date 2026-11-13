@@ -1,0 +1,249 @@
+[gd_scene format=4]
+
+[ext_resource type="PackedScene" path="res://models/well/Signpost.glb" id="1_i2x6q"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hji2l"]
+resource_name = "plank"
+cull_mode = 2
+albedo_color = Color(0.83228356, 0.735357, 0.58383155, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_1vh1r"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIAAwAAAAUABAAGAAIABQACAAYAAwAHAAQAAwAFAAcABwAGAAQABwAFAAYA"),
+"name": "plank",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP//AAAAAAAA/////wAAAAAAAAAAAAD/////AAAAAP//AAD//wAA////////AAD//wAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_arhv7"]
+resource_name = "Signpost_Cube_027"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/1////+f/7//n////1//v/9f/7//n/9//5//v/9f/3//X/9//5//P/+f/3//X/8//1//P/+fAAD/n/8//18AAP8f/3//X/8//1//f/8f/z//n/9//9//P//f/3//n/8/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_hji2l"),
+"name": "plank",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP//VNUAAP//AABU1QAA/////1TVAAAAAAAAVNUAAAAAAAD///////8AAP//AAD//wAA/////wAAAAD/////AAAAAFTV////////VNX/////AABU1f//AAD//1TV//8AAP///78AAP//////v/////////+/AAAAAP///78AAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////v/////8AAP//AAD///////8AAP//AAD/////////////VNVU1VTVVNVU1VTVVNVU1f+//7//v/+//7//v/+//7+qKqoqqiqqKqoqqiqqKqoq/////////////////////wAA/38AAP9/AAD/fwAA/3//f/+//3//v/9//7//f/+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_1vh1r")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3bpt7"]
+resource_name = "plank"
+albedo_color = Color(0.83228356, 0.735357, 0.58383155, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_aj0mi"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIAAwAAAAUABAAGAAIABQACAAYAAwAHAAQAAwAFAAcABwAGAAQABwAFAAYA"),
+"name": "plank",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP//AAAAAAAA/////wAAAAAAAAAAAAD/////AAAAAP//AAD//wAA////////AAD//wAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_n2yx3"]
+resource_name = "Signpost_Cube_028"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/1////+f/7//n////1//v/9f/7//n/9//5//v/9f/3//X/9//5//P/+f/3//X/8//1//P/+fAAD/n/8//18AAP8f/3//X/8//1//f/8f/z//n/9//9//P//f/3//n/8/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_hji2l"),
+"name": "plank",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP//VNUAAP//AABU1QAA/////1TVAAAAAAAAVNUAAAAAAAD///////8AAP//AAD//wAA/////wAAAAD/////AAAAAFTV////////VNX/////AABU1f//AAD//1TV//8AAP///78AAP//////v/////////+/AAAAAP///78AAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////v/////8AAP//AAD///////8AAP//AAD/////////////VNVU1VTVVNVU1VTVVNVU1f+//7//v/+//7//v/+//7+qKqoqqiqqKqoqqiqqKqoq/////////////////////wAA/38AAP9/AAD/fwAA/3//f/+//3//v/9//7//f/+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_aj0mi")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yr7ks"]
+resource_name = "plank"
+albedo_color = Color(0.83228356, 0.735357, 0.58383155, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v38dx"]
+resource_name = "woodd"
+cull_mode = 2
+albedo_color = Color(0.58383155, 0.47312066, 0.3491902, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_i8ial"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIAAwAAAAUABAAGAAIABQACAAYAAwAHAAQAAwAFAAcABwAGAAQABwAFAAYA"),
+"name": "woodd",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP//AAAAAAAA/////wAAAAAAAAAAAAD/////AAAAAP//AAD//wAA////////AAD//wAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_lrov6"]
+resource_name = "Signpost_Cube_026"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/1////+f/7//n////1//v/9f/7//n/9//5//v/9f/3//X/9//5//P/+f/3//X/8//1//P/+fAAD/n/8//18AAP8f/3//X/8//1//f/8f/z//n/9//9//P//f/3//n/8/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_v38dx"),
+"name": "woodd",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP//VNUAAP//AABU1QAA/////1TVAAAAAAAAVNUAAAAAAAD///////8AAP//AAD//wAA/////wAAAAD/////AAAAAFTV////////VNX/////AABU1f//AAD//1TV//8AAP///78AAP//////v/////////+/AAAAAP///78AAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////v/////8AAP//AAD///////8AAP//AAD/////////////VNVU1VTVVNVU1VTVVNVU1f+//7//v/+//7//v/+//7+qKqoqqiqqKqoqqiqqKqoq/////////////////////wAA/38AAP9/AAD/fwAA/3//f/+//3//v/9//7//f/+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_i8ial")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tsey7"]
+resource_name = "woodd"
+albedo_color = Color(0.58383155, 0.47312066, 0.3491902, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_yfm8y"]
+_surfaces = [{
+"aabb": AABB(-0.17320508, -0.15, -0.2, 0.34641016, 0.3, 0.3),
+"format": 34896613377,
+"index_count": 12,
+"index_data": PackedByteArray("AAABAAIAAQADAAIAAwAAAAIAAAADAAEA"),
+"name": "plank",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("/38AAAAAAAD//wAA//8AAP9///+pqgAAAAAAAP//AAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_cd8ik"]
+resource_name = "Signpost_Cone_003"
+_surfaces = [{
+"aabb": AABB(-0.17320508, -0.15, -0.2, 0.34641016, 0.3, 0.3),
+"attribute_data": PackedByteArray("/z+OgjR1t97/P/+//7+OgsqKt9409bfeNHW33soKt97/P/+/ygq33v8/joL/P/+/"),
+"format": 34896613399,
+"index_count": 12,
+"index_data": PackedByteArray("AAABAAIAAwAEAAUABgAHAAgACQAKAAsA"),
+"material": SubResource("StandardMaterial3D_hji2l"),
+"name": "plank",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 12,
+"vertex_data": PackedByteArray("/38AAAAAcNz//wAA//9w3P9///+pqnDc/38AAAAA/z8AAAAA////P///AAD///8///8AAP//G40AAAAA//8bjf9///+pqhuNAAAAAP//cNz/fwAAAABw3P9///+pqnDcC70UVgu9FFYLvRRWAAD/fwAA/38AAP9/////f////3////9/FNbywhTW8sIU1vLC")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_yfm8y")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n4ksc"]
+resource_name = "plank"
+albedo_color = Color(0.83228356, 0.735357, 0.58383155, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_n6b8y"]
+_surfaces = [{
+"aabb": AABB(-0.17320508, -0.15, -0.2, 0.34641016, 0.3, 0.3),
+"format": 34896613377,
+"index_count": 12,
+"index_data": PackedByteArray("AAABAAIAAQADAAIAAwAAAAIAAAADAAEA"),
+"name": "plank",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("/38AAAAAAAD//wAA//8AAP9///+pqgAAAAAAAP//AAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_fun02"]
+resource_name = "Signpost_Cone_004"
+_surfaces = [{
+"aabb": AABB(-0.17320508, -0.15, -0.2, 0.34641016, 0.3, 0.3),
+"attribute_data": PackedByteArray("/z+OgjR1t97/P/+//7+OgsqKt9409bfeNHW33soKt97/P/+/ygq33v8/joL/P/+/"),
+"format": 34896613399,
+"index_count": 12,
+"index_data": PackedByteArray("AAABAAIAAwAEAAUABgAHAAgACQAKAAsA"),
+"material": SubResource("StandardMaterial3D_hji2l"),
+"name": "plank",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 12,
+"vertex_data": PackedByteArray("/38AAAAAcNz//wAA//9w3P9///+pqnDc/38AAAAA/z8AAAAA////P///AAD///8///8AAP//G40AAAAA//8bjf9///+pqhuNAAAAAP//cNz/fwAAAABw3P9///+pqnDcC70UVgu9FFYLvRRWAAD/fwAA/38AAP9/////f////3////9/FNbywhTW8sIU1vLC")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_n6b8y")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_76uyu"]
+resource_name = "plank"
+albedo_color = Color(0.83228356, 0.735357, 0.58383155, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_glgac"]
+size = Vector3(2.6709335, 2.4288, 0.35184166)
+
+[node name="w_rozcestnik" type="Node3D" unique_id=55447587]
+
+[node name="Model" type="Node3D" parent="." unique_id=1785442758 instance=ExtResource("1_i2x6q")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)
+
+[node name="Signpost" type="Node3D" parent="Model" unique_id=1331757211]
+
+[node name="Signpost_Board" type="MeshInstance3D" parent="Model/Signpost" unique_id=1465131215]
+transform = Transform3D(1.2928784, 0, 0.010452847, 0, 0.32, 0, -0.135887, 0, 0.09945219, 0.5, 2, 0.13)
+mesh = SubResource("ArrayMesh_arhv7")
+surface_material_override/0 = SubResource("StandardMaterial3D_3bpt7")
+
+[node name="Signpost_Board_001" type="MeshInstance3D" parent="Model/Signpost" unique_id=320844397]
+transform = Transform3D(1.1934264, 0, -0.010452846, 0, 0.32, 0, 0.12543416, 0, 0.09945219, -0.45, 1.55, 0.13)
+mesh = SubResource("ArrayMesh_n2yx3")
+surface_material_override/0 = SubResource("StandardMaterial3D_yr7ks")
+
+[node name="Signpost_Post" type="MeshInstance3D" parent="Model/Signpost" unique_id=1753142859]
+transform = Transform3D(0.2, 0, 0, 0, 2.4, 0, 0, 0, 0.2, 0, 1.2, 0)
+mesh = SubResource("ArrayMesh_lrov6")
+surface_material_override/0 = SubResource("StandardMaterial3D_tsey7")
+
+[node name="Signpost_Tip" type="MeshInstance3D" parent="Model/Signpost" unique_id=254874605]
+transform = Transform3D(0, 0.99452186, 0.10452847, -1, 0, 0, 0, -0.10452847, 0.9945219, 1.22, 2.04, 0.13)
+mesh = SubResource("ArrayMesh_cd8ik")
+surface_material_override/0 = SubResource("StandardMaterial3D_n4ksc")
+
+[node name="Signpost_Tip_001" type="MeshInstance3D" parent="Model/Signpost" unique_id=854501913]
+transform = Transform3D(0, -0.99452186, -0.10452847, 1, 0, 0, 0, -0.10452847, 0.9945219, -1.1, 1.51, 0.13)
+mesh = SubResource("ArrayMesh_fun02")
+surface_material_override/0 = SubResource("StandardMaterial3D_76uyu")
+
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=1275727622]
+
+[node name="@CollisionShape3D@46" type="CollisionShape3D" parent="Kolize" unique_id=180517557]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.065999985, 1.32, 0.08121828)
+shape = SubResource("BoxShape3D_glgac")

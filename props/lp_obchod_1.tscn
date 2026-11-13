@@ -327,7 +327,7 @@ metadata/_gltf_primary_texture_coord = 0
 [sub_resource type="BoxShape3D" id="BoxShape3D_65t78"]
 size = Vector3(5.6, 4, 5)
 
-[node name="lp_obchod_1" type="Node3D" unique_id=240470133]
+[node name="lp_obchod_1" type="Node3D" unique_id=988580798]
 
 [node name="Model" type="Node3D" parent="." unique_id=1592281862 instance=ExtResource("1_h4tuy")]
 
@@ -342,8 +342,8 @@ surface_material_override/5 = SubResource("StandardMaterial3D_e8qfv")
 surface_material_override/6 = SubResource("StandardMaterial3D_rekh1")
 surface_material_override/7 = SubResource("StandardMaterial3D_66vk2")
 
-[node name="Kolize" type="StaticBody3D" parent="." unique_id=1650164199]
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=359928659]
 
-[node name="@CollisionShape3D@25" type="CollisionShape3D" parent="Kolize" unique_id=1638638503]
+[node name="@CollisionShape3D@25" type="CollisionShape3D" parent="Kolize" unique_id=1470662711]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 shape = SubResource("BoxShape3D_65t78")

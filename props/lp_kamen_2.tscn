@@ -56,7 +56,7 @@ metadata/_gltf_primary_texture_coord = 0
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_uu7kr"]
 height = 0.35
 
-[node name="lp_kamen_2" type="Node3D" unique_id=1893871502]
+[node name="lp_kamen_2" type="Node3D" unique_id=1188869286]
 
 [node name="Model" type="Node3D" parent="." unique_id=1078834497 instance=ExtResource("1_63htn")]
 transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 0, 0, 0)
@@ -66,8 +66,8 @@ transform = Transform3D(0.8253356, 0, 0.5646424, 0, 1, 0, -0.5646424, 0, 0.82533
 mesh = SubResource("ArrayMesh_1yc25")
 surface_material_override/0 = SubResource("StandardMaterial3D_0vxan")
 
-[node name="Kolize" type="StaticBody3D" parent="." unique_id=455108237]
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=891652832]
 
-[node name="@CollisionShape3D@21" type="CollisionShape3D" parent="Kolize" unique_id=98067749]
+[node name="@CollisionShape3D@21" type="CollisionShape3D" parent="Kolize" unique_id=370192391]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.175, 0)
 shape = SubResource("CylinderShape3D_uu7kr")

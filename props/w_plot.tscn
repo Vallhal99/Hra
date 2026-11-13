@@ -1,0 +1,468 @@
+[gd_scene format=4]
+
+[ext_resource type="PackedScene" path="res://models/well/Fence.glb" id="1_yybut"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vnby"]
+resource_name = "wood"
+cull_mode = 2
+albedo_color = Color(0.72202736, 0.60124344, 0.43662706, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_blcnd"]
+_surfaces = [{
+"aabb": AABB(-0.13, -0.08, -0.13, 0.26, 0.16, 0.26),
+"format": 34896613377,
+"index_count": 18,
+"index_data": PackedByteArray("AAABAAIAAQADAAIAAAADAAEAAwAEAAIABAAAAAIAAAAEAAMA"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 5,
+"vertex_data": PackedByteArray("/38AAAAAAAD//wAA/38AAP9/////fwAA/38AAP//AAAAAAAA/38AAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_5g551"]
+resource_name = "Fence_Cone_018"
+_surfaces = [{
+"aabb": AABB(-0.13, -0.08, -0.13, 0.26, 0.16, 0.26),
+"attribute_data": PackedByteArray("/z+OgnB9/7//P/+/cH3/v/8/b/3/P/+//7+Ogv+/b/1v/f+/joL/v/8/b/2PAv+//z//v48C/7//P46C/z//vw=="),
+"format": 34896613399,
+"index_count": 18,
+"index_data": PackedByteArray("AAABAAIAAwAEAAUABgAHAAgABgAJAAcACgALAAwADQAOAA8A"),
+"material": SubResource("StandardMaterial3D_5vnby"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("/38AAAAAt97//wAA/3+33v9/////f7fe//8AAP9/7rL/fwAA///usv9/////f+6y/38AAAAA/z//fwAA////P///AAD/f/8/AAAAAP9//z//fwAA///usgAAAAD/f+6y/3////9/7rIAAAAA/3+33v9/AAAAALfe/3////9/t97kyllc5MpZXOTKWVxKtBxnSrQcZ0q0HGcAAP9/AAD/fwAA/38AAP9/HOe0yxzntMsc57TLWdwZtVncGbVZ3Bm1")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_blcnd")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gton"]
+resource_name = "wood"
+albedo_color = Color(0.72202736, 0.60124344, 0.43662706, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_qwg1e"]
+_surfaces = [{
+"aabb": AABB(-0.13, -0.08, -0.13, 0.26, 0.16, 0.26),
+"format": 34896613377,
+"index_count": 18,
+"index_data": PackedByteArray("AAABAAIAAQADAAIAAAADAAEAAwAEAAIABAAAAAIAAAAEAAMA"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 5,
+"vertex_data": PackedByteArray("/38AAAAAAAD//wAA/38AAP9/////fwAA/38AAP//AAAAAAAA/38AAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_xffek"]
+resource_name = "Fence_Cone_019"
+_surfaces = [{
+"aabb": AABB(-0.13, -0.08, -0.13, 0.26, 0.16, 0.26),
+"attribute_data": PackedByteArray("/z+OgnB9/7//P/+/cH3/v/8/b/3/P/+//7+Ogv+/b/1v/f+/joL/v/8/b/2PAv+//z//v48C/7//P46C/z//vw=="),
+"format": 34896613399,
+"index_count": 18,
+"index_data": PackedByteArray("AAABAAIAAwAEAAUABgAHAAgABgAJAAcACgALAAwADQAOAA8A"),
+"material": SubResource("StandardMaterial3D_5vnby"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("/38AAAAAt97//wAA/3+33v9/////f7fe//8AAP9/7rL/fwAA///usv9/////f+6y/38AAAAA/z//fwAA////P///AAD/f/8/AAAAAP9//z//fwAA///usgAAAAD/f+6y/3////9/7rIAAAAA/3+33v9/AAAAALfe/3////9/t97kyllc5MpZXOTKWVxKtBxnSrQcZ0q0HGcAAP9/AAD/fwAA/38AAP9/HOe0yxzntMsc57TLWdwZtVncGbVZ3Bm1")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_qwg1e")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rd1i6"]
+resource_name = "wood"
+albedo_color = Color(0.72202736, 0.60124344, 0.43662706, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_o0afu"]
+_surfaces = [{
+"aabb": AABB(-0.13, -0.08, -0.13, 0.26, 0.16, 0.26),
+"format": 34896613377,
+"index_count": 18,
+"index_data": PackedByteArray("AAABAAIAAQADAAIAAAADAAEAAwAEAAIABAAAAAIAAAAEAAMA"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 5,
+"vertex_data": PackedByteArray("/38AAAAAAAD//wAA/38AAP9/////fwAA/38AAP//AAAAAAAA/38AAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_x8dra"]
+resource_name = "Fence_Cone_020"
+_surfaces = [{
+"aabb": AABB(-0.13, -0.08, -0.13, 0.26, 0.16, 0.26),
+"attribute_data": PackedByteArray("/z+OgnB9/7//P/+/cH3/v/8/b/3/P/+//7+Ogv+/b/1v/f+/joL/v/8/b/2PAv+//z//v48C/7//P46C/z//vw=="),
+"format": 34896613399,
+"index_count": 18,
+"index_data": PackedByteArray("AAABAAIAAwAEAAUABgAHAAgABgAJAAcACgALAAwADQAOAA8A"),
+"material": SubResource("StandardMaterial3D_5vnby"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("/38AAAAAt97//wAA/3+33v9/////f7fe//8AAP9/7rL/fwAA///usv9/////f+6y/38AAAAA/z//fwAA////P///AAD/f/8/AAAAAP9//z//fwAA///usgAAAAD/f+6y/3////9/7rIAAAAA/3+33v9/AAAAALfe/3////9/t97kyllc5MpZXOTKWVxKtBxnSrQcZ0q0HGcAAP9/AAD/fwAA/38AAP9/HOe0yxzntMsc57TLWdwZtVncGbVZ3Bm1")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_o0afu")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pygjk"]
+resource_name = "wood"
+albedo_color = Color(0.72202736, 0.60124344, 0.43662706, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_m7hdp"]
+_surfaces = [{
+"aabb": AABB(-0.13, -0.08, -0.13, 0.26, 0.16, 0.26),
+"format": 34896613377,
+"index_count": 18,
+"index_data": PackedByteArray("AAABAAIAAQADAAIAAAADAAEAAwAEAAIABAAAAAIAAAAEAAMA"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 5,
+"vertex_data": PackedByteArray("/38AAAAAAAD//wAA/38AAP9/////fwAA/38AAP//AAAAAAAA/38AAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_h8key"]
+resource_name = "Fence_Cone_021"
+_surfaces = [{
+"aabb": AABB(-0.13, -0.08, -0.13, 0.26, 0.16, 0.26),
+"attribute_data": PackedByteArray("/z+OgnB9/7//P/+/cH3/v/8/b/3/P/+//7+Ogv+/b/1v/f+/joL/v/8/b/2PAv+//z//v48C/7//P46C/z//vw=="),
+"format": 34896613399,
+"index_count": 18,
+"index_data": PackedByteArray("AAABAAIAAwAEAAUABgAHAAgABgAJAAcACgALAAwADQAOAA8A"),
+"material": SubResource("StandardMaterial3D_5vnby"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("/38AAAAAt97//wAA/3+33v9/////f7fe//8AAP9/7rL/fwAA///usv9/////f+6y/38AAAAA/z//fwAA////P///AAD/f/8/AAAAAP9//z//fwAA///usgAAAAD/f+6y/3////9/7rIAAAAA/3+33v9/AAAAALfe/3////9/t97kyllc5MpZXOTKWVxKtBxnSrQcZ0q0HGcAAP9/AAD/fwAA/38AAP9/HOe0yxzntMsc57TLWdwZtVncGbVZ3Bm1")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_m7hdp")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lmbwf"]
+resource_name = "wood"
+albedo_color = Color(0.72202736, 0.60124344, 0.43662706, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_arf22"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIAAwAAAAUABAAGAAIABQACAAYAAwAHAAQAAwAFAAcABwAGAAQABwAFAAYA"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP//AAAAAAAA/////wAAAAAAAAAAAAD/////AAAAAP//AAD//wAA////////AAD//wAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_fwsnm"]
+resource_name = "Fence_Cube_137"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/1////+f/7//n////1//v/9f/7//n/9//5//v/9f/3//X/9//5//P/+f/3//X/8//1//P/+fAAD/n/8//18AAP8f/3//X/8//1//f/8f/z//n/9//9//P//f/3//n/8/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_5vnby"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP//VNUAAP//AABU1QAA/////1TVAAAAAAAAVNUAAAAAAAD///////8AAP//AAD//wAA/////wAAAAD/////AAAAAFTV////////VNX/////AABU1f//AAD//1TV//8AAP///78AAP//////v/////////+/AAAAAP///78AAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////v/////8AAP//AAD///////8AAP//AAD/////////////VNVU1VTVVNVU1VTVVNVU1f+//7//v/+//7//v/+//7+qKqoqqiqqKqoqqiqqKqoq/////////////////////wAA/38AAP9/AAD/fwAA/3//f/+//3//v/9//7//f/+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_arf22")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7wr1j"]
+resource_name = "wood"
+albedo_color = Color(0.72202736, 0.60124344, 0.43662706, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_86itw"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIAAwAAAAUABAAGAAIABQACAAYAAwAHAAQAAwAFAAcABwAGAAQABwAFAAYA"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP//AAAAAAAA/////wAAAAAAAAAAAAD/////AAAAAP//AAD//wAA////////AAD//wAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_7hw03"]
+resource_name = "Fence_Cube_138"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/1////+f/7//n////1//v/9f/7//n/9//5//v/9f/3//X/9//5//P/+f/3//X/8//1//P/+fAAD/n/8//18AAP8f/3//X/8//1//f/8f/z//n/9//9//P//f/3//n/8/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_5vnby"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP//VNUAAP//AABU1QAA/////1TVAAAAAAAAVNUAAAAAAAD///////8AAP//AAD//wAA/////wAAAAD/////AAAAAFTV////////VNX/////AABU1f//AAD//1TV//8AAP///78AAP//////v/////////+/AAAAAP///78AAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////v/////8AAP//AAD///////8AAP//AAD/////////////VNVU1VTVVNVU1VTVVNVU1f+//7//v/+//7//v/+//7+qKqoqqiqqKqoqqiqqKqoq/////////////////////wAA/38AAP9/AAD/fwAA/3//f/+//3//v/9//7//f/+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_86itw")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_22fly"]
+resource_name = "wood"
+albedo_color = Color(0.72202736, 0.60124344, 0.43662706, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_0ttly"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIAAwAAAAUABAAGAAIABQACAAYAAwAHAAQAAwAFAAcABwAGAAQABwAFAAYA"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP//AAAAAAAA/////wAAAAAAAAAAAAD/////AAAAAP//AAD//wAA////////AAD//wAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_8qkih"]
+resource_name = "Fence_Cube_139"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/1////+f/7//n////1//v/9f/7//n/9//5//v/9f/3//X/9//5//P/+f/3//X/8//1//P/+fAAD/n/8//18AAP8f/3//X/8//1//f/8f/z//n/9//9//P//f/3//n/8/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_5vnby"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP//VNUAAP//AABU1QAA/////1TVAAAAAAAAVNUAAAAAAAD///////8AAP//AAD//wAA/////wAAAAD/////AAAAAFTV////////VNX/////AABU1f//AAD//1TV//8AAP///78AAP//////v/////////+/AAAAAP///78AAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////v/////8AAP//AAD///////8AAP//AAD/////////////VNVU1VTVVNVU1VTVVNVU1f+//7//v/+//7//v/+//7+qKqoqqiqqKqoqqiqqKqoq/////////////////////wAA/38AAP9/AAD/fwAA/3//f/+//3//v/9//7//f/+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_0ttly")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x1kqy"]
+resource_name = "wood"
+albedo_color = Color(0.72202736, 0.60124344, 0.43662706, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_aclei"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIAAwAAAAUABAAGAAIABQACAAYAAwAHAAQAAwAFAAcABwAGAAQABwAFAAYA"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP//AAAAAAAA/////wAAAAAAAAAAAAD/////AAAAAP//AAD//wAA////////AAD//wAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_dka2r"]
+resource_name = "Fence_Cube_140"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/1////+f/7//n////1//v/9f/7//n/9//5//v/9f/3//X/9//5//P/+f/3//X/8//1//P/+fAAD/n/8//18AAP8f/3//X/8//1//f/8f/z//n/9//9//P//f/3//n/8/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_5vnby"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP//VNUAAP//AABU1QAA/////1TVAAAAAAAAVNUAAAAAAAD///////8AAP//AAD//wAA/////wAAAAD/////AAAAAFTV////////VNX/////AABU1f//AAD//1TV//8AAP///78AAP//////v/////////+/AAAAAP///78AAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////v/////8AAP//AAD///////8AAP//AAD/////////////VNVU1VTVVNVU1VTVVNVU1f+//7//v/+//7//v/+//7+qKqoqqiqqKqoqqiqqKqoq/////////////////////wAA/38AAP9/AAD/fwAA/3//f/+//3//v/9//7//f/+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_aclei")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2ri75"]
+resource_name = "wood"
+albedo_color = Color(0.72202736, 0.60124344, 0.43662706, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4lbyf"]
+resource_name = "plank"
+cull_mode = 2
+albedo_color = Color(0.83228356, 0.735357, 0.58383155, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_kw4i0"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIAAwAAAAUABAAGAAIABQACAAYAAwAHAAQAAwAFAAcABwAGAAQABwAFAAYA"),
+"name": "plank",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP//AAAAAAAA/////wAAAAAAAAAAAAD/////AAAAAP//AAD//wAA////////AAD//wAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_p5g6o"]
+resource_name = "Fence_Cube_141"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/1////+f/7//n////1//v/9f/7//n/9//5//v/9f/3//X/9//5//P/+f/3//X/8//1//P/+fAAD/n/8//18AAP8f/3//X/8//1//f/8f/z//n/9//9//P//f/3//n/8/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_4lbyf"),
+"name": "plank",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP//VNUAAP//AABU1QAA/////1TVAAAAAAAAVNUAAAAAAAD///////8AAP//AAD//wAA/////wAAAAD/////AAAAAFTV////////VNX/////AABU1f//AAD//1TV//8AAP///78AAP//////v/////////+/AAAAAP///78AAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////v/////8AAP//AAD///////8AAP//AAD/////////////VNVU1VTVVNVU1VTVVNVU1f+//7//v/+//7//v/+//7+qKqoqqiqqKqoqqiqqKqoq/////////////////////wAA/38AAP9/AAD/fwAA/3//f/+//3//v/9//7//f/+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_kw4i0")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bbekf"]
+resource_name = "plank"
+albedo_color = Color(0.83228356, 0.735357, 0.58383155, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_buluw"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIAAwAAAAUABAAGAAIABQACAAYAAwAHAAQAAwAFAAcABwAGAAQABwAFAAYA"),
+"name": "plank",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP//AAAAAAAA/////wAAAAAAAAAAAAD/////AAAAAP//AAD//wAA////////AAD//wAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_mobcb"]
+resource_name = "Fence_Cube_142"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/1////+f/7//n////1//v/9f/7//n/9//5//v/9f/3//X/9//5//P/+f/3//X/8//1//P/+fAAD/n/8//18AAP8f/3//X/8//1//f/8f/z//n/9//9//P//f/3//n/8/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_4lbyf"),
+"name": "plank",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP//VNUAAP//AABU1QAA/////1TVAAAAAAAAVNUAAAAAAAD///////8AAP//AAD//wAA/////wAAAAD/////AAAAAFTV////////VNX/////AABU1f//AAD//1TV//8AAP///78AAP//////v/////////+/AAAAAP///78AAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////v/////8AAP//AAD///////8AAP//AAD/////////////VNVU1VTVVNVU1VTVVNVU1f+//7//v/+//7//v/+//7+qKqoqqiqqKqoqqiqqKqoq/////////////////////wAA/38AAP9/AAD/fwAA/3//f/+//3//v/9//7//f/+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_buluw")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5m7o8"]
+resource_name = "plank"
+albedo_color = Color(0.83228356, 0.735357, 0.58383155, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2my6o"]
+size = Vector3(4.20228, 1.2512001, 0.33827987)
+
+[node name="w_plot" type="Node3D" unique_id=1145369485]
+
+[node name="Model" type="Node3D" parent="." unique_id=1526429208 instance=ExtResource("1_yybut")]
+
+[node name="Fence" type="Node3D" parent="Model" unique_id=1656033502]
+
+[node name="Fence_Cap" type="MeshInstance3D" parent="Model/Fence" unique_id=1424862240]
+transform = Transform3D(0.7071068, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, 0.7071068, -2.1, 1.28, 0)
+mesh = SubResource("ArrayMesh_5g551")
+surface_material_override/0 = SubResource("StandardMaterial3D_5gton")
+
+[node name="Fence_Cap_001" type="MeshInstance3D" parent="Model/Fence" unique_id=470585016]
+transform = Transform3D(0.7071068, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, 0.7071068, -0.7, 1.28, 0)
+mesh = SubResource("ArrayMesh_xffek")
+surface_material_override/0 = SubResource("StandardMaterial3D_rd1i6")
+
+[node name="Fence_Cap_002" type="MeshInstance3D" parent="Model/Fence" unique_id=1531166650]
+transform = Transform3D(0.7071068, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, 0.7071068, 0.7, 1.28, 0)
+mesh = SubResource("ArrayMesh_x8dra")
+surface_material_override/0 = SubResource("StandardMaterial3D_pygjk")
+
+[node name="Fence_Cap_003" type="MeshInstance3D" parent="Model/Fence" unique_id=224708430]
+transform = Transform3D(0.7071068, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, 0.7071068, 2.1, 1.28, 0)
+mesh = SubResource("ArrayMesh_h8key")
+surface_material_override/0 = SubResource("StandardMaterial3D_lmbwf")
+
+[node name="Fence_Post" type="MeshInstance3D" parent="Model/Fence" unique_id=366747945]
+transform = Transform3D(0.16, 0, 0, 0, 1.2, 0, 0, 0, 0.16, -2.1, 0.6, 0)
+mesh = SubResource("ArrayMesh_fwsnm")
+surface_material_override/0 = SubResource("StandardMaterial3D_7wr1j")
+
+[node name="Fence_Post_001" type="MeshInstance3D" parent="Model/Fence" unique_id=268693400]
+transform = Transform3D(0.16, 0, 0, 0, 1.2, 0, 0, 0, 0.16, -0.7, 0.6, 0)
+mesh = SubResource("ArrayMesh_7hw03")
+surface_material_override/0 = SubResource("StandardMaterial3D_22fly")
+
+[node name="Fence_Post_002" type="MeshInstance3D" parent="Model/Fence" unique_id=357627936]
+transform = Transform3D(0.16, 0, 0, 0, 1.2, 0, 0, 0, 0.16, 0.7, 0.6, 0)
+mesh = SubResource("ArrayMesh_8qkih")
+surface_material_override/0 = SubResource("StandardMaterial3D_x1kqy")
+
+[node name="Fence_Post_003" type="MeshInstance3D" parent="Model/Fence" unique_id=1136105797]
+transform = Transform3D(0.16, 0, 0, 0, 1.2, 0, 0, 0, 0.16, 2.1, 0.6, 0)
+mesh = SubResource("ArrayMesh_dka2r")
+surface_material_override/0 = SubResource("StandardMaterial3D_2ri75")
+
+[node name="Fence_Rail" type="MeshInstance3D" parent="Model/Fence" unique_id=618034290]
+transform = Transform3D(4.5, 0, 0, 0, 0.13, 0, 0, 0, 0.08, 0, 0.4, 0)
+mesh = SubResource("ArrayMesh_p5g6o")
+surface_material_override/0 = SubResource("StandardMaterial3D_bbekf")
+
+[node name="Fence_Rail_001" type="MeshInstance3D" parent="Model/Fence" unique_id=1531554223]
+transform = Transform3D(4.5, 0, 0, 0, 0.13, 0, 0, 0, 0.08, 0, 0.85, 0)
+mesh = SubResource("ArrayMesh_mobcb")
+surface_material_override/0 = SubResource("StandardMaterial3D_5m7o8")
+
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=755888718]
+
+[node name="@CollisionShape3D@45" type="CollisionShape3D" parent="Kolize" unique_id=13772521]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.68, 0)
+shape = SubResource("BoxShape3D_2my6o")

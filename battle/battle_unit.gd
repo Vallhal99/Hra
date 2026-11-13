@@ -11,6 +11,10 @@ extends Resource
 @export var spd := 10
 @export var texture: Texture2D
 @export var hframes := 1
+@export var hero_anim := false ## hrdina z Dílny: animace podle stavu
+var anim_name := "Idle"
+var anim_loop := true
+var anim_t := 0.0
 @export var ppm := 32.0 ## pixelů na metr (hrdina z Dílny má 133)
 ## Kam se postava na obrázku dívá. Hrdina stojí vpravo a musí se dívat doleva, nepřítel naopak (obrázek se sám překlopí).
 @export var faces_right := true
@@ -64,6 +68,7 @@ static func default_party() -> Array[BattleUnit]:
 			out[0].hframes = hs.frames
 			out[0].ppm = 115.0
 			out[0].faces_right = false
+			out[0].hero_anim = true
 	else:
 		out.append(make("Hrdina", true, 120, 30, 26, 9, 12, Color(0.25, 0.45, 0.9), [
 		{"name": "Silný úder", "cost": 8, "power": 1.9},

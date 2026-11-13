@@ -1,0 +1,416 @@
+[gd_scene format=4]
+
+[ext_resource type="PackedScene" path="res://models/well/Brazier.glb" id="1_fmu51"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uga01"]
+resource_name = "iron"
+cull_mode = 2
+albedo_color = Color(0.50638646, 0.50638646, 0.54685426, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_2y77f"]
+_surfaces = [{
+"aabb": AABB(-0.536655, -0.6, -0.510384, 1.07331, 1.2, 1.020768),
+"format": 34896613377,
+"index_count": 60,
+"index_data": PackedByteArray("AAABAAIAAQADAAIAAgAEAAAAAgADAAUAAgAFAAQAAwAGAAUABAAFAAcABQAGAAcAAAAEAAgABAAHAAgAAAAJAAEAAAAIAAkAAQAKAAMACgAGAAMACQAKAAEABwAGAAsACAAHAAsACwAGAAoACAALAAkACQALAAoA"),
+"name": "iron",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 12,
+"vertex_data": PackedByteArray("/38AAP9/AAByWMFG//8AAIznwUYazwAAjKc9uf//AACM58FG5DAAAP//Pbn/fwAA/3////9/AACMpz25AAAAAHJYwUYAAAAAAADBRv9/AAByGD25Gs8AAHIYPbnkMAAA")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_7rnvy"]
+resource_name = "Brazier_Icosphere_059"
+_surfaces = [{
+"aabb": AABB(-0.536655, -0.6, -0.510384, 1.07331, 1.2, 1.020768),
+"attribute_data": PackedByteArray("iy7//0UXr9fRRa/X0UWv11x0r9cWXf//uej//3PRr9f//6/XLbr//+iir9dz0a/Xoov//1x0r9fooq/X0UWv1xZdYK9cdK/XRRev14suYK/RRa/Xc9Gv17noYK///6/X6KKv1y26YK9z0a/XXHSv16KLYK/ooq/X0UWv14suYK8WXWCvRRev1wAAYK+LLmCvc9Gv1y26YK+56GCv6KKv16KLYK8tumCvXHSv1xZdYK+ii2Cviy5gr9FFEYcWXWCvAABgr0UXEYeLLmCvLbpgr3PREYe56GCvootgr+iiEYctumCvFl1gr1x0EYeii2Cv"),
+"format": 34896613399,
+"index_count": 60,
+"index_data": PackedByteArray("AAABAAIAAwAEAAUABgAHAAgACQAKAAsADAANAA4ADwAQABEAEgATABQAFQAWABcAGAAZABoAGwAcAB0AHgAfACAAIQAiACMAJAAlACYAJwAoACkAKgArACwALQAuAC8AMAAxADIAMwA0ADUANgA3ADgAOQA6ADsA"),
+"material": SubResource("StandardMaterial3D_uga01"),
+"name": "iron",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 60,
+"vertex_data": PackedByteArray("/38AAP9/ZadyWMFG//9lp4znwUYaz2WnjOfBRhrPDciM58FG5DANyP9/AAD/fw3I/38AAP9/nLQAAMFG/3+ctHJYwUb//5y0/38AAP9/2N1yWMFGAADY3QAAwUb/f9jd/38AAP9/iPSM58FG5DCI9HJYwUYAAIj0jOfBRhrPW8D//z25/39bwIznwUbkMFvAcljBRv//6Y6Mpz25///pjoznwUYaz+mOAADBRv9/GadyGD25Gs8Zp3JYwUb//xmncljBRgAAyNlyGD255DDI2QAAwUb/f8jZjOfBRuQwQfOMpz25AABB83JYwUYAAEHzjOfBRhrPGaeMpz25//8Zp///Pbn/fxmncljBRv//6Y5yGD25Gs/pjoynPbn//+mOAADBRv9/W8ByGD255DBbwHIYPbkaz1vAcljBRgAAQfOMpz25AABB83IYPbnkMEHzjOfBRuQwyNn//z25/3/I2YynPbkAAMjZjKc9uf//nLT/f////3+ctP//Pbn/f5y0chg9uRrPZaf/f////39lp4ynPbn//2Wnchg9ueQwDcj/f////38NyHIYPbkazw3IjKc9uQAAiPT/f////3+I9HIYPbnkMIj0//89uf9/2N3/f////3/Y3YynPbkAANjdbylFZG8pRWRvKUVkLWCkPy1gpD8tYKQ/7DOZzewzmc3sM5nNSkmH7UpJh+1KSYftn3mdLp95nS6feZ0uz3VfFM91XxTPdV8UzFJcNMxSXDTMUlw092Nt7fdjbe33Y23t/2+Y+v9vmPr/b5j6RH6lDER+pQxEfqUMB5yREgeckRIHnJESMq2iyzKtossyraLLL4qf6y+Kn+svip/ruoFZ87qBWfO6gVnz/49mBf+PZgX/j2YFEsxlMhLMZTISzGUyj9a5m4/WuZuP1rmb0Z9awNGfWsDRn1rAX4Zh0V+GYdFfhmHRtLZ3ErS2dxK0tncS")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_2y77f")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_darvx"]
+resource_name = "iron"
+albedo_color = Color(0.50638646, 0.50638646, 0.54685426, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_exjsc"]
+resource_name = "coal"
+cull_mode = 2
+albedo_color = Color(1, 0.58383155, 0.2716998, 1)
+emission_enabled = true
+emission = Color(1, 0.58383155, 0.2716998, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_ti7kg"]
+_surfaces = [{
+"aabb": AABB(-0.47552827, -0.025, -0.5, 0.95105654, 0.05, 1),
+"format": 34896613377,
+"index_count": 108,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIABQADAAAABQACAAYABwAFAAYAAgAIAAYABwAGAAgABAAIAAIACQAFAAcACQAHAAgABQAKAAMACgAFAAkAAwALAAQAAwAKAAsACwAMAAQACwAKAAwADQAEAAwACAAEAA0ACgANAAwACQAIAA4ACgAPAA0AEAAJAA4ACgAJABEAEQAJABAACgARAA8ADwASAA0ADwARABIACAANABMACAATAA4AEwANABIAEAAOABMAEQATABIAEQAQABMA"),
+"name": "coal",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 20,
+"vertex_data": PackedByteArray("/38AAAAAAAAaz///chgAAP9///8AAAAAGs8AAHIYAAD/////cVgAAOQwAAByGAAA5DD//3IYAAAAAAAAcVgAAAAA//9xWAAAAAAAAI2nAAD//wAAjacAAP//AABxWAAA/////42nAAAaz///jOcAAAAA//+NpwAAGs8AAIznAADkMAAAjOcAAP9/AAD//wAA/3//////AADkMP//jOcAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_tnqkn"]
+resource_name = "Brazier_Cylinder_063"
+_surfaces = [{
+"aabb": AABB(-0.47552827, -0.025, -0.5, 0.95105654, 0.05, 1),
+"attribute_data": PackedByteArray("//+kwDLz/3////9/MvOkwDLzpMBl5v9/MvP/f2XmpMBl5qTAmNn/f2Xm/3+Y2aTAmNmkwMvM/3+Y2f9/y8ykwMvMpMD/v/9/y8z/f/+/pMD/v6TAMrP/f/+//38ys6TAMrOkwGWm/38ys/9/ZaakwGWmpMCYmf9/Zab/f5iZpMA2vWDX/5/vwQ2y3MfIgmDX8I3cxw2yEfo2vY7q8I0R+v+f///Igo7qmJmkwMyM/3+Ymf9/zIykwMyMpMD/f/9/zIz/f/9/pMDwzdzHDfLcx//f78E2/Y7qNv1g18fCjurHwmDX/9////DNEfoN8hH6"),
+"format": 34896613399,
+"index_count": 108,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAIQAjACQAIwAgACUAJQAgACYAIwAlACcAJwAlACgAIwAnACkAKgArACwAKgAtACsALgAvADAALgAxAC8AMgAzADQAMgA1ADMAMwA1ADYANQAyADcANwAyADgANQA3ADkAOQA3ADoANQA5ADsA"),
+"material": SubResource("StandardMaterial3D_exjsc"),
+"name": "coal",
+"primitive": 3,
+"uv_scale": Vector4(2, 1.98, 0, 0),
+"vertex_count": 60,
+"vertex_data": PackedByteArray("/38AAAAAMvMaz///chgy8/9///8AADLzGs8AAHIYMvMazwAAchiY2f////9xWJjZGs///3IYmNn//wAAcViY2f//AABxWP+//////42n/7//////cVj/v///AACNp/+///8AAI2nZaYaz///jOdlpv////+Np2WmGs8AAIznZaYazwAAjOfLjP9//////8uMGs///4zny4z/fwAA///LjP9/AAD//8uM5DD//4zny4z/f//////LjOQwAACM58uM5DAAAIznZaYAAP//jadlpuQw//+M52WmAAAAAI2nZaYAAAAAjaf/vwAA//9xWP+/AAD//42n/78AAAAAcVj/v/////9xWP+//3///wAA/78az///chj/vwAA//9xWP+/5DD//3IY/78az///jOf/v/////+Np/+/5DD//4zn/7//f///////vwAA//+Np/+/AAAAAHFYmNnkMP//chiY2QAA//9xWJjZ5DAAAHIYmNnkMAAAchgy8/9///8AADLz5DD//3IYMvP/fwAAAAAy8+QwAAByGP8/Gs8AAHIY/z//fwAAAAD/P///AACNp/8///8AAHFY/z8AAAAAjaf/PwAAAABxWP8//38AAP///z/kMAAAjOf/PxrPAACM5/8//38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/f////3////9/////f////3////9/////f////3////9/////f////3////9///////9/////f/7//3////9/////f////3/+//9/////f////3/+//9//3////9/////f////3////9/////f////3////9///8AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_ti7kg")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_adlyq"]
+resource_name = "coal"
+albedo_color = Color(1, 0.58383155, 0.2716998, 1)
+metallic_specular = 0.25
+roughness = 0.92
+emission_enabled = true
+emission = Color(1, 0.58383155, 0.2716998, 1)
+emission_energy_multiplier = 3.0
+texture_filter = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cu5na"]
+resource_name = "flame"
+cull_mode = 2
+albedo_color = Color(1, 0.735357, 0.3491902, 1)
+emission_enabled = true
+emission = Color(1, 0.735357, 0.3491902, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_p0sku"]
+_surfaces = [{
+"aabb": AABB(-0.27712813, -0.4, -0.32, 0.55425626, 0.8, 0.64),
+"format": 34896613377,
+"index_count": 30,
+"index_data": PackedByteArray("AAABAAIAAwABAAAAAwAAAAIAAQAEAAIABQADAAIAAQAGAAQAAQADAAYABgADAAUABAAGAAIABgAFAAIA"),
+"name": "flame",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 7,
+"vertex_data": PackedByteArray("/38AAAAAAAD//wAA/z8AAP9/////fwAAAAAAAP8/AAD//wAA/78AAAAAAAD/vwAA/38AAP//AAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_b8r7h"]
+resource_name = "Brazier_Cone_024"
+_surfaces = [{
+"aabb": AABB(-0.27712813, -0.4, -0.32, 0.55425626, 0.8, 0.64),
+"attribute_data": PackedByteArray("/z+OgjR1R6H/P/+/NHVHoTR1t97/P/+/NHW33v8/b/3/P/+//z9v/coKt97/P/+/yopHoTT1R6H/v46C/79v/cqKt9409bfeygq33soKR6H/P/+/ygpHof8/joL/P/+/"),
+"format": 34896613399,
+"index_count": 30,
+"index_data": PackedByteArray("AAABAAIAAwAEAAUABgAHAAgACQAKAAsADAANAA4ADQAMAA8ADwAMABAADQAPABEAEgATABQAFQAWABcA"),
+"material": SubResource("StandardMaterial3D_cu5na"),
+"name": "flame",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("/38AAAAA+On//wAA/z/46f9/////f/jp//8AAP8/+c3//wAA/7/5zf9/////f/nN//8AAP+/Bq7/fwAA//8Grv9/////fwau/38AAP//Bq4AAAAA/78Grv9/////fwauAAAAAP8//z///wAA/z//P/9/AAAAAP8//38AAP///z8AAAAA/7//P///AAD/v/8/AAAAAP+/+c0AAAAA/z/5zf9/////f/nNAAAAAP8/+On/fwAAAAD46f9/////f/jpxMtQWMTLUFjEy1BYzrRnWs60Z1rOtGdaPajraj2o62o9qOtq6urB1+rqwdfq6sHXAAD/fwAA/38AAP9/AAD/fwAA/38AAP9/Ztowy2baMMtm2jDLUNg6tFDYOrRQ2Dq0")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_p0sku")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eloj5"]
+resource_name = "flame"
+albedo_color = Color(1, 0.735357, 0.3491902, 1)
+metallic_specular = 0.25
+roughness = 0.92
+emission_enabled = true
+emission = Color(1, 0.735357, 0.3491902, 1)
+emission_energy_multiplier = 3.0
+texture_filter = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x4wvm"]
+resource_name = "flame2"
+cull_mode = 2
+albedo_color = Color(1, 0.9309246, 0.58383155, 1)
+emission_enabled = true
+emission = Color(1, 0.9309246, 0.58383155, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_elj1n"]
+_surfaces = [{
+"aabb": AABB(-0.15588458, -0.25, -0.18, 0.31176916, 0.5, 0.36),
+"format": 34896613377,
+"index_count": 30,
+"index_data": PackedByteArray("AAABAAIAAwABAAAAAwAAAAIAAQAEAAIABQADAAIAAQAGAAQAAQADAAYABgADAAUABAAGAAIABgAFAAIA"),
+"name": "flame2",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 7,
+"vertex_data": PackedByteArray("/38AAAAAAAD//wAA/z8AAP9/////fwAAAAAAAP8/AAD//wAA/78AAAAAAAD/vwAA/38AAP//AAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_mfah1"]
+resource_name = "Brazier_Cone_025"
+_surfaces = [{
+"aabb": AABB(-0.15588458, -0.25, -0.18, 0.31176916, 0.5, 0.36),
+"attribute_data": PackedByteArray("/z+OgjR1R6H/P/+/NHVHoTR1t97/P/+/NHW33v8/b/3/P/+//z9v/coKt97/P/+/yopHoTT1R6H/v46C/79v/cqKt9409bfeygq33soKR6H/P/+/ygpHof8/joL/P/+/"),
+"format": 34896613399,
+"index_count": 30,
+"index_data": PackedByteArray("AAABAAIAAwAEAAUABgAHAAgACQAKAAsADAANAA4ADQAMAA8ADwAMABAADQAPABEAEgATABQAFQAWABcA"),
+"material": SubResource("StandardMaterial3D_x4wvm"),
+"name": "flame2",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("/38AAAAAyur//wAA/z/K6v9/////f8rq//8AAP8/ns7//wAA/7+ezv9/////f57O//8AAP+/YK//fwAA//9gr/9/////f2Cv/38AAP//YK8AAAAA/79gr/9/////f2CvAAAAAP8//z///wAA/z//P/9/AAAAAP8//38AAP///z8AAAAA/7//P///AAD/v/8/AAAAAP+/ns4AAAAA/z+ezv9/////f57OAAAAAP8/yur/fwAAAADK6v9/////f8rqKsrXVirK11YqytdWybPkWcmz5FnJs+RZH6bXah+m12ofptdq1ure2dbq3tnW6t7ZAAD/fwAA/38AAP9/AAD/fwAA/38AAP9/5Nk0zOTZNMzk2TTM1tbUtdbW1LXW1tS1")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_elj1n")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oayrp"]
+resource_name = "flame2"
+albedo_color = Color(1, 0.9309246, 0.58383155, 1)
+metallic_specular = 0.25
+roughness = 0.92
+emission_enabled = true
+emission = Color(1, 0.9309246, 0.58383155, 1)
+emission_energy_multiplier = 4.0
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_j35vi"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.06, -0.5, 1, 0.12, 1),
+"format": 34896613377,
+"index_count": 84,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIABQADAAAABQACAAYAAgAHAAYABAAHAAIACAAFAAYACAAGAAcAAwAJAAQACgAFAAgACgAIAAcABQALAAMACwAFAAoAAwALAAkACQAMAAQACQALAAwADQAEAAwABwAEAA0ACwANAAwACgAHAA4ABwANAA4ACwAKAA8ACwAPAA0ADwAKAA4ADwAOAA0A"),
+"name": "iron",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("/38AAAAAAACB2v//fSUAAP9///8AAAAAgdoAAH0lAAD//////38AAH0lAAB9JQAAfSX//30lAAAAAP///38AAAAAAAD/fwAA//8AAP9/AAB9JQAAgdoAAIHaAACB2gAAgdr//4HaAAD/f/////8AAH0l//+B2gAA/38AAP//AAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_4mlqn"]
+resource_name = "Brazier_Cylinder_059"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.06, -0.5, 1, 0.12, 1),
+"attribute_data": PackedByteArray("////f//fAAD//wAA/9//f//f/3//vwAA/98AAP+//3//v/9//58AAP+/AAD/n/9//5//f/9/AAD/nwAA/3//f/9//3//XwAA/38AAP9f/3//X/9//z8AAP9fAAD/P/9/cH3/v/8/joJxa42UjwL/v44UjZT/P2/9cWtw644UcOv/P/9//x8AAP8/AAD/H/9//x//fwAAAAD/HwAAAAD/f42UjZRw642U/7+OgnDrcOtv/f+/jZRw646C/7//v2/9"),
+"format": 34896613399,
+"index_count": 84,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAGQAbABwAGwAYAB0AHQAYAB4AGwAdAB8AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkAKQArACwAKwAoAC0ALQAoAC4AKwAtAC8A"),
+"material": SubResource("StandardMaterial3D_uga01"),
+"name": "iron",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 48,
+"vertex_data": PackedByteArray("/38AAAAA/u+B2v//fSX+7/9///8AAP7vgdoAAH0l/u+B2gAAfSX/z///////f//Pgdr//30l/8///wAA/3//z///AAD/f/+vgdr//4Ha/6///////3//r4HaAACB2v+vgdoAAIHa/4//f///////j4Ha//+B2v+P/38AAP///4//fwAA////j30l//+B2v+P/3///////499JQAAgdr/j30lAACB2v+vAAD///9//699Jf//gdr/rwAAAAD/f/+v//////9//7//f///AAD/v4Ha//99Jf+/AAD///9//799Jf//fSX/v/9///////+/gdr//4Ha/799Jf//gdr/vwAAAAD/f//PfSX//30l/88AAP///3//z30lAAB9Jf/PfSUAAH0l/u//f///AAD+730l//99Jf7v/38AAAAA/u99JQAAfSX/P4HaAAB9Jf8//38AAAAA/z+B2gAAgdr/P///AAD/f/8/fSUAAIHa/z8AAAAA/3//P/9/AAD///8//38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/////f////3////9/////f////3////9/////f///////f////3////9/////f////3////9/////f////3//f////3////9/////f////3////9/////f////3///wAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_j35vi")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v68xq"]
+resource_name = "iron"
+albedo_color = Color(0.50638646, 0.50638646, 0.54685426, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_mawlu"]
+_surfaces = [{
+"aabb": AABB(-0.047552828, -0.6, -0.05, 0.095105655, 1.2, 0.09045085),
+"format": 34896613377,
+"index_count": 48,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIABQADAAAABQACAAYAAwAHAAQAAwAFAAgAAwAIAAcACAAFAAYABwAJAAQABwAIAAkAAgAEAAkACAAGAAkAAgAJAAYA"),
+"name": "iron",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 10,
+"vertex_data": PackedByteArray("/38AAAAAAAD/////yGEAAP9///8AAAAA//8AAMhhAAAaz/////8AAAAAAADIYQAAAAD//8hhAAAazwAA//8AAOQwAAD//wAA5DD/////AAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_jkc8t"]
+resource_name = "Brazier_Cylinder_060"
+_surfaces = [{
+"aabb": AABB(-0.047552828, -0.6, -0.05, 0.095105655, 1.2, 0.09045085),
+"attribute_data": PackedByteArray("////f8zMAAD//wAAzMz/f8zM/3+ZmQAAzMwAAJmZ/3+Zmf9/ZmYAAJmZAABmZv9/HGSz8f8/joJuegKt4huz8ZEFAq1mZv9/MzMAAGZmAAAzM/9/MzP/fwAAAAAzMwAAAAD/f5CFAq1t+gKt/7+OguKbs/Ec5LPx"),
+"format": 34896613399,
+"index_count": 48,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADQAMAA8ADQAPABAAEQASABMAEQAUABIAFQAWABcAFQAYABYAGQAaABsAGgAZABwAGgAcAB0A"),
+"material": SubResource("StandardMaterial3D_uga01"),
+"name": "iron",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 30,
+"vertex_data": PackedByteArray("/38AAAAAZeb/////yGFl5v9///8AAGXm//8AAMhhZeb//wAAyGEysxrP/////zKz/////8hhMrMazwAA//8ysxrPAAD//wCA5DD/////AIAaz/////8AgOQwAAD//wCAGs///////7//f///AAD/v//////IYf+/5DD//////78AAP//yGH/v+QwAAD//zKzAAD//8hhMrPkMP////8yswAAAADIYTKzAAAAAMhhZeb/f///AABl5gAA///IYWXm/38AAAAAZeYAAAAAyGH/P///AADIYf8//38AAAAA/z/kMAAA////PxrPAAD///8//38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/f////3////9/////f///////f////3////9/////f////3//f////3////9/////f////3////9/////f////3///wAA/38AAP9/AAD/fwAA/38AAP9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_mawlu")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vbned"]
+resource_name = "iron"
+albedo_color = Color(0.50638646, 0.50638646, 0.54685426, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_uyvf0"]
+_surfaces = [{
+"aabb": AABB(-0.047552828, -0.6, -0.05, 0.095105655, 1.2, 0.09045085),
+"format": 34896613377,
+"index_count": 48,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIABQADAAAABQACAAYAAwAHAAQAAwAFAAgAAwAIAAcACAAFAAYABwAJAAQABwAIAAkAAgAEAAkACAAGAAkAAgAJAAYA"),
+"name": "iron",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 10,
+"vertex_data": PackedByteArray("/38AAAAAAAD/////yGEAAP9///8AAAAA//8AAMhhAAAaz/////8AAAAAAADIYQAAAAD//8hhAAAazwAA//8AAOQwAAD//wAA5DD/////AAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_75tfc"]
+resource_name = "Brazier_Cylinder_061"
+_surfaces = [{
+"aabb": AABB(-0.047552828, -0.6, -0.05, 0.095105655, 1.2, 0.09045085),
+"attribute_data": PackedByteArray("////f8zMAAD//wAAzMz/f8zM/3+ZmQAAzMwAAJmZ/3+Zmf9/ZmYAAJmZAABmZv9/HGSz8f8/joJuegKt4huz8ZEFAq1mZv9/MzMAAGZmAAAzM/9/MzP/fwAAAAAzMwAAAAD/f5CFAq1t+gKt/7+OguKbs/Ec5LPx"),
+"format": 34896613399,
+"index_count": 48,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADQAMAA8ADQAPABAAEQASABMAEQAUABIAFQAWABcAFQAYABYAGQAaABsAGgAZABwAGgAcAB0A"),
+"material": SubResource("StandardMaterial3D_uga01"),
+"name": "iron",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 30,
+"vertex_data": PackedByteArray("/38AAAAAZeb/////yGFl5v9///8AAGXm//8AAMhhZeb//wAAyGEysxrP/////zKz/////8hhMrMazwAA//8ysxrPAAD//wCA5DD/////AIAaz/////8AgOQwAAD//wCAGs///////7//f///AAD/v//////IYf+/5DD//////78AAP//yGH/v+QwAAD//zKzAAD//8hhMrPkMP////8yswAAAADIYTKzAAAAAMhhZeb/f///AABl5gAA///IYWXm/38AAAAAZeYAAAAAyGH/P///AADIYf8//38AAAAA/z/kMAAA////PxrPAAD///8//38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/f////3////9/////f///////f////3////9/////f////3//f////3////9/////f////3////9/////f////3///wAA/38AAP9/AAD/fwAA/38AAP9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_uyvf0")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0vgg4"]
+resource_name = "iron"
+albedo_color = Color(0.50638646, 0.50638646, 0.54685426, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_3g42y"]
+_surfaces = [{
+"aabb": AABB(-0.047552828, -0.6, -0.05, 0.095105655, 1.2, 0.09045085),
+"format": 34896613377,
+"index_count": 48,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIABQADAAAABQACAAYAAwAHAAQAAwAFAAgAAwAIAAcACAAFAAYABwAJAAQABwAIAAkAAgAEAAkACAAGAAkAAgAJAAYA"),
+"name": "iron",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 10,
+"vertex_data": PackedByteArray("/38AAAAAAAD/////yGEAAP9///8AAAAA//8AAMhhAAAaz/////8AAAAAAADIYQAAAAD//8hhAAAazwAA//8AAOQwAAD//wAA5DD/////AAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_7trey"]
+resource_name = "Brazier_Cylinder_062"
+_surfaces = [{
+"aabb": AABB(-0.047552828, -0.6, -0.05, 0.095105655, 1.2, 0.09045085),
+"attribute_data": PackedByteArray("////f8zMAAD//wAAzMz/f8zM/3+ZmQAAzMwAAJmZ/3+Zmf9/ZmYAAJmZAABmZv9/HGSz8f8/joJuegKt4huz8ZEFAq1mZv9/MzMAAGZmAAAzM/9/MzP/fwAAAAAzMwAAAAD/f5CFAq1t+gKt/7+OguKbs/Ec5LPx"),
+"format": 34896613399,
+"index_count": 48,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADQAMAA8ADQAPABAAEQASABMAEQAUABIAFQAWABcAFQAYABYAGQAaABsAGgAZABwAGgAcAB0A"),
+"material": SubResource("StandardMaterial3D_uga01"),
+"name": "iron",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 30,
+"vertex_data": PackedByteArray("/38AAAAAZeb/////yGFl5v9///8AAGXm//8AAMhhZeb//wAAyGEysxrP/////zKz/////8hhMrMazwAA//8ysxrPAAD//wCA5DD/////AIAaz/////8AgOQwAAD//wCAGs///////7//f///AAD/v//////IYf+/5DD//////78AAP//yGH/v+QwAAD//zKzAAD//8hhMrPkMP////8yswAAAADIYTKzAAAAAMhhZeb/f///AABl5gAA///IYWXm/38AAAAAZeYAAAAAyGH/P///AADIYf8//38AAAAA/z/kMAAA////PxrPAAD///8//38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/f////3////9/////f///////f////3////9/////f////3//f////3////9/////f////3////9/////f////3///wAA/38AAP9/AAD/fwAA/38AAP9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_3g42y")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kkgjk"]
+resource_name = "iron"
+albedo_color = Color(0.50638646, 0.50638646, 0.54685426, 1)
+metallic_specular = 0.25
+roughness = 0.92
+texture_filter = 5
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_7txp5"]
+height = 2.7
+radius = 0.5144671
+
+[node name="w_ohnisko_miska" type="Node3D" unique_id=1196074135]
+
+[node name="Model" type="Node3D" parent="." unique_id=880471122 instance=ExtResource("1_fmu51")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
+
+[node name="Brazier" type="Node3D" parent="Model" unique_id=756287833]
+
+[node name="Brazier_Bowl" type="MeshInstance3D" parent="Model/Brazier" unique_id=1372807717]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 1.3, 0)
+mesh = SubResource("ArrayMesh_7rnvy")
+surface_material_override/0 = SubResource("StandardMaterial3D_darvx")
+
+[node name="Brazier_Coals" type="MeshInstance3D" parent="Model/Brazier" unique_id=1779628827]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
+mesh = SubResource("ArrayMesh_tnqkn")
+surface_material_override/0 = SubResource("StandardMaterial3D_adlyq")
+
+[node name="Brazier_Flame" type="MeshInstance3D" parent="Model/Brazier" unique_id=796230480]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85, 0)
+mesh = SubResource("ArrayMesh_b8r7h")
+surface_material_override/0 = SubResource("StandardMaterial3D_eloj5")
+
+[node name="Brazier_Flame_001" type="MeshInstance3D" parent="Model/Brazier" unique_id=1579350095]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 1.7, -0.05)
+mesh = SubResource("ArrayMesh_mfah1")
+surface_material_override/0 = SubResource("StandardMaterial3D_oayrp")
+
+[node name="Brazier_Foot" type="MeshInstance3D" parent="Model/Brazier" unique_id=942678292]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+mesh = SubResource("ArrayMesh_4mlqn")
+surface_material_override/0 = SubResource("StandardMaterial3D_v68xq")
+
+[node name="Brazier_Leg" type="MeshInstance3D" parent="Model/Brazier" unique_id=52703535]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28, 0.65, 0)
+mesh = SubResource("ArrayMesh_jkc8t")
+surface_material_override/0 = SubResource("StandardMaterial3D_vbned")
+
+[node name="Brazier_Leg_001" type="MeshInstance3D" parent="Model/Brazier" unique_id=627618171]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1389329, 0.65, -0.24310008)
+mesh = SubResource("ArrayMesh_75tfc")
+surface_material_override/0 = SubResource("StandardMaterial3D_0vgg4")
+
+[node name="Brazier_Leg_002" type="MeshInstance3D" parent="Model/Brazier" unique_id=2105613265]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14212607, 0.65, 0.24124713)
+mesh = SubResource("ArrayMesh_7trey")
+surface_material_override/0 = SubResource("StandardMaterial3D_kkgjk")
+
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=1761727379]
+
+[node name="@CollisionShape3D@33" type="CollisionShape3D" parent="Kolize" unique_id=1368999733]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+shape = SubResource("CylinderShape3D_7txp5")
+
+[node name="Svetlo" type="OmniLight3D" parent="." unique_id=1749530505]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+light_color = Color(1, 0.65, 0.3, 1)
+light_energy = 2.6
+omni_range = 7.0

@@ -50,6 +50,8 @@ func _process(dt: float) -> void:
 	if _cam:
 		_cam.yaw = sin(_t * 0.25) * 1.6
 	for u in party + enemies:
+		if u.hero_anim and u.sprite:
+			_tick_anim(u, dt)
 		if u.sprite and u.alive():
 			u.sprite.position.y = _base_y(u) + sin(_t * 2.2 + u.spd) * 0.025
 	if _cursor and _cursor.visible and _mode == "target" and not _target_list.is_empty():
@@ -58,6 +60,38 @@ func _process(dt: float) -> void:
 
 
 # ---------------------------------------------------------------- svět
+const ANIM_FPS := {"Idle": 6.0, "Swordslash": 12.0, "Castspell": 10.0, "Hurt": 10.0, "Death": 8.0, "Victory": 8.0, "Block": 8.0, "Chargeup": 10.0}
+
+
+func hero_anim(u: BattleUnit, anim: String, loop := true) -> void:
+	if not u.hero_anim or u.sprite == null:
+		return
+	var sh: Dictionary = load("res://hero/hero_sprite.gd").sheet(anim, "W", get_node("/root/Inventory").equip)
+	if sh.is_empty():
+		return
+	u.anim_name = anim
+	u.anim_loop = loop
+	u.anim_t = 0.0
+	u.sprite.texture = sh.tex
+	u.sprite.hframes = sh.frames
+	u.sprite.frame = 0
+
+
+func _tick_anim(u: BattleUnit, dt: float) -> void:
+	u.anim_t += dt * float(ANIM_FPS.get(u.anim_name, 10.0))
+	var n: int = u.sprite.hframes
+	var f := int(u.anim_t)
+	if f >= n:
+		if u.anim_loop:
+			f = f % n
+		elif u.anim_name == "Death":
+			f = n - 1
+		else:
+			hero_anim(u, "Idle")
+			return
+	u.sprite.frame = f
+
+
 func _height(u: BattleUnit) -> float:
 	return (u.texture.get_height() if u.texture else 64.0) / u.ppm
 
@@ -441,6 +475,11 @@ var _flee_done := false
 
 
 func _end(victory: bool) -> void:
+	if victory:
+		for u in party:
+			if u.alive():
+				hero_anim(u, "Victory", true)
+		await get_tree().create_timer(1.6).timeout
 	var bm := get_node_or_null("/root/BattleManager")
 	if bm and bm.active:
 		bm.finish(victory)
@@ -643,6 +682,7 @@ func _roll(a: BattleUnit, d: BattleUnit, power: float) -> int:
 
 func _perform(a: BattleUnit, targets: Array[BattleUnit], power: float, heal: int, text: String) -> void:
 	await _say(text)
+	hero_anim(a, "Swordslash" if (heal == 0 and targets.size() == 1) else "Castspell", false)
 	var home := a.node.position
 	var dir := -1.0 if a.is_hero else 1.0 # hrdina běží doleva, nepřítel doprava
 	var multi := targets.size() > 1
@@ -667,6 +707,8 @@ func _perform(a: BattleUnit, targets: Array[BattleUnit], power: float, heal: int
 			_popup(t, str(dmg) + ("!" if _crit else ""), Color(1, 0.85, 0.3) if _crit else Color(1, 1, 1))
 			_flash(t, Color(2.6, 2.6, 2.6))
 			_shake(t)
+			if t.alive():
+				hero_anim(t, "Hurt", false)
 		_update_row(t)
 		_update_label(t)
 	await get_tree().create_timer(0.4).timeout
@@ -679,6 +721,7 @@ func _perform(a: BattleUnit, targets: Array[BattleUnit], power: float, heal: int
 	for t in targets:
 		if not t.alive():
 			_kill(t)
+	hero_anim(a, "Idle")
 	await get_tree().create_timer(0.25).timeout
 
 
@@ -696,7 +739,9 @@ func _shake(u: BattleUnit) -> void:
 
 
 func _kill(u: BattleUnit) -> void:
-	if u.is_hero:
+	if u.is_hero and u.hero_anim:
+		hero_anim(u, "Death", false)
+	elif u.is_hero:
 		u.sprite.modulate = Color(0.45, 0.45, 0.5)
 		create_tween().tween_property(u.sprite, "rotation_degrees:z", 80.0, 0.3)
 	else:
