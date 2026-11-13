@@ -1,7 +1,7 @@
 extends SceneTree
 # Test boje: godot --path . -s res://tools/battle_test.gd -- vystup_prefix
 var t := 0.0
-var shots := [0.5, 3.0, 5.0, 8.0, 12.0, 20.0]
+var shots := [1.5, 3.0, 5.0, 8.0, 12.0, 17.0, 24.0, 32.0]
 var idx := 0
 var sc: Node
 var prefix := "/tmp/battle"
