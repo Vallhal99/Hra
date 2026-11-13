@@ -21,6 +21,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	layer = 95
 	tol = [26.0, 18.0, 11.0][clampi(level - 1, 0, 2)]
+	tol += float(get_node("/root/Hero").stat("obratnost")) * 0.9
 	sweet = randf_range(-60.0, 60.0)
 	_c = Control.new()
 	_c.set_anchors_preset(Control.PRESET_FULL_RECT)

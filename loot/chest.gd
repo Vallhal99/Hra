@@ -65,6 +65,7 @@ func _on_lock(ok: bool) -> void:
 
 func _show_loot() -> void:
 	opened = true
+	get_node("/root/Quests").event("chest_open")
 	var tw := create_tween()
 	tw.tween_property(self, "scale", scale * 1.08, 0.12)
 	tw.tween_property(self, "scale", scale, 0.12)

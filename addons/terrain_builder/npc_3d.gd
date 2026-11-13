@@ -5,6 +5,7 @@ extends Node3D
 
 @export var speaker := "NPC"
 @export_multiline var lines := "Ahoj, cestovateli!|Hezký den, že?"
+@export var dialogue_id := ""  ## id dialogu z gamedata.json (má přednost před textem výše)
 @export var texture: Texture2D
 @export var hframes := 1
 @export var vframes := 1
@@ -28,6 +29,11 @@ func _ready() -> void:
 
 
 func interact(_who: Node) -> void:
+	if dialogue_id != "":
+		var dr := get_node_or_null("/root/DialogueRunner")
+		if dr:
+			dr.start(dialogue_id, speaker)
+			return
 	var d := get_node_or_null("/root/Dialogue")
 	if d == null:
 		return

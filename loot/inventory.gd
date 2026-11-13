@@ -6,18 +6,9 @@ signal changed
 
 const SLOTS := ["helma", "telo", "rukavice", "kalhoty", "boty", "zbran"]
 const SLOT_NAMES := {"helma": "Helma", "telo": "Brnění", "rukavice": "Rukavice", "kalhoty": "Kalhoty", "boty": "Boty", "zbran": "Zbraň"}
-const ITEMS := {
-	"ozdobny_mec": {"name": "Ozdobný meč", "slot": "zbran", "atk": 9, "def": 0, "hp": 0, "price": 400, "icon": "res://items/ozdobny_mec.png", "desc": "Dlouhý meč s ozdobnou záštitou."},
-	"zelezny_mec": {"name": "Železný meč", "slot": "zbran", "atk": 6, "def": 0, "hp": 0, "price": 120, "icon": "res://items/zelezny_mec.png", "desc": "Obyčejný spolehlivý meč."},
-	"helma": {"name": "Rytířská přilba", "slot": "helma", "atk": 0, "def": 3, "hp": 10, "price": 150, "icon": "res://items/helma.png", "desc": "Uzavřená ocelová přilba."},
-	"telo": {"name": "Plátový krunýř", "slot": "telo", "atk": 0, "def": 8, "hp": 25, "price": 420, "icon": "res://items/telo.png", "desc": "Ocelový hrudní plát s ramenicemi."},
-	"boty": {"name": "Plátové holínky", "slot": "boty", "atk": 0, "def": 3, "hp": 5, "price": 160, "icon": "res://items/boty.png", "desc": "Vysoké ocelové boty."},
-	"kalhoty": {"name": "Kalhoty s chrániči", "slot": "kalhoty", "atk": 0, "def": 4, "hp": 10, "price": 180, "icon": "res://items/kalhoty.png", "desc": "Tuhé kalhoty s chrániči kolen."},
-	"rukavice": {"name": "Ocelové rukavice", "slot": "rukavice", "atk": 1, "def": 3, "hp": 0, "price": 140, "icon": "res://items/rukavice.png", "desc": "Těžké rukavice z oceli."},
-	"paklic": {"name": "Paklíč", "slot": "", "atk": 0, "def": 0, "hp": 0, "price": 15, "icon": "", "desc": "Na páčení zámků."},
-}
+var ITEMS: Dictionary = {}
 
-var bag: Dictionary = {"paklic": 5}
+var bag: Dictionary = {"paklic": 3}
 var equip: Dictionary = {}
 var gold := 25
 var _ui: CanvasLayer
@@ -26,6 +17,7 @@ var _root: Control
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	ITEMS = get_node("/root/GameData").items
 	_ui = CanvasLayer.new()
 	_ui.layer = 80
 	_ui.visible = false
@@ -58,16 +50,6 @@ func toggle_equip(id: String) -> void:
 		return
 	equip[slot] = null if equip.get(slot) == id else id
 	changed.emit()
-
-
-func stats() -> Dictionary:
-	var s := {"atk": 5, "def": 2, "hp": 40}
-	for k in equip:
-		if equip[k] != null:
-			var it: Dictionary = ITEMS[equip[k]]
-			for q in s:
-				s[q] += int(it.get(q, 0))
-	return s
 
 
 func _unhandled_input(ev: InputEvent) -> void:
@@ -107,11 +89,23 @@ func _build() -> void:
 	_ui.add_child(_root)
 	var vb := VBoxContainer.new()
 	_root.add_child(vb)
+	var H := get_node("/root/Hero")
 	var t := Label.new()
-	var st := stats()
-	t.text = "INVENTÁŘ     Zlato: %d     Útok %d · Obrana %d · Život %d     (I / Esc = zavřít)" % [gold, st.atk, st.def, st.hp]
+	t.text = "INVENTÁŘ     Zlato: %d     (I / Esc = zavřít)" % gold
 	t.add_theme_color_override("font_color", Color(1, 0.9, 0.4))
 	vb.add_child(t)
+	if H.class_id != "":
+		var hl := Label.new()
+		hl.text = "%s · úroveň %d · zkušenosti %d/%d · volné body: %d\nŽivot %d · Mana %d · Útok %d · Obrana %d · Rychlost %d" % [H.cls().name, H.level, H.xp, H.xp_next(), H.points, H.max_hp(), H.max_sp(), H.atk(), H.defense(), H.spd()]
+		vb.add_child(hl)
+		var sr := HBoxContainer.new()
+		vb.add_child(sr)
+		for s in GameData.stat_names:
+			var sb2 := Button.new()
+			sb2.text = "%s %d%s" % [GameData.stat_names[s], H.stat(s), "  +" if H.points > 0 else ""]
+			sb2.disabled = H.points <= 0
+			sb2.pressed.connect(func(): H.spend(s); _build())
+			sr.add_child(sb2)
 	var eq := HBoxContainer.new()
 	vb.add_child(eq)
 	for s in SLOTS:

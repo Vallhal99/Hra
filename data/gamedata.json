@@ -1,0 +1,462 @@
+{
+ "format": "dilna-postav-gamedata",
+ "version": 1,
+ "stat_names": {
+  "sila": "Síla",
+  "obratnost": "Obratnost",
+  "vitalita": "Vitalita",
+  "inteligence": "Inteligence",
+  "stesti": "Štěstí"
+ },
+ "derived": {
+  "hp": "20 + vitalita*6 + (level-1)*4",
+  "sp": "5 + inteligence*3",
+  "atk": "sila*2",
+  "def": "vitalita",
+  "spd": "obratnost*1.5",
+  "crit": "stesti*1.5"
+ },
+ "progression": {
+  "max_level": 30,
+  "xp_base": 40,
+  "xp_exp": 1.5,
+  "points_per_level": 3
+ },
+ "item_categories": [
+  "Zbraně/Meče",
+  "Brnění/Helmy",
+  "Brnění/Hruď",
+  "Brnění/Rukavice",
+  "Brnění/Kalhoty",
+  "Brnění/Boty",
+  "Spotřební/Lektvary",
+  "Nástroje"
+ ],
+ "items": [
+  {
+   "id": "zelezny_mec",
+   "name": "Železný meč",
+   "category": "Zbraně/Meče",
+   "slot": "zbran",
+   "atk": 6,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 120,
+   "desc": "Obyčejný spolehlivý meč.",
+   "icon": "items/zelezny_mec.png",
+   "use": {}
+  },
+  {
+   "id": "ozdobny_mec",
+   "name": "Ozdobný meč",
+   "category": "Zbraně/Meče",
+   "slot": "zbran",
+   "atk": 9,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 400,
+   "desc": "Dlouhý meč s ozdobnou záštitou.",
+   "icon": "items/ozdobny_mec.png",
+   "use": {}
+  },
+  {
+   "id": "helma",
+   "name": "Rytířská přilba",
+   "category": "Brnění/Helmy",
+   "slot": "helma",
+   "atk": 0,
+   "def": 3,
+   "hp": 10,
+   "sp": 0,
+   "price": 150,
+   "desc": "Uzavřená ocelová přilba.",
+   "icon": "items/helma.png",
+   "use": {}
+  },
+  {
+   "id": "telo",
+   "name": "Plátový krunýř",
+   "category": "Brnění/Hruď",
+   "slot": "telo",
+   "atk": 0,
+   "def": 8,
+   "hp": 25,
+   "sp": 0,
+   "price": 420,
+   "desc": "Ocelový hrudní plát s ramenicemi.",
+   "icon": "items/telo.png",
+   "use": {}
+  },
+  {
+   "id": "rukavice",
+   "name": "Ocelové rukavice",
+   "category": "Brnění/Rukavice",
+   "slot": "rukavice",
+   "atk": 1,
+   "def": 3,
+   "hp": 0,
+   "sp": 0,
+   "price": 140,
+   "desc": "Těžké rukavice z oceli.",
+   "icon": "items/rukavice.png",
+   "use": {}
+  },
+  {
+   "id": "kalhoty",
+   "name": "Kalhoty s chrániči",
+   "category": "Brnění/Kalhoty",
+   "slot": "kalhoty",
+   "atk": 0,
+   "def": 4,
+   "hp": 10,
+   "sp": 0,
+   "price": 180,
+   "desc": "Tuhé kalhoty s chrániči kolen.",
+   "icon": "items/kalhoty.png",
+   "use": {}
+  },
+  {
+   "id": "boty",
+   "name": "Plátové holínky",
+   "category": "Brnění/Boty",
+   "slot": "boty",
+   "atk": 0,
+   "def": 3,
+   "hp": 5,
+   "sp": 0,
+   "price": 160,
+   "desc": "Vysoké ocelové boty.",
+   "icon": "items/boty.png",
+   "use": {}
+  },
+  {
+   "id": "lektvar",
+   "name": "Léčivý lektvar",
+   "category": "Spotřební/Lektvary",
+   "slot": "",
+   "atk": 0,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 25,
+   "desc": "Obnoví 30 životů.",
+   "icon": "",
+   "use": {
+    "heal": 30
+   }
+  },
+  {
+   "id": "lektvar_many",
+   "name": "Lektvar many",
+   "category": "Spotřební/Lektvary",
+   "slot": "",
+   "atk": 0,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 30,
+   "desc": "Obnoví 15 many.",
+   "icon": "",
+   "use": {
+    "sp": 15
+   }
+  },
+  {
+   "id": "paklic",
+   "name": "Paklíč",
+   "category": "Nástroje",
+   "slot": "",
+   "atk": 0,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 15,
+   "desc": "Na páčení zámků.",
+   "icon": "",
+   "use": {}
+  }
+ ],
+ "classes": [
+  {
+   "id": "valecnik",
+   "name": "Válečník",
+   "desc": "Silný bojovník zblízka. Hodně životů, těžká zbroj.",
+   "stats": {
+    "sila": 8,
+    "obratnost": 4,
+    "vitalita": 8,
+    "inteligence": 2,
+    "stesti": 3
+   },
+   "growth": {
+    "sila": 1,
+    "vitalita": 1
+   },
+   "items": [
+    "zelezny_mec",
+    "lektvar"
+   ],
+   "skills": [
+    "Úder štítem",
+    "Výpad",
+    "Bojový pokřik"
+   ]
+  },
+  {
+   "id": "lucistnik",
+   "name": "Lučištník",
+   "desc": "Přesné útoky z dálky, rychlý a mrštný.",
+   "stats": {
+    "sila": 5,
+    "obratnost": 9,
+    "vitalita": 5,
+    "inteligence": 3,
+    "stesti": 4
+   },
+   "growth": {
+    "obratnost": 1
+   },
+   "items": [
+    "lektvar",
+    "paklic"
+   ],
+   "skills": [
+    "Přesný výstřel",
+    "Salva",
+    "Past"
+   ]
+  },
+  {
+   "id": "mag",
+   "name": "Mág",
+   "desc": "Křehký, ale ničivá kouzla a hodně many.",
+   "stats": {
+    "sila": 2,
+    "obratnost": 4,
+    "vitalita": 3,
+    "inteligence": 10,
+    "stesti": 4
+   },
+   "growth": {
+    "inteligence": 1
+   },
+   "items": [
+    "lektvar_many",
+    "lektvar"
+   ],
+   "skills": [
+    "Ohnivá koule",
+    "Ledová střela",
+    "Štít z many"
+   ]
+  },
+  {
+   "id": "zlodej",
+   "name": "Zloděj",
+   "desc": "Rychlý, kritické údery, mistr paklíčů.",
+   "stats": {
+    "sila": 5,
+    "obratnost": 10,
+    "vitalita": 4,
+    "inteligence": 3,
+    "stesti": 6
+   },
+   "growth": {
+    "obratnost": 1,
+    "stesti": 1
+   },
+   "items": [
+    "paklic",
+    "paklic",
+    "paklic"
+   ],
+   "skills": [
+    "Zadní úder",
+    "Otrávená čepel",
+    "Kapsářství"
+   ]
+  },
+  {
+   "id": "klerik",
+   "name": "Klerik",
+   "desc": "Léčí družinu a posiluje ji.",
+   "stats": {
+    "sila": 4,
+    "obratnost": 3,
+    "vitalita": 6,
+    "inteligence": 7,
+    "stesti": 4
+   },
+   "growth": {
+    "inteligence": 1,
+    "vitalita": 1
+   },
+   "items": [
+    "lektvar",
+    "lektvar"
+   ],
+   "skills": [
+    "Uzdravení",
+    "Požehnání",
+    "Posvátný plamen"
+   ]
+  },
+  {
+   "id": "paladin",
+   "name": "Paladin",
+   "desc": "Svatý rytíř: výdrž a podpůrná kouzla.",
+   "stats": {
+    "sila": 7,
+    "obratnost": 3,
+    "vitalita": 7,
+    "inteligence": 4,
+    "stesti": 3
+   },
+   "growth": {
+    "sila": 1,
+    "vitalita": 1
+   },
+   "items": [
+    "ozdobny_mec"
+   ],
+   "skills": [
+    "Svatý úder",
+    "Ochrana",
+    "Soud"
+   ]
+  }
+ ],
+ "dialogues": [
+  {
+   "id": "obchodnik",
+   "name": "Obchodník – rozhovor",
+   "start": "n1",
+   "nodes": [
+    {
+     "id": "n1",
+     "speaker": "Obchodník",
+     "text": "Vítej, cestovateli! Mám zboží z celé země. Co to bude?",
+     "choices": [
+      {
+       "text": "Chci nakupovat.",
+       "next": "n_shop"
+      },
+      {
+       "text": "Nemáš nějakou práci?",
+       "next": "n_q1",
+       "cond": {
+        "quest_not_started": "kufr"
+       }
+      },
+      {
+       "text": "Truhlu jsem otevřel!",
+       "next": "n_q1done",
+       "cond": {
+        "quest_ready": "kufr"
+       }
+      },
+      {
+       "text": "Nic, jen se dívám.",
+       "next": "n_bye"
+      }
+     ]
+    },
+    {
+     "id": "n_shop",
+     "speaker": "Obchodník",
+     "text": "Jen si vyber.",
+     "effects": [
+      {
+       "shop": "obchodnik"
+      }
+     ],
+     "next": "n1"
+    },
+    {
+     "id": "n_q1",
+     "speaker": "Obchodník",
+     "text": "Někdo mi tu u tábora nechal zamčenou truhlu. Otevři ji a přines, co v ní je. Odměnu nechám být.",
+     "choices": [
+      {
+       "text": "Postarám se o to.",
+       "next": "n_q1ok",
+       "effects": [
+        {
+         "start_quest": "kufr"
+        }
+       ]
+      },
+      {
+       "text": "Teď ne.",
+       "next": "n1"
+      }
+     ]
+    },
+    {
+     "id": "n_q1ok",
+     "speaker": "Obchodník",
+     "text": "Skvěle! Truhla stojí poblíž stanu na paloučku."
+    },
+    {
+     "id": "n_q1done",
+     "speaker": "Obchodník",
+     "text": "Výborně! Tady je tvoje odměna.",
+     "effects": [
+      {
+       "complete_quest": "kufr"
+      }
+     ]
+    },
+    {
+     "id": "n_bye",
+     "speaker": "Obchodník",
+     "text": "Kdybys cokoliv potřeboval, jsem tady."
+    }
+   ]
+  }
+ ],
+ "quests": [
+  {
+   "id": "kufr",
+   "name": "Zamčená truhla",
+   "giver": "Obchodník",
+   "desc": "Otevři zamčenou truhlu u tábora a vrať se za obchodníkem.",
+   "level": 1,
+   "objectives": [
+    {
+     "type": "event",
+     "target": "chest_open",
+     "count": 1,
+     "text": "Otevři truhlu u tábora"
+    }
+   ],
+   "rewards": {
+    "xp": 60,
+    "gold": 50,
+    "items": [
+     [
+      "lektvar",
+      2
+     ]
+    ]
+   }
+  }
+ ],
+ "shops": [
+  {
+   "id": "obchodnik",
+   "name": "Obchodník",
+   "stock": [
+    "lektvar",
+    "lektvar_many",
+    "paklic",
+    "zelezny_mec",
+    "helma"
+   ],
+   "buy_mult": 1.0,
+   "sell_mult": 0.5
+  }
+ ]
+}

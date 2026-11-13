@@ -424,6 +424,14 @@ func _make_map() -> void:
 	pl.position = Vector3(_path_x(28.5), 0.1, 28.5)
 	root.add_child(pl)
 	pl.owner = root
+	var npc := NPC3D.new()
+	npc.name = "Obchodnik"
+	npc.speaker = "Obchodník"
+	npc.dialogue_id = "obchodnik"
+	var nh := tm.height_at(CLEAR.x + 2.4, CLEAR.y + 2.6)
+	npc.position = Vector3(CLEAR.x + 2.4, 0.0 if is_inf(nh) else nh, CLEAR.y + 2.6)
+	root.add_child(npc)
+	npc.owner = root
 	var cam := HD2DCamera.new()
 	cam.name = "Camera"
 	root.add_child(cam)

@@ -35,6 +35,16 @@ func start(p: Array, e: Array) -> void:
 
 
 func finish(victory: bool) -> void:
+	if victory:
+		var xp := 0
+		var gold := 0
+		for u in enemies:
+			xp += 20 + u.atk
+			gold += 8 + u.max_hp / 10
+			get_node("/root/Quests").event("kill")
+			get_node("/root/Quests").event("kill:" + u.unit_name)
+		get_node("/root/Hero").add_xp(xp)
+		get_node("/root/Inventory").add("gold", gold)
 	if not victory:
 		for u in party:
 			u.hp = maxi(u.hp, 1)

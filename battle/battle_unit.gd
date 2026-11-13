@@ -52,7 +52,13 @@ static func make(n: String, hero: bool, hp_: int, sp_: int, atk_: int, def_: int
 
 static func default_party() -> Array[BattleUnit]:
 	var out: Array[BattleUnit] = []
-	out.append(make("Hrdina", true, 120, 30, 26, 9, 12, Color(0.25, 0.45, 0.9), [
+	var H = Engine.get_main_loop().root.get_node_or_null("Hero")
+	if H != null and H.class_id != "":
+		out.append(make(H.cls().name, true, H.max_hp(), H.max_sp(), H.atk() + 6, H.defense() + 3, H.spd() + 4, Color(0.25, 0.45, 0.9), [
+			{"name": "Silný úder", "cost": 8, "power": 1.9},
+			{"name": "Vír ostří", "cost": 14, "power": 1.1, "all": true}]))
+	else:
+		out.append(make("Hrdina", true, 120, 30, 26, 9, 12, Color(0.25, 0.45, 0.9), [
 		{"name": "Silný úder", "cost": 8, "power": 1.9},
 		{"name": "Vír ostří", "cost": 14, "power": 1.1, "all": true}]))
 	out.append(make("Léčitelka", true, 90, 40, 15, 6, 9, Color(0.9, 0.85, 0.95), [
