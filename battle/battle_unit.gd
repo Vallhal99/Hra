@@ -11,6 +11,7 @@ extends Resource
 @export var spd := 10
 @export var texture: Texture2D
 @export var hframes := 1
+@export var ppm := 32.0 ## pixelů na metr (hrdina z Dílny má 133)
 ## Kam se postava na obrázku dívá. Hrdina stojí vpravo a musí se dívat doleva, nepřítel naopak (obrázek se sám překlopí).
 @export var faces_right := true
 @export var color := Color(0.3, 0.5, 0.9) ## barva zástupné figurky, než bude hotová grafika
@@ -57,6 +58,12 @@ static func default_party() -> Array[BattleUnit]:
 		out.append(make(H.cls().name, true, H.max_hp(), H.max_sp(), H.atk() + 6, H.defense() + 3, H.spd() + 4, Color(0.25, 0.45, 0.9), [
 			{"name": "Silný úder", "cost": 8, "power": 1.9},
 			{"name": "Vír ostří", "cost": 14, "power": 1.1, "all": true}]))
+		var hs: Dictionary = load("res://hero/hero_sprite.gd").sheet("Idle", "W", H.get_node("/root/Inventory").equip)
+		if not hs.is_empty():
+			out[0].texture = hs.tex
+			out[0].hframes = hs.frames
+			out[0].ppm = 115.0
+			out[0].faces_right = false
 	else:
 		out.append(make("Hrdina", true, 120, 30, 26, 9, 12, Color(0.25, 0.45, 0.9), [
 		{"name": "Silný úder", "cost": 8, "power": 1.9},

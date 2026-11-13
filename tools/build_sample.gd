@@ -406,6 +406,8 @@ func _make_map() -> void:
 	var ex := SceneExit.new()
 	ex.name = "Vychod_jih"
 	ex.size = Vector3(7, 2.5, 1)
+	ex.target_scene = "res://scenes/rozcesti.tscn"
+	ex.target_spawn = "Ze_severu"
 	ex.position = Vector3(_path_x(37.5), 0, 37.5)
 	marks.add_child(ex)
 	ex.owner = root

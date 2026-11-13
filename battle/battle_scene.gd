@@ -59,7 +59,7 @@ func _process(dt: float) -> void:
 
 # ---------------------------------------------------------------- svět
 func _height(u: BattleUnit) -> float:
-	return (u.texture.get_height() if u.texture else 64.0) / 32.0
+	return (u.texture.get_height() if u.texture else 64.0) / u.ppm
 
 
 func _base_y(u: BattleUnit) -> float:
@@ -153,6 +153,10 @@ func _place(list: Array[BattleUnit], base_x: float, dir: float) -> void:
 		root.position = Vector3(base_x + dir * -0.0 + (i % 2) * 0.9 * (1.0 if u.is_hero else -1.0), 0, z)
 		var tex := u.texture if u.texture else HD2DSprite.placeholder(u.color)
 		var sp := HD2DSprite.make(tex, u.hframes)
+		sp.pixel_size = 1.0 / u.ppm
+		sp.position.y = tex.get_height() * 0.5 / u.ppm
+		if u.ppm > 100.0:
+			sp.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 		sp.flip_h = (u.is_hero == u.faces_right)
 		sp.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 		root.add_child(sp)

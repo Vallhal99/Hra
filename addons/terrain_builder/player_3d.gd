@@ -15,6 +15,9 @@ extends CharacterBody3D
 @export var gravity := 20.0
 
 var sprite: Sprite3D
+var hero: Node3D  # HeroSprite3D
+var _dir8 := "S"
+var _lock_anim := false
 var _t := 0.0
 var _row := 0
 
@@ -29,8 +32,12 @@ func _ready() -> void:
 	cs.shape = cap
 	cs.position.y = 0.45
 	add_child(cs)
-	sprite = HD2DSprite.make(sprite_texture if sprite_texture else HD2DSprite.placeholder(Color(0.8, 0.3, 0.2)), hframes, vframes)
-	add_child(sprite)
+	if sprite_texture == null and ResourceLoader.exists("res://hero/hero_sprite.gd") and not Engine.is_editor_hint():
+		hero = load("res://hero/hero_sprite.gd").new()
+		add_child(hero)
+	else:
+		sprite = HD2DSprite.make(sprite_texture if sprite_texture else HD2DSprite.placeholder(Color(0.8, 0.3, 0.2)), hframes, vframes)
+		add_child(sprite)
 	add_child(HD2DSprite.blob_shadow())
 
 
@@ -92,7 +99,47 @@ func _physics_process(delta: float) -> void:
 	_animate(dir, delta)
 
 
+func _hero_dir(d: Vector2) -> String:
+	if d == Vector2.ZERO:
+		return _dir8
+	var a := rad_to_deg(atan2(d.x, d.y))  # 0 = dolů (S), 90 = vpravo (E)
+	var names := ["S", "SE", "E", "NE", "N", "NW", "W", "SW"]
+	var i := int(round(wrapf(a, 0.0, 360.0) / 45.0)) % 8
+	return names[i]
+
+
+func _animate_hero(dir: Vector2) -> void:
+	if _lock_anim:
+		return
+	_dir8 = _hero_dir(dir)
+	if dir == Vector2.ZERO:
+		var d4: String = _dir8
+		if d4.length() == 2:
+			d4 = d4.substr(1, 1)
+		hero.call("play", "Idle", d4)
+	elif _k(KEY_SHIFT):
+		var d4: String = _dir8
+		if d4.length() == 2:
+			d4 = d4.substr(1, 1)
+		hero.call("play", "Run", d4)
+	else:
+		hero.call("play", "Walk", _dir8)
+
+
+## Zahraje animaci (např. útok) a po dokončení se vrátí k chůzi.
+func play_once(a: String, d := "W") -> void:
+	if hero == null:
+		return
+	_lock_anim = true
+	hero.call("play", a, d, false, true)
+	await hero.finished
+	_lock_anim = false
+
+
 func _animate(dir: Vector2, delta: float) -> void:
+	if hero != null:
+		_animate_hero(dir)
+		return
 	var rows := vframes >= 4
 	if dir != Vector2.ZERO:
 		if rows:
