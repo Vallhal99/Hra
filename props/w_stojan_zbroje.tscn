@@ -421,7 +421,7 @@ texture_filter = 5
 height = 2.982
 radius = 0.40320003
 
-[node name="w_stojan_zbroje" type="Node3D" unique_id=1918431458]
+[node name="w_stojan_zbroje" type="Node3D" unique_id=2103173735]
 
 [node name="Model" type="Node3D" parent="." unique_id=1844964925 instance=ExtResource("1_mh6pm")]
 transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
@@ -478,8 +478,8 @@ transform = Transform3D(0.28, 0, 0, 0, 0.05, 0, 0, 0, 0.04, 0, 2.05, 0.22)
 mesh = SubResource("ArrayMesh_a6177")
 surface_material_override/0 = SubResource("StandardMaterial3D_jh51x")
 
-[node name="Kolize" type="StaticBody3D" parent="." unique_id=999124942]
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=969663592]
 
-[node name="@CollisionShape3D@48" type="CollisionShape3D" parent="Kolize" unique_id=159273891]
+[node name="@CollisionShape3D@48" type="CollisionShape3D" parent="Kolize" unique_id=2138219085]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.491, 0)
 shape = SubResource("CylinderShape3D_uc144")

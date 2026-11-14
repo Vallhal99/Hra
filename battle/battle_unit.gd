@@ -25,6 +25,7 @@ var weak_known: Array = []
 var broken := false
 var broken_turns := 0
 var bp := 1
+var row := 0 ## 0 = přední řada, 1 = zadní
 @export var ppm := 32.0 ## pixelů na metr (hrdina z Dílny má 133)
 ## Kam se postava na obrázku dívá. Hrdina stojí vpravo a musí se dívat doleva, nepřítel naopak (obrázek se sám překlopí).
 @export var faces_right := true

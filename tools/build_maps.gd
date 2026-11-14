@@ -721,8 +721,6 @@ func _vesnice() -> void:
 	_inst("w_stojan_zbroje", Vector2(18.2, 34.8), 200.0, 1.0)
 	_inst("w_ohnisko_miska", Vector2(7.2, 35.8), 0.0, 1.0)
 	_inst("w_kotlik", Vector2(18.8, 31.8), 120.0, 1.0)
-	_inst("w_bedna_velka", Vector2(6.8, 31.0), 30.0, 1.0)
-	_inst("w_pytle", Vector2(20.2, 33.2), 80.0, 1.0)
 	# trh u náměstí
 	_inst("w_trh", Vector2(40.0, 41.0), 180.0, 1.0)
 	_inst("w_bedna_mala", Vector2(35.2, 42.8), 20.0, 1.0)
@@ -761,7 +759,7 @@ func _vesnice() -> void:
 		_inst("lp_barel", p, rng.randf_range(0, 360), rng.randf_range(0.9, 1.1))
 	_inst("lp_truhla", Vector2(47.0, 41.0), 200.0)
 	_inst("lp_truhla", Vector2(19.5, 14.0), 160.0)
-	_rocks(26, [1, 4], [Rect2(0, 0, 0, 0)])
+	_rocks(26, [1, 4], [Rect2(3.0, 25.0, 20.0, 14.0)])
 	_edge_trees(110, 2.3)
 	# značky a východ
 	_mark("Ze_zapadu", Vector3(3.5, 0, 39.0))

@@ -226,8 +226,9 @@ func _place(list: Array[BattleUnit], base_x: float, dir: float) -> void:
 		var u := list[i]
 		var root := Node3D.new()
 		var side := 1.0 if u.is_hero else -1.0
-		var z := 0.9 if i % 2 == 0 else -1.0
-		root.position = Vector3(base_x + side * i * 1.9, 0, z)
+		u.row = i % 2
+		var z := 0.9 if (i / 2 + u.row) % 2 == 0 else -1.0
+		root.position = Vector3(base_x + side * u.row * 2.0 + side * (i / 2) * 1.1, 0, z)
 		var tex := u.texture if u.texture else HD2DSprite.placeholder(u.color)
 		var sp := HD2DSprite.make(tex, u.hframes)
 		sp.pixel_size = 1.0 / u.ppm
@@ -335,6 +336,10 @@ func _wait_accept() -> void:
 
 
 func _unhandled_input(ev: InputEvent) -> void:
+	if _timing_open and ev.is_action_pressed("ui_accept"):
+		_timing_pressed = true
+		get_viewport().set_input_as_handled()
+		return
 	if _mode == "accept" and ev.is_action_pressed("ui_accept"):
 		_target_chosen.emit(null)
 		return
@@ -365,9 +370,34 @@ func _enemy_turn(u: BattleUnit) -> void:
 		await _say("%s je omráčen" % u.unit_name, 0.9)
 		_say("")
 		return
+	targets = _reach(targets)
 	var t: BattleUnit = targets[randi() % targets.size()]
 	await get_tree().create_timer(0.25).timeout
 	await _perform(u, [t], 1.0, 0, "", "", false)
+
+
+## Zbraň na blízko dosáhne jen na přední řadu, dokud v ní někdo stojí.
+func _reach(list: Array[BattleUnit]) -> Array[BattleUnit]:
+	var front: Array[BattleUnit] = []
+	for u in list:
+		if u.row == 0:
+			front.append(u)
+	return front if not front.is_empty() else list
+
+
+var _timing_open := false
+var _timing_pressed := false
+
+
+## Okno „sweet spot“: stisk Enter/mezerníku v pravý čas dá bonus (hrdina) nebo blok (nepřítel).
+func _timing(who: BattleUnit, cue: String) -> bool:
+	_timing_pressed = false
+	await get_tree().create_timer(0.07).timeout
+	_timing_open = true
+	_popup(who, cue, Color(1.0, 0.95, 0.4))
+	await get_tree().create_timer(0.26).timeout
+	_timing_open = false
+	return _timing_pressed
 
 
 func _alive(list: Array[BattleUnit]) -> Array[BattleUnit]:
@@ -409,6 +439,7 @@ func _pick_target(list: Array[BattleUnit]) -> BattleUnit:
 # ---------------------------------------------------------------- akce a animace
 func _roll(a: BattleUnit, d: BattleUnit, power: float) -> int:
 	var base := a.atk * power - d.defense * 0.5
+	base *= 1.25 if d.row == 0 else 0.8  ## přední řada schytá víc, zadní je křehká, ale kryta
 	if d.defending:
 		base *= 0.5
 	_crit = randf() < 0.08
@@ -522,10 +553,10 @@ func _hero_turn(u: BattleUnit) -> void:
 	_show_order(_turn_order(), u)
 	while true:
 		ui.say("")
-		var cmd := await _menu(["Útok", "Dovednost", "Obrana", "Útěk"], ["attack", "skill", "defend", "flee"],
-			["Útok zbraní na jednoho.", "Použije dovednost (SP).", "Menší poškození, +1 BP.", "Pokus o útěk."], true, u.bp)
+		var cmd := await _menu(["Útok", "Dovednost", "Obrana", "Řada", "Útěk"], ["attack", "skill", "defend", "row", "flee"],
+			["Útok na blízko dosáhne jen na přední řadu. Enter v pravý čas = bonus.", "Použije dovednost (SP).", "Menší poškození, +1 BP.", "Přesun vpřed/vzad: vpředu víc dmg, vzadu méně. +1 BP.", "Pokus o útěk."], true, u.bp)
 		if cmd == "attack":
-			var t := await _pick_target(_alive(enemies))
+			var t := await _pick_target(_reach(_alive(enemies)))
 			if t == null:
 				continue
 			await _perform(u, [t], 1.0, 0, "", _attack_kind(u), false)
@@ -568,6 +599,14 @@ func _hero_turn(u: BattleUnit) -> void:
 			u.defending = true
 			u.bp = mini(u.bp + 1, 5)
 			await _say("%s se brání" % u.unit_name, 0.7)
+			break
+		elif cmd == "row":
+			u.row = 1 - u.row
+			u.bp = mini(u.bp + 1, 5)
+			var tw := create_tween()
+			tw.tween_property(u.node, "position:x", u.node.position.x + (2.0 if u.row == 1 else -2.0), 0.3)
+			await tw.finished
+			await _say("%s: %s řada" % [u.unit_name, "zadní" if u.row == 1 else "přední"], 0.7)
 			break
 		elif cmd == "flee":
 			if randf() < 0.7:
@@ -630,7 +669,17 @@ func _perform(a: BattleUnit, targets: Array[BattleUnit], power: float, heal: int
 		await tw2.finished
 	for h in hits:
 		hero_anim(a, swing if (melee and not (is_skill and heal > 0)) else "Castspell", false)
-		await get_tree().create_timer(0.18).timeout
+		var tmult := 1.0
+		if melee and not is_skill and not autoplay:
+			if a.is_hero:
+				if await _timing(a, "!"):
+					tmult = 1.35
+					_popup(a, "PERFEKTNĚ!", Color(1.0, 0.8, 0.2))
+			elif targets[0].is_hero:
+				if await _timing(targets[0], "BLOK!"):
+					tmult = 0.4
+		else:
+			await get_tree().create_timer(0.18).timeout
 		for t in targets:
 			if not t.alive():
 				continue
@@ -641,7 +690,7 @@ func _perform(a: BattleUnit, targets: Array[BattleUnit], power: float, heal: int
 				_flash(t, Color(0.6, 1.4, 0.8))
 			else:
 				var mult := 1.5 if t.broken else 1.0
-				var dmg := int(round(_roll(a, t, power) * mult))
+				var dmg := int(round(_roll(a, t, power) * mult * tmult))
 				t.hp = maxi(t.hp - dmg, 0)
 				_popup(t, str(dmg) + ("!" if _crit else ""), Color(1, 0.85, 0.3) if (_crit or t.broken) else Color(1, 1, 1))
 				_flash(t, Color(2.6, 2.6, 2.6))

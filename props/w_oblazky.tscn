@@ -877,7 +877,7 @@ metallic_specular = 0.25
 roughness = 0.92
 texture_filter = 5
 
-[node name="w_oblazky" type="Node3D" unique_id=1487350130]
+[node name="w_oblazky" type="Node3D" unique_id=712294952]
 
 [node name="Model" type="Node3D" parent="." unique_id=1058408413 instance=ExtResource("1_vt4sc")]
 
