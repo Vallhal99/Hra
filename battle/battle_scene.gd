@@ -45,8 +45,12 @@ func _process(dt: float) -> void:
 	if _cam:
 		_cam.yaw = sin(_t * 0.25) * 1.6
 	for u in party + enemies:
-		if u.hero_anim and u.sprite:
+		if (u.hero_anim or not u.anims.is_empty()) and u.sprite:
 			_tick_anim(u, dt)
+		elif u.proc and u.sprite and u.alive():
+			u.anim_t += dt
+			var k := sin(u.anim_t * 2.4 + u.phase)
+			u.sprite.scale = Vector3(1.0 - 0.012 * k, 1.0 + 0.026 * k, 1.0)
 		if u.sprite and u.alive():
 			u.sprite.position.y = _base_y(u) + sin(_t * 2.2 + u.spd) * 0.025
 	if _cursor and _cursor.visible and _mode == "target" and not _target_list.is_empty():
@@ -58,8 +62,26 @@ func _process(dt: float) -> void:
 const ANIM_FPS := {"Idle": 6.0, "Swordslash": 12.0, "Castspell": 10.0, "Hurt": 10.0, "Death": 8.0, "Victory": 8.0, "Block": 8.0, "Chargeup": 10.0}
 
 
+const ANIM_MAP := {"Swordslash": "Attack", "Attackcombo3hit": "Attack", "Castspell": "Attack", "Hurt": "Hurt", "Death": "Death", "Idle": "Idle", "Victory": "Idle"}
+
+
 func hero_anim(u: BattleUnit, anim: String, loop := true) -> void:
-	if not u.hero_anim or u.sprite == null:
+	if u.sprite == null:
+		return
+	if not u.anims.is_empty():
+		var nm: String = ANIM_MAP.get(anim, "Idle")
+		if not u.anims.has(nm):
+			return
+		var d: Dictionary = u.anims[nm]
+		u.anim_name = nm
+		u.anim_loop = loop
+		u.anim_t = 0.0
+		u.sprite.texture = d["tex"]
+		u.sprite.hframes = d["frames"]
+		u.sprite.frame = 0
+		u.sprite.position.y = (d["tex"] as Texture2D).get_height() * 0.5 / u.ppm
+		return
+	if not u.hero_anim:
 		return
 	var sh: Dictionary = load("res://hero/hero_sprite.gd").sheet(anim, "W", get_node("/root/Inventory").equip)
 	if sh.is_empty():
@@ -70,10 +92,12 @@ func hero_anim(u: BattleUnit, anim: String, loop := true) -> void:
 	u.sprite.texture = sh.tex
 	u.sprite.hframes = sh.frames
 	u.sprite.frame = 0
+	u.sprite.position.y = (sh.tex as Texture2D).get_height() * 0.5 / u.ppm
 
 
 func _tick_anim(u: BattleUnit, dt: float) -> void:
-	u.anim_t += dt * float(ANIM_FPS.get(u.anim_name, 10.0))
+	var fps := float(u.anims[u.anim_name]["fps"]) if u.anims.has(u.anim_name) else float(ANIM_FPS.get(u.anim_name, 10.0))
+	u.anim_t += dt * fps
 	var n: int = u.sprite.hframes
 	var f := int(u.anim_t)
 	if f >= n:
@@ -215,6 +239,7 @@ func _place(list: Array[BattleUnit], base_x: float, dir: float) -> void:
 		root.add_child(sp)
 		root.add_child(HD2DSprite.blob_shadow())
 		u.node = root
+		u.phase = float(i) * 1.7
 		u.sprite = sp
 		add_child(root)
 
@@ -414,6 +439,9 @@ func _kill(u: BattleUnit) -> void:
 	else:
 		if u.label:
 			u.label.visible = false
+		if not u.anims.is_empty():
+			hero_anim(u, "Death", false)
+			await get_tree().create_timer(0.35).timeout
 		var tw := create_tween()
 		tw.tween_property(u.sprite, "modulate", Color(3, 3, 3, 0), 0.45)
 

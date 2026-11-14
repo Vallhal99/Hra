@@ -19,6 +19,8 @@ var bx1 := 0
 var bz0 := 0
 var bz1 := 0
 var lights_energy := 1.3
+var indoor := false
+var sun_energy := 0.95
 
 
 func _initialize() -> void:
@@ -38,6 +40,7 @@ func _run() -> void:
 	_rozcesti()
 	_reka()
 	_vesnice()
+	_obchod()
 	print("HOTOVO")
 	quit()
 
@@ -91,6 +94,23 @@ func _exit(nm: String, pos: Vector3, size: Vector3, scene: String, spawn: String
 	ex.target_spawn = spawn
 	marks.add_child(ex)
 	ex.owner = scn
+
+
+func _aabb_of(n: Node, t: Transform3D, first := false) -> AABB:
+	var tt := t
+	if n is Node3D and not first:
+		tt = t * (n as Node3D).transform
+	var res := AABB()
+	var have := false
+	if n is MeshInstance3D:
+		res = tt * (n as MeshInstance3D).get_aabb()
+		have = true
+	for c in n.get_children():
+		var a := _aabb_of(c, tt)
+		if a.size != Vector3.ZERO:
+			res = a if not have else res.merge(a)
+			have = true
+	return res
 
 
 func _h(x: float, z: float) -> float:
@@ -402,12 +422,12 @@ func _finish(path: String, spawn: Vector3, speaker_npcs: Array = []) -> void:
 	tm.add_child(veg)
 	veg.owner = scn
 	veg.types = vtypes
-	veg.data = _scatter()
+	veg.data = PackedFloat32Array() if indoor else _scatter()
 	var sun := DirectionalLight3D.new()
 	sun.name = "Slunce"
 	sun.rotation_degrees = SUN
 	sun.light_color = Color(1.0, 0.93, 0.8)
-	sun.light_energy = 0.95
+	sun.light_energy = sun_energy
 	sun.shadow_enabled = true
 	sun.directional_shadow_max_distance = 70.0
 	scn.add_child(sun)
@@ -417,6 +437,10 @@ func _finish(path: String, spawn: Vector3, speaker_npcs: Array = []) -> void:
 		npc.name = d[0]
 		npc.speaker = d[1]
 		npc.lines = d[2]
+		if d.size() > 4:
+			npc.dialogue_id = d[4].get("dialogue", "")
+			npc.texture = load(d[4]["tex"])
+			npc.ppm = d[4].get("ppm", 32.0)
 		npc.position = Vector3(d[3].x, _h(d[3].x, d[3].y), d[3].y)
 		scn.add_child(npc)
 		npc.owner = scn
@@ -679,8 +703,15 @@ func _vesnice() -> void:
 	# domy
 	var hs := [["lp_domek", Vector2(13.0, 12.0), 0.0, 1.7], ["lp_obchod_2", Vector2(44.0, 12.5), 0.0, 1.7], ["lp_obchod_1", Vector2(53.0, 38.0), -90.0, 2.0]]
 	for h in hs:
-		_inst(h[0], h[1], h[2], h[3])
+		var hn := _inst(h[0], h[1], h[2], h[3])
 		noveg.append(Rect2(h[1].x - 7.0, h[1].y - 7.0, 14.0, 14.0))
+		if h[0] == "lp_obchod_2":
+			var bb := _aabb_of(hn, hn.transform, true)
+			var dx := bb.get_center().x
+			var fz := bb.end.z
+			_exit("Vchod_obchod", Vector3(dx, _h(dx, fz + 0.6), fz + 0.7), Vector3(2.6, 2.5, 1.4), "res://scenes/obchod.tscn", "Vchod")
+			_mark("Z_obchodu", Vector3(dx, _h(dx, fz + 2.4), fz + 2.4))
+			_label(hn.get_parent(), "OBCHOD", Vector3(dx, _h(dx, fz) + 3.0, fz + 0.2), 0.0, 44)
 	noveg.append(Rect2(plaza.x - 4.5, plaza.y - 4.5, 9, 9))
 	noveg.append(Rect2(stair_x0 - 1, 21.0, 6, 6))
 	_inst("w_studna", plaza, 0.0, 1.0)
@@ -739,5 +770,76 @@ func _vesnice() -> void:
 	var npcs := [
 		["Vesnican1", "Vesničan", "Vítej ve vesnici!|Nahoře na kopci bydlí truhlář a kovář.|Pozor na vlky v lese.", Vector2(30.5, 36.0)],
 		["Vesnican2", "Stará Anna", "Kašna je tu starší než celá vesnice.|Voda z ní nikdy nevyschla.", Vector2(35.5, 31.5)],
+		["Kovar", "Kovář", "Hmpf.", Vector2(12.2, 34.8), {"dialogue": "kovar", "tex": "res://npc/kovar.png", "ppm": 112.0}],
 		["Strazny", "Strážný", "Kdo chce na kopec, musí po schodech.|Dávej na sebe pozor, cizinče.", Vector2(25.5, 28.0)]]
 	_finish("res://scenes/vesnice.tscn", Vector3(3.5, 0, 39.0), npcs)
+
+
+# ======================= OBCHOD (interiér) =======================
+func _obchod() -> void:
+	_begin("Obchod", 0, 16, 2, 12, 31)
+	indoor = true
+	sun_energy = 0.5
+	for x in range(0, 16):
+		for z in range(2, 12):
+			tm.cells[Vector2i(x, z)] = Vector2i(0, 6 if (x + z) % 2 == 0 else 2)
+			kind[Vector2i(x, z)] = 2
+	var wood := _wood()
+	var wall := StandardMaterial3D.new()
+	wall.albedo_color = Color(0.62, 0.46, 0.3)
+	wall.roughness = 0.95
+	var dark := StandardMaterial3D.new()
+	dark.albedo_color = Color(0.35, 0.22, 0.12)
+	var parent := props
+	_box(parent, Vector3(8, 1.9, 1.75), Vector3(16.6, 3.8, 0.5), wall, 0.0, true)
+	_box(parent, Vector3(-0.25, 1.9, 7.0), Vector3(0.5, 3.8, 10.4), wall, 0.0, true)
+	_box(parent, Vector3(16.25, 1.9, 7.0), Vector3(0.5, 3.8, 10.4), wall, 0.0, true)
+	# trám a okno na zadní stěně
+	_box(parent, Vector3(8, 3.6, 1.95), Vector3(16.6, 0.3, 0.3), dark)
+	var glass := StandardMaterial3D.new()
+	glass.albedo_color = Color(0.7, 0.85, 1.0)
+	glass.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	_box(parent, Vector3(13.2, 2.1, 1.98), Vector3(1.6, 1.3, 0.1), glass)
+	_box(parent, Vector3(13.2, 2.1, 1.93), Vector3(1.8, 1.5, 0.08), dark)
+	# pult
+	_box(parent, Vector3(8, 0.55, 5.6), Vector3(6.0, 1.1, 1.3), dark, 0.0, true)
+	_box(parent, Vector3(8, 1.12, 5.6), Vector3(6.3, 0.1, 1.5), wood)
+	for i in 5:
+		var gx := 6.2 + i * 0.9
+		var col := StandardMaterial3D.new()
+		col.albedo_color = [Color(0.8, 0.2, 0.25), Color(0.25, 0.5, 0.85), Color(0.3, 0.75, 0.35), Color(0.9, 0.75, 0.2), Color(0.7, 0.3, 0.8)][i]
+		_cyl(parent, Vector3(gx, 1.35, 5.45), 0.12, 0.38, col, false)
+	# police se zbozim
+	for sx: float in [3.0, 8.0, 13.2]:
+		for lv in 3:
+			_box(parent, Vector3(sx if sx != 13.2 else 10.8, 0.9 + lv * 0.9, 2.2), Vector3(3.2, 0.1, 0.6), wood)
+		for lv in 3:
+			for k in 4:
+				var c2 := StandardMaterial3D.new()
+				c2.albedo_color = Color.from_hsv(rng.randf(), 0.55, 0.85)
+				var px: float = (sx if sx != 13.2 else 10.8) - 1.2 + k * 0.8
+				_box(parent, Vector3(px, 1.15 + lv * 0.9, 2.25), Vector3(0.35, 0.4, 0.3), c2)
+	_inst("w_sud", Vector2(1.6, 4.2), 0.0, 1.0)
+	_inst("w_sud", Vector2(2.4, 3.5), 40.0, 1.0)
+	_inst("w_bedna_velka", Vector2(14.3, 4.0), 20.0, 1.0)
+	_inst("w_pytle", Vector2(14.6, 5.6), 60.0, 1.0)
+	_inst("w_stojan_zbroje", Vector2(2.2, 8.4), 150.0, 1.0)
+	_inst("w_truhla", Vector2(14.2, 9.0), 200.0, 1.0)
+	_inst("w_sud", Vector2(1.7, 10.2), 0.0, 1.0)
+	# koberec
+	var rug := StandardMaterial3D.new()
+	rug.albedo_color = Color(0.6, 0.15, 0.18)
+	_box(parent, Vector3(8, 0.03, 8.4), Vector3(4.0, 0.05, 3.0), rug)
+	for lp in [Vector2(4.0, 3.6), Vector2(12.0, 3.6), Vector2(8.0, 8.8)]:
+		var lt := OmniLight3D.new()
+		lt.position = Vector3(lp.x, 2.6, lp.y)
+		lt.light_color = Color(1.0, 0.76, 0.45)
+		lt.light_energy = 1.4
+		lt.omni_range = 9.0
+		parent.add_child(lt)
+		lt.owner = scn
+	_label(parent, "OBCHOD", Vector3(8, 3.1, 2.05), 0.0, 52)
+	_mark("Vchod", Vector3(8.0, 0.0, 10.0))
+	_exit("Vychod_obchod", Vector3(8.0, 0.0, 11.75), Vector3(5.0, 2.5, 1.0), "res://scenes/vesnice.tscn", "Z_obchodu")
+	var npcs := [["Prodavacka", "Prodavačka", "Dobrý den!", Vector2(8.0, 4.4), {"dialogue": "prodavacka", "tex": "res://npc/prodavacka.png", "ppm": 125.0}]]
+	_finish("res://scenes/obchod.tscn", Vector3(8.0, 0.0, 10.0), npcs)

@@ -415,6 +415,82 @@
      "text": "Kdybys cokoliv potřeboval, jsem tady."
     }
    ]
+  },
+  {
+   "id": "prodavacka",
+   "name": "Prodavačka – rozhovor",
+   "start": "p1",
+   "nodes": [
+    {
+     "id": "p1",
+     "speaker": "Prodavačka",
+     "text": "Dobrý den! Vítejte v našem obchodě. Co to bude dnes?",
+     "choices": [
+      {
+       "text": "Rád bych nakupoval.",
+       "next": "p_shop"
+      },
+      {
+       "text": "Jen se rozhlížím.",
+       "next": "p_bye"
+      }
+     ]
+    },
+    {
+     "id": "p_shop",
+     "speaker": "Prodavačka",
+     "text": "Račte si vybrat.",
+     "effects": [
+      {
+       "shop": "prodavacka"
+      }
+     ],
+     "next": "p1"
+    },
+    {
+     "id": "p_bye",
+     "speaker": "Prodavačka",
+     "text": "Kdyby cokoliv, jsem tady u pultu."
+    }
+   ]
+  },
+  {
+   "id": "kovar",
+   "name": "Kovář – rozhovor",
+   "start": "k1",
+   "nodes": [
+    {
+     "id": "k1",
+     "speaker": "Kovář",
+     "text": "Hmpf. Potřebuješ pořádnou ocel, nebo jen okukuješ moje kovadlinu?",
+     "choices": [
+      {
+       "text": "Ukaž mi zbraně a zbroj.",
+       "next": "k_shop"
+      },
+      {
+       "text": "Jen jdu okolo.",
+       "next": "k_bye"
+      }
+     ]
+    },
+    {
+     "id": "k_shop",
+     "speaker": "Kovář",
+     "text": "Tohle je poctivá práce. Vyber si.",
+     "effects": [
+      {
+       "shop": "kovar"
+      }
+     ],
+     "next": "k1"
+    },
+    {
+     "id": "k_bye",
+     "speaker": "Kovář",
+     "text": "Tak ať ti meč slouží."
+    }
+   ]
   }
  ],
  "quests": [
@@ -457,6 +533,37 @@
    ],
    "buy_mult": 1.0,
    "sell_mult": 0.5
+  },
+  {
+   "id": "prodavacka",
+   "name": "Prodavačka",
+   "stock": [
+    "lektvar",
+    "lektvar_many",
+    "paklic",
+    "helma",
+    "telo",
+    "rukavice",
+    "kalhoty",
+    "boty"
+   ],
+   "buy_mult": 1.0,
+   "sell_mult": 0.5
+  },
+  {
+   "id": "kovar",
+   "name": "Kovář",
+   "stock": [
+    "zelezny_mec",
+    "ozdobny_mec",
+    "helma",
+    "telo",
+    "rukavice",
+    "kalhoty",
+    "boty"
+   ],
+   "buy_mult": 1.1,
+   "sell_mult": 0.6
   }
  ]
 }

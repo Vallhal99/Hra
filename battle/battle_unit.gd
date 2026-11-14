@@ -15,6 +15,9 @@ extends Resource
 var anim_name := "Idle"
 var anim_loop := true
 var anim_t := 0.0
+var anims := {}   ## animace nepratel: jmeno -> {tex, frames, fps}
+var proc := false ## jednosnimkovy nepritel: proceduralni dychani
+var phase := 0.0
 var shield := 0
 var shield_max := 0
 var weak: Array = []       ## slabiny (sword, spear, dagger, axe, bow, staff, fire, ice, lightning, wind, light, dark)
@@ -93,9 +96,9 @@ static func default_party() -> Array[BattleUnit]:
 
 static func default_enemies() -> Array[BattleUnit]:
 	var out: Array[BattleUnit] = []
-	out.append(_foe("Slizák", 70, 16, 4, 8, Color(0.3, 0.8, 0.35), 3, ["fire", "sword", "wind"]))
-	out.append(_foe("Vlk", 85, 20, 6, 14, Color(0.55, 0.5, 0.5), 4, ["axe", "lightning", "bow", "light"]))
-	out.append(_foe("Slizák", 70, 16, 4, 7, Color(0.3, 0.8, 0.35), 3, ["ice", "staff", "dagger"]))
+	out.append(_slime(3, ["fire", "sword", "wind"]))
+	out.append(_skeleton(4, ["light", "axe", "fire", "staff"]))
+	out.append(_bandit(3, ["ice", "bow", "dagger"]))
 	return out
 
 
@@ -104,4 +107,32 @@ static func _foe(n: String, hp_: int, atk_: int, def_: int, spd_: int, col: Colo
 	u.shield_max = sh
 	u.weak = weak_
 	u.reset()
+	return u
+
+
+static func _slime(sh: int, weak_: Array) -> BattleUnit:
+	var u := _foe("Slizák", 70, 16, 4, 8, Color(0.3, 0.8, 0.35), sh, weak_)
+	var fps := {"Idle": 6.0, "Attack": 12.0, "Hurt": 9.0, "Death": 7.0}
+	for k in fps:
+		var t := load("res://enemies/slime_%s.png" % k) as Texture2D
+		u.anims[k] = {"tex": t, "frames": int(round(t.get_width() / 130.0)), "fps": fps[k]}
+	u.texture = u.anims["Idle"]["tex"]
+	u.hframes = u.anims["Idle"]["frames"]
+	u.ppm = 58.0
+	return u
+
+
+static func _skeleton(sh: int, weak_: Array) -> BattleUnit:
+	var u := _foe("Kostlivec", 85, 20, 6, 10, Color(0.85, 0.85, 0.8), sh, weak_)
+	u.texture = load("res://enemies/kostlivec.png")
+	u.ppm = 105.0
+	u.proc = true
+	return u
+
+
+static func _bandit(sh: int, weak_: Array) -> BattleUnit:
+	var u := _foe("Zbojník", 75, 22, 5, 14, Color(0.5, 0.2, 0.25), sh, weak_)
+	u.texture = load("res://enemies/zbojnik.png")
+	u.ppm = 105.0
+	u.proc = true
 	return u

@@ -9,10 +9,16 @@ extends Node3D
 @export var texture: Texture2D
 @export var hframes := 1
 @export var vframes := 1
+@export var ppm := 32.0 ## pixelu na metr sprite
 
 
 func _ready() -> void:
-	add_child(HD2DSprite.make(texture if texture else HD2DSprite.placeholder(Color(0.3, 0.5, 0.8)), hframes, vframes))
+	var spr := HD2DSprite.make(texture if texture else HD2DSprite.placeholder(Color(0.3, 0.5, 0.8)), hframes, vframes)
+	spr.pixel_size = 1.0 / ppm
+	spr.position.y = spr.texture.get_height() / float(vframes) * 0.5 / ppm
+	if ppm > 60.0:
+		spr.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	add_child(spr)
 	add_child(HD2DSprite.blob_shadow())
 	if Engine.is_editor_hint():
 		return

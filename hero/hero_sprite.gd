@@ -45,11 +45,78 @@ static func layers_for(equip: Dictionary) -> Array:
 	return out
 
 
+## Meč v ruce při stání/chůzi (atlas zbraně tyto animace nemá) – kreslí se do snímků.
+## [posun ruky x od středu, y ruky, úhel od svislice ve stupních (+ doprava), délka, 1 = za tělem]
+const SWORD := {
+	"S": [-47, 150, -22, 74, 0], "SE": [-30, 152, 28, 74, 0], "E": [12, 152, 55, 74, 0],
+	"NE": [28, 150, 40, 74, 1], "N": [47, 150, 22, 74, 1], "NW": [30, 150, -40, 74, 1],
+	"W": [-12, 152, -55, 74, 0], "SW": [-30, 152, -28, 74, 0]}
+
+
+static func _has_sword(equip: Dictionary) -> bool:
+	var z = equip.get("zbran")
+	return z != null and z != ""
+
+
+static func _put(img: Image, x: int, y: int, c: Color, x0: int, w: int) -> void:
+	if x >= x0 and x < x0 + w and y >= 0 and y < img.get_height():
+		img.set_pixel(x, y, c)
+
+
+static func _draw_sword(img: Image, w: int, h: int, n: int, a: String, d: String) -> void:
+	var cfg: Array = SWORD[d]
+	for f in n:
+		var x0 := f * w
+		var bob := 0.0
+		if a != "Idle":
+			bob = sin(float(f) / float(n) * TAU * 2.0) * 3.0
+		var hx: float = x0 + w * 0.5 + float(cfg[0])
+		var hy: float = float(cfg[1]) + bob
+		var ang := deg_to_rad(float(cfg[2]))
+		var up := Vector2(sin(ang), -cos(ang))
+		var side := Vector2(-up.y, up.x)
+		var L: float = cfg[3]
+		# obrys, čepel, záštita, rukojeť, hlavice
+		for pass_i in 2:
+			var t := -14.0
+			while t < L + 4.0:
+				var p := Vector2(hx, hy) + up * t
+				var half := 2.5
+				var col := Color(0.08, 0.08, 0.1)
+				if t < 0.0:
+					half = 1.6
+					col = Color(0.35, 0.22, 0.12)
+				elif t < 4.0:
+					half = 6.0
+					col = Color(0.86, 0.68, 0.25)
+				elif t > L - 8.0:
+					half = maxf(0.6, (L - t) * 0.3)
+					col = Color(0.85, 0.88, 0.92)
+				else:
+					col = Color(0.82, 0.86, 0.92)
+				if t < -11.0:
+					half = 2.4
+					col = Color(0.86, 0.68, 0.25)
+				if pass_i == 0:
+					half += 1.3
+					col = Color(0.08, 0.08, 0.1)
+				var k := -half
+				while k <= half:
+					var q := p + side * k
+					var cc := col
+					if pass_i == 1 and t >= 4.0 and k > half * 0.35:
+						cc = Color(0.5, 0.56, 0.66)
+					_put(img, int(round(q.x)), int(round(q.y)), cc, x0, w)
+					k += 0.5
+				t += 0.5
+
+
 static func sheet(a: String, d: String, equip: Dictionary) -> Dictionary:
 	_ensure()
 	var key := "%s (%s)" % [a, d]
 	var layers := layers_for(equip)
-	var ck := key + "|" + ",".join(layers)
+	var sw := _has_sword(equip) and a in ["Idle", "Walk", "Run"]
+	var ck := key + "|" + ",".join(layers) + ("|sw" if sw else "")
 	if _cache.has(ck):
 		return _cache[ck]
 	var res := {}
@@ -60,11 +127,16 @@ static func sheet(a: String, d: String, equip: Dictionary) -> Dictionary:
 	var h := int(base.frame_h)
 	var n := int(base.frames)
 	var img := Image.create(w * n, h, false, Image.FORMAT_RGBA8)
+	var back: bool = sw and SWORD[d][4] == 1
+	if back:
+		_draw_sword(img, w, h, n, a, d)
 	for l in layers:
 		var m: Dictionary = _atlas[l].meta.get(key, {})
 		if m.is_empty():
 			continue
 		img.blend_rect(_atlas[l].img, Rect2i(int(m.x), int(m.y), w * n, h), Vector2i.ZERO)
+	if sw and not back:
+		_draw_sword(img, w, h, n, a, d)
 	img.generate_mipmaps()
 	res = {"tex": ImageTexture.create_from_image(img), "frames": n, "w": w, "h": h}
 	_cache[ck] = res
