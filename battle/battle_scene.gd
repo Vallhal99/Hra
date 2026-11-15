@@ -278,6 +278,8 @@ func _run() -> void:
 		u.node.position.x -= 9.0
 		create_tween().tween_property(u.node, "position", target, 0.7).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
 	await _say("Objevili se nepřátelé!", 1.2)
+	for e0 in enemies:
+		get_node("/root/Bestiary").record_seen(e0)
 	var et := Rules.env_text()
 	if et != "":
 		await _say(et, 2.4)
@@ -408,6 +410,13 @@ func _enemy_turn(u: BattleUnit) -> void:
 		targets = _reach(targets)
 	var t: BattleUnit = targets[randi() % targets.size()]
 	await get_tree().create_timer(0.25).timeout
+	if u.boss:
+		var n: int = int(u.get_meta("turns", 0)) + 1
+		u.set_meta("turns", n)
+		if n % 3 == 0:
+			var all := _alive(party)
+			await _perform(u, all, 0.8, 0, "Kostěný král svolává kostěnou bouři!", "", false)
+			return
 	await _perform(u, [t], 1.0, 0, "", "", false)
 
 
@@ -721,9 +730,9 @@ func _hero_turn(u: BattleUnit) -> void:
 	while true:
 		ui.say("")
 		_cur_skill = {}
-		var labels := ["Útok", "Dovednost", "Obrana", "Řada"]
-		var keys := ["attack", "skill", "defend", "row"]
-		var descs := [str(wt.desc) + (" Enter = bonus." if wt.melee else ""), "Použije dovednost (SP).", "Menší poškození, +1 BP.", "Přesun vpřed/vzad: vpředu víc dmg, vzadu méně. +1 BP."]
+		var labels := ["Útok", "Dovednost", "Předmět", "Obrana", "Řada"]
+		var keys := ["attack", "skill", "item", "defend", "row"]
+		var descs := [str(wt.desc) + (" Enter = bonus." if wt.melee else ""), "Použije dovednost (SP).", "Lektvar nebo jídlo z batohu.", "Menší poškození, +1 BP.", "Přesun vpřed/vzad: vpředu víc dmg, vzadu méně. +1 BP."]
 		if limit >= 100.0 and Rules.LIMITS.has(u.class_id):
 			labels.append("LIMIT")
 			keys.append("limit")
@@ -796,6 +805,40 @@ func _hero_turn(u: BattleUnit) -> void:
 			u.sp -= int(sk["cost"])
 			_cur_skill = sk
 			await _perform(u, tg2, float(sk.get("power", 1.0)), int(sk.get("heal", 0)), str(sk["name"]), skind if skind != "" else _attack_kind(u), true)
+			break
+		elif cmd == "item":
+			var invn: Node = get_node("/root/Inventory")
+			var ids: Array = invn.consumables()
+			if ids.is_empty():
+				await _say("Nemáš žádné použitelné předměty.", 0.8)
+				continue
+			var inames: Array = []
+			var idescs: Array = []
+			for iid in ids:
+				inames.append("%s  ×%d" % [invn.ITEMS[iid].name, invn.count(iid)])
+				idescs.append(str(invn.ITEMS[iid].get("desc", "")))
+			var ik := await _menu(inames, ids, idescs, false, u.bp)
+			if ik == "back":
+				continue
+			var itg := await _pick_target(_alive(party))
+			if itg == null:
+				continue
+			var use: Dictionary = invn.ITEMS[ik].use
+			invn.remove(ik, 1)
+			if use.has("heal"):
+				var hv3 := mini(int(use.heal), itg.max_hp - itg.hp)
+				itg.hp += hv3
+				_popup(itg, "+%d" % hv3, Color(0.4, 1.0, 0.5))
+			if use.has("sp"):
+				var sv := mini(int(use.sp), itg.max_sp - itg.sp)
+				itg.sp += sv
+				_popup(itg, "+%d SP" % sv, Color(0.5, 0.7, 1.0))
+			if use.has("st"):
+				itg.add_st(str(use.st[0]), int(use.st[1]))
+				_refresh_st(itg)
+			_flash(itg, Color(1.4, 1.4, 0.9))
+			ui.update_party()
+			await _say("%s použil(a) %s" % [u.unit_name, invn.ITEMS[ik].name], 0.9)
 			break
 		elif cmd == "limit":
 			var lim: Dictionary = Rules.LIMITS[u.class_id]

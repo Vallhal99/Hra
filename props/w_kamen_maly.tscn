@@ -148,7 +148,7 @@ texture_filter = 5
 height = 0.8993274
 radius = 0.51614827
 
-[node name="w_kamen_maly" type="Node3D" unique_id=508448198]
+[node name="w_kamen_maly" type="Node3D" unique_id=1582984063]
 
 [node name="Model" type="Node3D" parent="." unique_id=979813652 instance=ExtResource("1_nw1yr")]
 transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
@@ -162,8 +162,8 @@ surface_material_override/1 = SubResource("StandardMaterial3D_bfkw7")
 surface_material_override/2 = SubResource("StandardMaterial3D_oumlm")
 surface_material_override/3 = SubResource("StandardMaterial3D_f85c2")
 
-[node name="Kolize" type="StaticBody3D" parent="." unique_id=671434817]
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=1504476366]
 
-[node name="@CollisionShape3D@74" type="CollisionShape3D" parent="Kolize" unique_id=1232346684]
+[node name="@CollisionShape3D@74" type="CollisionShape3D" parent="Kolize" unique_id=1136769841]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.011185229, 0.4496637, 0.0534485)
 shape = SubResource("CylinderShape3D_0maim")

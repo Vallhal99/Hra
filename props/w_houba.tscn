@@ -572,7 +572,7 @@ texture_filter = 5
 height = 2.23
 radius = 0.84
 
-[node name="w_houba" type="Node3D" unique_id=673209708]
+[node name="w_houba" type="Node3D" unique_id=391455438]
 
 [node name="Model" type="Node3D" parent="." unique_id=706881790 instance=ExtResource("1_gyi2f")]
 
@@ -648,8 +648,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 mesh = SubResource("ArrayMesh_jyb6m")
 surface_material_override/0 = SubResource("StandardMaterial3D_fbdvc")
 
-[node name="Kolize" type="StaticBody3D" parent="." unique_id=698774889]
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=1085191833]
 
-[node name="@CollisionShape3D@66" type="CollisionShape3D" parent="Kolize" unique_id=724405046]
+[node name="@CollisionShape3D@66" type="CollisionShape3D" parent="Kolize" unique_id=2003717125]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18658364, 1.115, 0)
 shape = SubResource("CylinderShape3D_tlr61")

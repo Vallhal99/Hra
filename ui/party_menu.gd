@@ -53,9 +53,11 @@ static func _build(tree: SceneTree, cl: CanvasLayer, tab: int) -> void:
 	tc.add_child(_tab_party(tree, cl))
 	tc.add_child(_tab_skills())
 	tc.add_child(_tab_gear(tree, cl))
+	tc.add_child(_tab_cook(tree, cl, tab))
+	tc.add_child(_tab_bestiary(tree))
 	tc.add_child(_tab_settings(tree, cl))
-	for i in 4:
-		tc.set_tab_title(i, ["Družina", "Dovednosti", "Výbava", "Nastavení"][i])
+	for i in 6:
+		tc.set_tab_title(i, ["Družina", "Dovednosti", "Výbava", "Vaření", "Bestiář", "Nastavení"][i])
 	tc.current_tab = tab
 	var close := Button.new()
 	close.text = "Zavřít (Esc)"
@@ -180,6 +182,51 @@ static func _tab_gear(tree: SceneTree, cl: CanvasLayer) -> Control:
 		tree.root.get_node("Inventory")._toggle())
 	v.add_child(ib)
 	return v
+
+
+static func _tab_cook(tree: SceneTree, cl: CanvasLayer, tab: int) -> Control:
+	var inv: Node = tree.root.get_node("Inventory")
+	var v := VBoxContainer.new()
+	v.name = "Vaření"
+	var pl := tree.get_first_node_in_group("player") as Node3D
+	var fire: bool = Crafting.near_fire(pl)
+	v.add_child(_lbl("Vaření u ohniště – suroviny seženeš na lovu, u obchodníků a v lese." if fire else "Nejsi u ohniště. Přistup k táboráku (např. v jeskyni nebo na tábořišti).", 17))
+	for r in Crafting.RECIPES:
+		var it: Dictionary = inv.ITEMS[r.id]
+		var parts := ""
+		for k in r.ing:
+			parts += "%s %d/%d  " % [inv.ITEMS[k].name, inv.count(k), r.ing[k]]
+		var b := Button.new()
+		b.text = "%s  (máš ×%d)  –  %s" % [it.name, inv.count(r.id), parts]
+		b.tooltip_text = str(it.get("desc", ""))
+		b.disabled = not (fire and Crafting.can_cook(r))
+		b.pressed.connect(func():
+			Crafting.cook(r)
+			open(tree, 3))
+		v.add_child(b)
+		v.add_child(_lbl("    " + str(it.get("desc", "")), 14))
+	return v
+
+
+static func _tab_bestiary(tree: SceneTree) -> Control:
+	var B: Node = tree.root.get_node("Bestiary")
+	var sc := ScrollContainer.new()
+	sc.name = "Bestiář"
+	var v := VBoxContainer.new()
+	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	sc.add_child(v)
+	for n in B.INFO:
+		var e: Dictionary = B.seen.get(n, {})
+		if e.is_empty():
+			v.add_child(_lbl("???  (zatím nespatřen)", 18))
+			continue
+		var t := "%s  –  poražen ×%d, životy %d\n" % [n, e.kills, e.hp]
+		t += str(B.INFO[n].desc) + "\nVyskytuje se: " + str(B.INFO[n].where)
+		t += "\nSlabiny: " + (", ".join(e.weak) if e.weak.size() > 0 else "neznámé (zaútoč na něj)")
+		if e.drops.size() > 0:
+			t += "\nKořist: " + ", ".join(e.drops.map(func(d): return str(tree.root.get_node("Inventory").ITEMS[d].name)))
+		v.add_child(_lbl(t, 16))
+	return sc
 
 
 static func _tab_settings(tree: SceneTree, cl: CanvasLayer) -> Control:

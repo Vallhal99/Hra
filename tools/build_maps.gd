@@ -45,6 +45,8 @@ func _run() -> void:
 	_hvozd()
 	_jezero()
 	_jeskyne()
+	_hrbitov()
+	_hrobka()
 	print("HOTOVO")
 	quit()
 
@@ -898,7 +900,7 @@ func _jezero() -> void:
 			var nzv := nz.get_noise_2d(x * 0.7, z * 0.7)
 			var dl := pow((p.x - lake.x) / 11.0, 2) + pow((p.y - lake.y) / 8.0, 2)
 			var land := pow((p.x - 20.0) / 24.0, 2) + pow((p.y - 20.0) / 17.0, 2) < 1.0 + 0.12 * nzv
-			var corr := p.x < 22.0 and absf(p.y - 21.5) < 4.0 + nzv
+			var corr := (p.x < 22.0 and absf(p.y - 21.5) < 4.0 + nzv) or _seg_dist(p, [Vector2(20, 21.5), Vector2(26, 7), Vector2(49, 5.5)]) < 2.4 + 0.5 * nzv
 			if dl < 1.0 + 0.1 * nzv:
 				tm.cells[c] = Vector2i(0, 3)
 				kind[c] = 5
@@ -911,7 +913,7 @@ func _jezero() -> void:
 					m = 1
 				elif nzb.get_noise_2d(x * 1.3, z * 1.3) > 0.35:
 					m = 5
-				var onp := absf(p.y - 21.5) < 1.5 + 0.3 * nzv and p.x < 24.0
+				var onp := (absf(p.y - 21.5) < 1.5 + 0.3 * nzv and p.x < 24.0) or _seg_dist(p, [Vector2(20, 21.5), Vector2(26, 7), Vector2(49, 5.5)]) < 1.1
 				tm.cells[c] = Vector2i(0, 2 if onp else m)
 				kind[c] = 2 if onp else 1
 			else:
@@ -958,7 +960,7 @@ func _jezero() -> void:
 		_box(pier, Vector3(px + i * 0.6, 0.62, pz), Vector3(0.62, 0.08, 1.5), wood)
 	_inst("lp_domek", Vector2(14.0, 15.5), 160.0)
 	_inst("w_sud", Vector2(17.6, 16.5), 0.0)
-	_inst("w_ohniste", Vector2(18.5, 24.5), 0.0)
+	_inst("w_ohniste", Vector2(18.5, 24.5), 0.0).add_to_group("ohniste", true)
 	_inst("w_seno", Vector2(11.0, 26.5), 35.0)
 	_inst("w_plot", Vector2(12.0, 19.5), 90.0)
 	_inst("lp_barel", Vector2(16.0, 26.0), 30.0)
@@ -966,6 +968,8 @@ func _jezero() -> void:
 	_inst("w_krystaly", Vector2(44.0, 6.0), 0.0)
 	_inst("w_kamen_mechovy", Vector2(40.0, 31.0), 20.0)
 	_mark("Z_zapadu", Vector3(4.0, 0, 21.5))
+	_mark("Z_hrbitova", Vector3(46.0, 0, 5.5))
+	_exit("Vychod_hrbitov", Vector3(49.2, 0, 5.5), Vector3(1, 2.5, 5), "res://scenes/hrbitov.tscn", "Ze_zapadu")
 	_exit("Vychod_zapad", Vector3(0.8, 0, 21.5), Vector3(1, 2.5, 7), "res://scenes/hvozd.tscn", "Ze_zapadu")
 	_foe_at("Slizak_j1", ["slime", "slime"], Vector2(28.0, 31.0), 3.0)
 	_foe_at("Kostlivec_j1", ["skeleton"], Vector2(41.0, 20.0), 2.5)
@@ -1090,3 +1094,247 @@ func _obchod() -> void:
 	_exit("Vychod_obchod", Vector3(8.0, 0.0, 11.75), Vector3(5.0, 2.5, 1.0), "res://scenes/vesnice.tscn", "Z_obchodu")
 	var npcs := [["Prodavacka", "Prodavačka", "Dobrý den!", Vector2(8.0, 4.4), {"dialogue": "prodavacka", "tex": "res://npc/prodavacka.png", "ppm": 125.0}]]
 	_finish("res://scenes/obchod.tscn", Vector3(8.0, 0.0, 10.0), npcs)
+
+
+func _web(pos: Vector3, yaw: float, sz: float) -> void:
+	var img := Image.create(64, 64, false, Image.FORMAT_RGBA8)
+	for i in 9:
+		var a := PI * 0.5 * float(i) / 8.0
+		for t in 64:
+			var x := int(cos(a) * t)
+			var y := int(sin(a) * t)
+			if x < 64 and y < 64:
+				img.set_pixel(x, y, Color(0.9, 0.92, 0.95, 0.55))
+	for r in [14, 26, 38, 50]:
+		for i in 400:
+			var a2 := PI * 0.5 * float(i) / 400.0
+			var rr: float = float(r) * (0.88 + 0.12 * absf(sin(a2 * 8.0)))
+			var x2 := int(cos(a2) * rr)
+			var y2 := int(sin(a2) * rr)
+			if x2 < 64 and y2 < 64:
+				img.set_pixel(x2, y2, Color(0.9, 0.92, 0.95, 0.4))
+	var m := StandardMaterial3D.new()
+	m.albedo_texture = ImageTexture.create_from_image(img)
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.cull_mode = BaseMaterial3D.CULL_DISABLED
+	m.billboard_mode = BaseMaterial3D.BILLBOARD_DISABLED
+	var q := MeshInstance3D.new()
+	var qm := QuadMesh.new()
+	qm.size = Vector2(sz, sz)
+	q.mesh = qm
+	q.material_override = m
+	q.position = pos
+	q.rotation_degrees = Vector3(0, yaw, 0)
+	props.add_child(q)
+	q.owner = scn
+
+
+func _shaft(pos: Vector3, h: float, r: float) -> void:
+	var cm := CylinderMesh.new()
+	cm.top_radius = r * 0.7
+	cm.bottom_radius = r
+	cm.height = h
+	cm.radial_segments = 16
+	var m := StandardMaterial3D.new()
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	m.albedo_color = Color(0.55, 0.65, 0.9, 0.09)
+	m.cull_mode = BaseMaterial3D.CULL_DISABLED
+	var mi := MeshInstance3D.new()
+	mi.mesh = cm
+	mi.material_override = m
+	mi.position = pos + Vector3(0, h * 0.5, 0)
+	scn.add_child(mi)
+	mi.owner = scn
+	var sp := SpotLight3D.new()
+	sp.position = pos + Vector3(0, h, 0)
+	sp.rotation_degrees = Vector3(-90, 0, 0)
+	sp.light_color = Color(0.7, 0.8, 1.0)
+	sp.light_energy = 5.0
+	sp.spot_range = h + 2.0
+	sp.spot_angle = 16.0
+	scn.add_child(sp)
+	sp.owner = scn
+
+
+func _brazier(p: Vector2) -> void:
+	_inst("w_ohnisko_miska", p, 0.0, 1.0)
+	_omni(Vector3(p.x, _h(p.x, p.y) + 1.5, p.y), Color(1.0, 0.62, 0.28), 3.2, 9.5)
+
+
+func _pillar(p: Vector2, h := 4.0) -> void:
+	var st := _stone_mat()
+	st.albedo_color = Color(0.55, 0.55, 0.6)
+	_cyl(props, Vector3(p.x, _h(p.x, p.y) + h * 0.5, p.y), 0.55, h, st)
+	_box(props, Vector3(p.x, _h(p.x, p.y) + 0.2, p.y), Vector3(1.4, 0.4, 1.4), st)
+
+
+# ======================= HŘBITOV =======================
+func _hrbitov() -> void:
+	sun_energy = 0.4
+	_begin("Hrbitov", 0, 42, 0, 34, 511)
+	for x in range(0, 42):
+		for z in range(0, 34):
+			var c := Vector2i(x, z)
+			var p := Vector2(x + 0.5, z + 0.5)
+			var nzv := nz.get_noise_2d(x * 0.7, z * 0.7)
+			var yard := p.x > 2.0 and p.x < 40.0 and p.y > 3.0 and p.y < 31.0
+			var path := _seg_dist(p, [Vector2(0, 27), Vector2(10, 27), Vector2(21, 22), Vector2(21, 8)]) < 1.5 + 0.3 * nzv
+			if yard or path:
+				var m := 1
+				if path:
+					m = 3
+				elif nzb.get_noise_2d(x * 1.3, z * 1.3) > 0.4:
+					m = 2
+				tm.cells[c] = Vector2i(0, m)
+				kind[c] = 2 if path else 1
+			else:
+				_forest(c, 3)
+	_edge_trees(60, 2.4)
+	var st := _stone_mat()
+	st.albedo_color = Color(0.5, 0.5, 0.55)
+	# mauzoleum
+	var mz := Node3D.new()
+	mz.name = "Mauzoleum"
+	props.add_child(mz)
+	mz.owner = scn
+	_box(mz, Vector3(21, 2.0, 4.0), Vector3(10, 4.0, 5.5), st, 0.0, true)
+	_box(mz, Vector3(21, 4.4, 4.0), Vector3(11, 0.8, 6.5), st)
+	_box(mz, Vector3(21, 5.4, 4.0), Vector3(8, 1.2, 5.5), st)
+	_box(mz, Vector3(21, 1.4, 6.85), Vector3(2.4, 2.8, 0.3), _dark_mat())
+	for dx in [-2.2, 2.2]:
+		_cyl(mz, Vector3(21 + dx, 2.0, 7.3), 0.4, 4.0, st)
+	_box(mz, Vector3(21, 0.15, 7.6), Vector3(5, 0.3, 1.2), st)
+	_omni(Vector3(19.0, 2.3, 8.0), Color(0.5, 0.75, 1.0), 2.2, 8.0)
+	_omni(Vector3(23.0, 2.3, 8.0), Color(0.5, 0.75, 1.0), 2.2, 8.0)
+	# hroby v řadách
+	for row in 3:
+		for i in 6:
+			var gx := 6.0 + i * 3.0 + (14.0 if i > 2 else 0.0) - (0.0)
+			var gz := 13.0 + row * 4.5
+			if absf(gx - 21.0) < 3.0 or _seg_dist(Vector2(gx, gz), [Vector2(10, 27), Vector2(21, 22), Vector2(21, 8)]) < 2.0:
+				continue
+			_inst("w_hrob", Vector2(gx, gz), rng.randf_range(-8, 8) + 180.0)
+	_inst("w_socha", Vector2(14.0, 21.0), 20.0)
+	_inst("w_socha", Vector2(28.0, 21.0), -20.0)
+	_inst("w_krystaly", Vector2(36.5, 8.0), 0.0, 0.8)
+	_inst("w_kamen_mechovy", Vector2(6.0, 8.0), 30.0)
+	_inst("w_rozcestnik", Vector2(5.0, 25.0), 90.0)
+	for lp in [Vector2(10, 25.2), Vector2(18.5, 20.0), Vector2(24, 20.0), Vector2(19, 11)]:
+		_inst("w_lampa", lp, 0.0)
+		_omni(Vector3(lp.x, 2.0, lp.y), Color(0.75, 0.88, 1.0), 1.4, 7.0)
+	for fx in range(3, 40, 2):
+		_inst("w_plot", Vector2(fx, 3.2), 0.0)
+	_mark("Ze_zapadu", Vector3(3.0, 0, 27.0))
+	_mark("Z_hrobky", Vector3(21.0, 0, 9.0))
+	_exit("Vychod_jezero", Vector3(0.7, 0, 27.0), Vector3(1, 2.5, 5), "res://scenes/jezero.tscn", "Z_hrbitova")
+	_exit("Vchod_hrobka", Vector3(21.0, 0, 6.9), Vector3(2.4, 2.5, 0.8), "res://scenes/hrobka.tscn", "Vchod")
+	_foe_at("Kostlivec_h1", ["skeleton", "skeleton"], Vector2(12, 17), 3.0)
+	_foe_at("Kostlivec_h2", ["skeleton", "bandit"], Vector2(31, 18), 3.0)
+	_foe_at("Kostlivec_h3", ["skeleton", "skeleton", "skeleton"], Vector2(21, 14), 2.0)
+	_finish("res://scenes/hrbitov.tscn", Vector3(3.0, 0, 27.0), [])
+	sun_energy = 0.95
+
+
+func _dark_mat() -> StandardMaterial3D:
+	var m := StandardMaterial3D.new()
+	m.albedo_color = Color(0.02, 0.02, 0.03)
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	return m
+
+
+# ======================= HROBKA =======================
+func _in_r(p: Vector2, r: Rect2) -> bool:
+	return r.has_point(p)
+
+
+func _hrobka() -> void:
+	indoor = true
+	sun_energy = 0.08
+	_begin("Hrobka", 0, 46, 0, 46, 613)
+	var hall := Rect2(18, 36, 10, 8)        # vstupní síň
+	var cor1 := Rect2(21.5, 28, 3, 8.5)     # chodba
+	var cross := Rect2(14, 20, 18, 8.5)     # křižovatka s pilíři
+	var west := Rect2(3, 19, 9, 11)         # západní krypta
+	var east := Rect2(34, 19, 9, 11)        # východní krypta
+	var linkw := Rect2(11.5, 23, 3, 3)
+	var linke := Rect2(31.5, 23, 3, 3)
+	var cor2 := Rect2(21.5, 13.5, 3, 7)
+	var boss := Rect2(11, 2.5, 24, 11.5)    # síň krále
+	var rooms := [hall, cor1, cross, west, east, linkw, linke, cor2, boss]
+	for x in range(0, 46):
+		for z in range(0, 46):
+			var c := Vector2i(x, z)
+			var p := Vector2(x + 0.5, z + 0.5)
+			var open := false
+			for r in rooms:
+				if _in_r(p, r):
+					open = true
+			if open:
+				var lv := 0
+				if _in_r(p, boss):
+					if p.y < 6.0:
+						lv = 3
+					elif p.y < 7.5:
+						lv = 2
+					elif p.y < 9.0:
+						lv = 1
+				var m := 6
+				if nzb.get_noise_2d(x * 1.1, z * 1.1) > 0.3:
+					m = 3
+				tm.cells[c] = Vector2i(lv, m)
+				kind[c] = 2
+			else:
+				tm.cells[c] = Vector2i(9 + (1 if nzb.get_noise_2d(x, z) > 0.3 else 0), 6)
+				kind[c] = 0
+	# pilíře a pochodně
+	for p in [Vector2(16, 22), Vector2(30, 22), Vector2(16, 26.5), Vector2(30, 26.5), Vector2(14, 5), Vector2(14, 11), Vector2(32, 5), Vector2(32, 11), Vector2(19, 8), Vector2(27, 8), Vector2(19, 12), Vector2(27, 12)]:
+		_pillar(p)
+	for b in [Vector2(19.5, 37.5), Vector2(26.5, 37.5), Vector2(19, 21.5), Vector2(27, 21.5), Vector2(19, 27), Vector2(27, 27), Vector2(5, 20.5), Vector2(10, 20.5), Vector2(37, 20.5), Vector2(41, 20.5), Vector2(17, 4.5), Vector2(29, 4.5), Vector2(15, 13.0), Vector2(31, 13.0), Vector2(22, 15)]:
+		_brazier(b)
+	# vstupní síň: tábor s ohništěm (vaření)
+	_inst("w_ohniste", Vector2(23, 40), 0.0).add_to_group("ohniste", true)
+	_omni(Vector3(23, 1.4, 40), Color(1.0, 0.6, 0.25), 3.0, 8.0)
+	_inst("w_bedna_velka", Vector2(19.5, 42.2), 10.0)
+	_inst("w_bedna_mala", Vector2(20.8, 42.4), 40.0)
+	_inst("w_sud", Vector2(26.8, 42.0), 0.0)
+	_inst("lp_barel", Vector2(26.0, 42.5), 70.0)
+	# západní krypta: sklad
+	_inst("w_truhla", Vector2(4.5, 28.0), 90.0)
+	_inst("w_bedna_otevrena", Vector2(6.5, 28.6), 20.0)
+	_inst("w_bedna_mala", Vector2(8.0, 28.4), 60.0)
+	_inst("w_sud", Vector2(10.5, 28.2), 0.0)
+	_inst("w_hrob", Vector2(7.0, 23.5), 90.0)
+	_inst("w_hrob", Vector2(7.0, 26.0), 90.0)
+	# východní krypta: sarkofágy a lahve
+	_inst("w_hrob", Vector2(38.0, 22.5), 0.0)
+	_inst("w_hrob", Vector2(38.0, 26.5), 0.0)
+	_inst("w_pytle", Vector2(41.0, 28.0), 20.0)
+	_inst("lp_barel", Vector2(35.0, 28.5), 0.0)
+	_inst("w_kotlik", Vector2(41.0, 21.5), 10.0)
+	_inst("w_truhla", Vector2(35.0, 20.5), 180.0)
+	_inst("w_socha", Vector2(23, 22.0), 0.0)
+	# trůn krále
+	_inst("w_hrob", Vector2(23, 3.4), 0.0, 1.4)
+	_inst("w_socha", Vector2(14.5, 8.0), 90.0)
+	_inst("w_socha", Vector2(31.5, 8.0), -90.0)
+	_inst("w_krystaly", Vector2(12.5, 13.0), 0.0, 0.8)
+	_inst("w_krystaly", Vector2(33.5, 13.0), 0.0, 0.8)
+	# pavučiny v rozích
+	for w in [Vector3(14.6, 3.6, 20.6), Vector3(31.4, 3.6, 20.6), Vector3(11.6, 3.6, 19.6), Vector3(34.4, 3.6, 19.6), Vector3(11.6, 3.6, 3.0), Vector3(34.4, 3.6, 3.0), Vector3(18.6, 3.6, 36.6), Vector3(27.4, 3.6, 36.6)]:
+		_web(w, 45.0 if w.x < 23 else -45.0, 3.0)
+	# světelný sloup v křižovatce
+	_shaft(Vector3(23, 0, 24.5), 9.0, 2.0)
+	_shaft(Vector3(8, 0, 25), 8.0, 1.5)
+	_mark("Vchod", Vector3(23.0, 0, 41.0))
+	_exit("Vychod_hrobka", Vector3(23.0, 0, 44.2), Vector3(5, 2.5, 1.0), "res://scenes/hrbitov.tscn", "Z_hrobky")
+	_foe_at("Hrobka_1", ["skeleton", "skeleton"], Vector2(23, 31), 2.0)
+	_foe_at("Hrobka_2", ["skeleton", "skeleton", "bandit"], Vector2(23, 25), 3.0)
+	_foe_at("Hrobka_3", ["skeleton", "slime", "skeleton"], Vector2(7.5, 25), 2.5)
+	_foe_at("Hrobka_4", ["skeleton", "bandit", "skeleton"], Vector2(38.5, 25), 2.5)
+	_foe_at("Kral", ["king"], Vector2(23, 5.0), 0.4)
+	_finish("res://scenes/hrobka.tscn", Vector3(23.0, 0, 41.0), [])
+	indoor = false
+	sun_energy = 0.95

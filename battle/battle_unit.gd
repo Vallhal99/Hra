@@ -145,6 +145,8 @@ static func default_party() -> Array[BattleUnit]:
 
 static func make_kind(k: String) -> BattleUnit:
 	match k:
+		"king":
+			return _king()
 		"skeleton":
 			return _skeleton(4, ["light", "axe", "fire", "staff"])
 		"bandit":
@@ -173,7 +175,7 @@ static func _foe(n: String, hp_: int, atk_: int, def_: int, spd_: int, col: Colo
 static func _slime(sh: int, weak_: Array) -> BattleUnit:
 	var u := _foe("Slizák", 70, 16, 4, 8, Color(0.3, 0.8, 0.35), sh, weak_)
 	u.resist = {"ice": 0.6, "dark": 0.8}
-	u.drops = [["lektvar", 0.3]]
+	u.drops = [["lektvar", 0.3], ["zele", 0.5], ["houba", 0.3]]
 	var fps := {"Idle": 6.0, "Attack": 12.0, "Hurt": 9.0, "Death": 7.0}
 	for k in fps:
 		var t := load("res://enemies/slime_%s.png" % k) as Texture2D
@@ -187,9 +189,22 @@ static func _slime(sh: int, weak_: Array) -> BattleUnit:
 static func _skeleton(sh: int, weak_: Array) -> BattleUnit:
 	var u := _foe("Kostlivec", 85, 20, 6, 10, Color(0.85, 0.85, 0.8), sh, weak_)
 	u.resist = {"dark": 0.0, "dagger": 0.7, "bow": 0.6}
-	u.drops = [["paklic", 0.35]]
+	u.drops = [["paklic", 0.2], ["kost", 0.6], ["ruda", 0.2]]
 	u.texture = load("res://enemies/kostlivec.png")
 	u.ppm = 105.0
+	u.proc = true
+	return u
+
+
+static func _king() -> BattleUnit:
+	var u := _foe("Kostěný král", 560, 30, 10, 9, Color(0.8, 0.75, 0.6), 8, ["light", "fire", "axe", "lightning", "staff"])
+	u.boss = true
+	u.resist = {"dark": 0.0, "dagger": 0.6, "bow": 0.5, "ice": 0.7}
+	u.xp_value = 420
+	u.gold_value = 500
+	u.drops = [["ruda", 1.0], ["kost", 1.0], ["lektvar", 1.0]]
+	u.texture = load("res://enemies/kostlivec.png")
+	u.ppm = 58.0
 	u.proc = true
 	return u
 
@@ -197,7 +212,7 @@ static func _skeleton(sh: int, weak_: Array) -> BattleUnit:
 static func _bandit(sh: int, weak_: Array) -> BattleUnit:
 	var u := _foe("Zbojník", 75, 22, 5, 14, Color(0.5, 0.2, 0.25), sh, weak_)
 	u.ranged = true
-	u.drops = [["lektvar", 0.4], ["paklic", 0.2]]
+	u.drops = [["lektvar", 0.3], ["ruda", 0.35], ["maso", 0.4], ["koreni", 0.2]]
 	u.texture = load("res://enemies/zbojnik.png")
 	u.ppm = 105.0
 	u.proc = true

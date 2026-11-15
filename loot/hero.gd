@@ -49,6 +49,8 @@ func bonus(k: String) -> int:
 				var lv: int = inv.dura_level(slot)
 				var f: float = [1.0, 0.85, 0.5, 0.0][lv]
 				t += int(round(float(inv.ITEMS[id].get(k, 0)) * f))
+				if k == "atk" and slot == "zbran":
+					t += int(inv.wlevel.get(id, 0)) * 3
 	return t
 
 

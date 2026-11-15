@@ -146,6 +146,211 @@
    "use": {}
   },
   {
+   "id": "ruda",
+   "name": "Železná ruda",
+   "category": "Suroviny",
+   "slot": "",
+   "atk": 0,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 20,
+   "desc": "Surovina pro kováře. Padá ze zbojníků a kostlivců.",
+   "icon": "",
+   "use": {}
+  },
+  {
+   "id": "kost",
+   "name": "Kostní prach",
+   "category": "Suroviny",
+   "slot": "",
+   "atk": 0,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 12,
+   "desc": "Surovina na vylepšení zbraní.",
+   "icon": "",
+   "use": {}
+  },
+  {
+   "id": "zele",
+   "name": "Slizké želé",
+   "category": "Suroviny",
+   "slot": "",
+   "atk": 0,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 8,
+   "desc": "Podivně sladké. Dá se z toho uvařit dezert.",
+   "icon": "",
+   "use": {}
+  },
+  {
+   "id": "maso",
+   "name": "Maso",
+   "category": "Suroviny",
+   "slot": "",
+   "atk": 0,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 15,
+   "desc": "Čerstvé maso na vaření.",
+   "icon": "",
+   "use": {}
+  },
+  {
+   "id": "ryba",
+   "name": "Ryba",
+   "category": "Suroviny",
+   "slot": "",
+   "atk": 0,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 10,
+   "desc": "Rybářova specialita.",
+   "icon": "",
+   "use": {}
+  },
+  {
+   "id": "bylina",
+   "name": "Bylina",
+   "category": "Suroviny",
+   "slot": "",
+   "atk": 0,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 6,
+   "desc": "Voňavá bylinka.",
+   "icon": "",
+   "use": {}
+  },
+  {
+   "id": "houba",
+   "name": "Lesní houba",
+   "category": "Suroviny",
+   "slot": "",
+   "atk": 0,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 8,
+   "desc": "Jedlá, doufejme.",
+   "icon": "",
+   "use": {}
+  },
+  {
+   "id": "koreni",
+   "name": "Koření",
+   "category": "Suroviny",
+   "slot": "",
+   "atk": 0,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 12,
+   "desc": "Zlepší chuť všeho.",
+   "icon": "",
+   "use": {}
+  },
+  {
+   "id": "gulas",
+   "name": "Guláš",
+   "category": "Spotřební/Jídlo",
+   "slot": "",
+   "atk": 0,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 60,
+   "desc": "Obnoví 90 životů a po 3 kola dál léčí.",
+   "icon": "",
+   "use": {
+    "heal": 90,
+    "st": [
+     "regen",
+     3
+    ]
+   }
+  },
+  {
+   "id": "ryb_polevka",
+   "name": "Rybí polévka",
+   "category": "Spotřební/Jídlo",
+   "slot": "",
+   "atk": 0,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 45,
+   "desc": "Obnoví 60 životů a 20 SP.",
+   "icon": "",
+   "use": {
+    "heal": 60,
+    "sp": 20
+   }
+  },
+  {
+   "id": "houbova_panev",
+   "name": "Houbová pánev",
+   "category": "Spotřební/Jídlo",
+   "slot": "",
+   "atk": 0,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 40,
+   "desc": "Obnoví 40 SP.",
+   "icon": "",
+   "use": {
+    "sp": 40
+   }
+  },
+  {
+   "id": "bylinny_caj",
+   "name": "Bylinný čaj",
+   "category": "Spotřební/Jídlo",
+   "slot": "",
+   "atk": 0,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 35,
+   "desc": "Obnoví 40 životů a zvýší obranu na 3 kola.",
+   "icon": "",
+   "use": {
+    "heal": 40,
+    "st": [
+     "defup",
+     3
+    ]
+   }
+  },
+  {
+   "id": "zele_dezert",
+   "name": "Želé dezert",
+   "category": "Spotřební/Jídlo",
+   "slot": "",
+   "atk": 0,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 30,
+   "desc": "Obnoví 25 SP a zvýší sílu na 3 kola.",
+   "icon": "",
+   "use": {
+    "sp": 25,
+    "st": [
+     "atkup",
+     3
+    ]
+   }
+  },
+  {
    "id": "helma",
    "name": "Rytířská přilba",
    "category": "Brnění/Helmy",
@@ -770,6 +975,10 @@
      [
       "lektvar",
       3
+     ],
+     [
+      "ryba",
+      4
      ]
     ]
    }
@@ -809,6 +1018,9 @@
     "lektvar_many",
     "paklic",
     "past",
+    "bylina",
+    "koreni",
+    "maso",
     "zelezny_mec",
     "helma"
    ],
@@ -822,6 +1034,9 @@
     "lektvar",
     "lektvar_many",
     "paklic",
+    "bylina",
+    "koreni",
+    "houba",
     "helma",
     "telo",
     "rukavice",
@@ -835,6 +1050,8 @@
    "id": "kovar",
    "name": "Kovář",
    "stock": [
+    "ruda",
+    "kost",
     "zelezny_mec",
     "ozdobny_mec",
     "dyka",

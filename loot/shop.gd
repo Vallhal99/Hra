@@ -46,6 +46,25 @@ static func _build(tree: SceneTree, cl: CanvasLayer, sh: Dictionary) -> void:
 			inv.repair_all()
 			_build(tree, cl, sh))
 		vb.add_child(rb)
+	if sh.get("repair", false):
+		var ui := Crafting.upgrade_info()
+		if not ui.is_empty():
+			var ub := Button.new()
+			var nm: String = inv.ITEMS[ui.id].name
+			if ui.get("max", false):
+				ub.text = "%s je vylepšen na maximum (+%d)" % [nm, ui.level]
+				ub.disabled = true
+			else:
+				var parts := "%d zl." % ui.cost.gold
+				for k in ui.cost:
+					if k != "gold":
+						parts += ", %s ×%d" % [inv.ITEMS[k].name, ui.cost[k]]
+				ub.text = "Vylepšit %s +%d → +%d: %s" % [nm, ui.level, ui.level + 1, parts]
+				ub.disabled = not ui.ok
+			ub.pressed.connect(func():
+				Crafting.upgrade()
+				_build(tree, cl, sh))
+			vb.add_child(ub)
 	var hb := HBoxContainer.new()
 	hb.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	vb.add_child(hb)

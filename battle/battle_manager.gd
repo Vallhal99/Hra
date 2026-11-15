@@ -49,6 +49,7 @@ func collect_rewards(list: Array) -> Dictionary:
 		for d in u.drops:
 			if randf() < float(d[1]):
 				items[d[0]] = int(items.get(d[0], 0)) + 1
+		get_node("/root/Bestiary").record_kill(u)
 		get_node("/root/Quests").event("kill")
 		get_node("/root/Quests").event("kill:" + u.unit_name)
 	var H := get_node("/root/Hero")

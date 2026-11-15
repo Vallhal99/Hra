@@ -5,7 +5,7 @@ extends Node
 signal weather_changed(w: String)
 
 const DAY_LENGTH := 900.0  ## sekund reálného času na jeden herní den
-const INDOOR := ["obchod", "jeskyne", "chram", "hostinec"]
+const INDOOR := ["obchod", "jeskyne", "hrobka", "chram", "hostinec"]
 const FOREST := ["rozcesti", "louka", "louka_reka", "battle"]
 
 var tod := 0.40            ## 0 = půlnoc, 0.25 = svítání, 0.5 = poledne, 0.75 = soumrak
@@ -24,6 +24,7 @@ var _shaft_mat: ShaderMaterial
 var _scene_path := ""
 var _indoor := false
 var _cave := false
+var _crypt := false
 var _lights: Array = []
 var _acc := 0.0
 var _wtimer := 120.0
@@ -299,7 +300,8 @@ func _scan_scene() -> void:
 	_scene_path = path
 	var nm := path.get_file().get_basename()
 	_indoor = false
-	_cave = nm.begins_with("jeskyne")
+	_cave = nm.begins_with("jeskyne") or nm.begins_with("hrobka")
+	_crypt = nm.begins_with("hrobka")
 	for k in INDOOR:
 		if nm.begins_with(k):
 			_indoor = true
@@ -335,10 +337,10 @@ func _apply(cam: Camera3D) -> void:
 		return
 	if _cave:
 		if env:
-			env.ambient_light_color = Color(0.25, 0.32, 0.5)
-			env.ambient_light_energy = 0.55
-			env.background_color = Color(0.02, 0.03, 0.06)
-			env.fog_light_color = Color(0.12, 0.16, 0.26)
+			env.ambient_light_color = Color(0.62, 0.5, 0.42) if _crypt else Color(0.25, 0.32, 0.5)
+			env.ambient_light_energy = 0.75 if _crypt else 0.55
+			env.background_color = Color(0.03, 0.02, 0.02) if _crypt else Color(0.02, 0.03, 0.06)
+			env.fog_light_color = Color(0.2, 0.14, 0.11) if _crypt else Color(0.12, 0.16, 0.26)
 			env.fog_density = 0.02
 		if sun:
 			sun.light_energy = 0.12
@@ -346,8 +348,8 @@ func _apply(cam: Camera3D) -> void:
 		_rain.emitting = false
 		_leaves.emitting = false
 		_dust.emitting = true
-		(_dust.draw_pass_1.material as StandardMaterial3D).albedo_color = Color(0.5, 0.85, 1.0, 0.5)
-		_set_flies(true, 1.0)
+		(_dust.draw_pass_1.material as StandardMaterial3D).albedo_color = Color(1.0, 0.8, 0.55, 0.5) if _crypt else Color(0.5, 0.85, 1.0, 0.5)
+		_set_flies(not _crypt, 1.0)
 		for s in _shafts:
 			s.visible = false
 		_update_lights(1.0)

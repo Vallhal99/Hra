@@ -11,6 +11,7 @@ var ITEMS: Dictionary = {}
 var bag: Dictionary = {"paklic": 3}
 var equip: Dictionary = {}
 var gold := 25
+var wlevel: Dictionary = {}  ## id zbraně -> stupeň vylepšení 0..5
 var dura: Dictionary = {}   ## slot -> odolnost 0..100 (chybí = 100)
 var _ui: CanvasLayer
 var _root: Control
@@ -23,6 +24,14 @@ func _ready() -> void:
 	_ui.layer = 80
 	_ui.visible = false
 	add_child(_ui)
+
+
+func consumables() -> Array:
+	var out: Array = []
+	for id in ITEMS:
+		if count(id) > 0 and not ITEMS[id].get("use", {}).is_empty():
+			out.append(id)
+	return out
 
 
 func dura_of(slot: String) -> float:

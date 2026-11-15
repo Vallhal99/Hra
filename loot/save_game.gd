@@ -41,6 +41,8 @@ func reset_state() -> void:
 	Hero.sub = ""
 	Inventory.dura = {}
 	MapEnemy.gone = {}
+	Inventory.wlevel = {}
+	Bestiary.seen = {}
 	Party.members = {}
 	Party.order = []
 	Party.recruit("lia", true)
@@ -62,7 +64,7 @@ func save(slot: int) -> bool:
 		"hero": {"class_id": Hero.class_id, "level": Hero.level, "xp": Hero.xp, "points": Hero.points, "invested": Hero.invested},
 		"inv": {"bag": Inventory.bag, "equip": Inventory.equip, "gold": Inventory.gold},
 		"quests": {"state": Quests.state, "flags": Quests.flags},
-		"world": {"atmo": Atmo.get_state(), "party": Party.get_state(), "dura": Inventory.dura, "sub": Hero.sub, "gone": MapEnemy.gone},
+		"world": {"atmo": Atmo.get_state(), "party": Party.get_state(), "dura": Inventory.dura, "sub": Hero.sub, "gone": MapEnemy.gone, "wlevel": Inventory.wlevel, "bestiary": Bestiary.get_state()},
 	}
 	var f := FileAccess.open(path(slot), FileAccess.WRITE)
 	if f == null:
@@ -101,6 +103,8 @@ func load_slot(slot: int) -> void:
 	Inventory.dura = wd.get("dura", {})
 	Hero.sub = str(wd.get("sub", ""))
 	MapEnemy.gone = wd.get("gone", {})
+	Inventory.wlevel = wd.get("wlevel", {})
+	Bestiary.set_state(wd.get("bestiary", {}))
 	var q: Dictionary = d.get("quests", {})
 	Quests.state = q.get("state", {})
 	Quests.flags = q.get("flags", {})
