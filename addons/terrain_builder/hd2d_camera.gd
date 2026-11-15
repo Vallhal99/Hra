@@ -4,8 +4,8 @@ extends Camera3D
 ## Kamera ve stylu Octopath: nízké FOV, náklon, tilt-shift (DOF), glow, SSAO, vinětace.
 
 @export var target: Node3D
-@export var distance := 40.0
-@export_range(10, 70) var pitch := 35.0
+@export var distance := 32.0
+@export_range(10, 70) var pitch := 27.0
 @export var yaw := 0.0
 @export var height_offset := 1.0
 @export var smoothing := 8.0

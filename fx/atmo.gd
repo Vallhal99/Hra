@@ -357,18 +357,19 @@ func _apply(cam: Camera3D) -> void:
 		var moon := Color(0.5, 0.62, 1.0)
 		var dayc := _lerpc(Color(1.0, 0.96, 0.88), Color(1.0, 0.58, 0.3), warm)
 		sun.light_color = _lerpc(moon, dayc, day)
-		sun.light_energy = lerpf(0.38, 1.0, day) * (1.0 - 0.55 * rl)
+		sun.light_energy = lerpf(0.38, 0.78, day) * (1.0 - 0.55 * rl)
 		var elev := lerpf(8.0, 62.0, maxf(e, 0.0))
 		sun.rotation_degrees = Vector3(-lerpf(45.0, elev, day), -30.0 + tod * 70.0, 0.0)
 	if env:
 		var amb_day := _lerpc(Color(0.62, 0.72, 0.95), Color(0.85, 0.6, 0.62), warm * 0.7)
 		env.ambient_light_color = _lerpc(Color(0.2, 0.26, 0.5), amb_day, day).lerp(Color(0.5, 0.55, 0.62), rl * 0.5)
-		env.ambient_light_energy = lerpf(0.85, 0.5, day) * (1.0 - 0.25 * rl)
+		env.ambient_light_energy = lerpf(0.85, 0.36, day) * (1.0 - 0.25 * rl)
 		var bg_day := _lerpc(Color(0.55, 0.72, 0.9), Color(0.95, 0.6, 0.42), warm * 0.8)
 		var bg := _lerpc(Color(0.03, 0.05, 0.14), bg_day, day).lerp(Color(0.45, 0.5, 0.56), rl * 0.7)
 		env.background_color = bg
 		env.fog_light_color = bg.lerp(Color(0.72, 0.82, 0.95), 0.4 * day)
 		env.fog_density = 0.003 + 0.007 * rl + 0.002 * _night
+		env.tonemap_exposure = lerpf(1.0, 0.82, day)
 	# --- částice
 	var clear_day := day * (1.0 - rl)
 	_rain.emitting = rl > 0.03
