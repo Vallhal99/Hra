@@ -21,6 +21,7 @@ Atmo="*res://fx/atmo.gd"
 Party="*res://loot/party.gd"
 Settings="*res://loot/settings.gd"
 Bestiary="*res://loot/bestiary.gd"
+Audio="*res://loot/audio.gd"
 
 [display]
 

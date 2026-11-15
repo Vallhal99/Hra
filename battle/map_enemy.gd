@@ -56,6 +56,7 @@ func _ready() -> void:
 		hf = int(u.anims["Idle"]["frames"])
 		_anim = u.anims["Idle"]
 	_spr.texture = tex
+	_spr.modulate = u.tint
 	_spr.hframes = hf
 	_spr.pixel_size = 1.0 / u.ppm
 	_spr.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y

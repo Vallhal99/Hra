@@ -32,6 +32,7 @@ var wtype := "fist"           ## typ zbraně (viz Rules.WEAPON_TYPES)
 var class_id := ""
 var ranged := false           ## nepřítel útočí na kohokoli
 var boss := false
+var tint := Color.WHITE
 var xp_value := 0
 var gold_value := 0
 var drops: Array = []         ## [[id, šance]]
@@ -147,6 +148,30 @@ static func make_kind(k: String) -> BattleUnit:
 	match k:
 		"king":
 			return _king()
+		"ghost":
+			var g: BattleUnit = _foe("Přízrak", 60, 24, 3, 13, Color(0.6, 0.75, 1.0), 3, ["light", "fire", "staff"])
+			g.ranged = true
+			g.resist = {"dark": 0.0, "dagger": 0.5, "sword": 0.6, "axe": 0.6, "spear": 0.6}
+			g.drops = [["kost", 0.5], ["koreni", 0.3]]
+			g.texture = load("res://enemies/kostlivec.png")
+			g.ppm = 105.0
+			g.proc = true
+			g.tint = Color(0.55, 0.75, 1.3, 0.62)
+			g.xp_value = 38
+			return g
+		"knight":
+			var kn: BattleUnit = _skeleton(5, ["light", "lightning", "axe"])
+			kn.unit_name = "Hrobní rytíř"
+			kn.max_hp = 150
+			kn.atk = 27
+			kn.defense = 12
+			kn.spd = 8
+			kn.reset()
+			kn.tint = Color(1.25, 0.65, 0.6)
+			kn.ppm = 88.0
+			kn.xp_value = 55
+			kn.drops = [["ruda", 0.7], ["kost", 0.5], ["lektvar", 0.3]]
+			return kn
 		"skeleton":
 			return _skeleton(4, ["light", "axe", "fire", "staff"])
 		"bandit":

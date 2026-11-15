@@ -102,11 +102,19 @@ func _physics_process(delta: float) -> void:
 		if _k(KEY_S) or _k(KEY_DOWN): dir.y += 1
 		if _k(KEY_A) or _k(KEY_LEFT): dir.x -= 1
 		if _k(KEY_D) or _k(KEY_RIGHT): dir.x += 1
-	dir = dir.normalized()
+		var jx := Input.get_joy_axis(0, JOY_AXIS_LEFT_X)
+		var jy := Input.get_joy_axis(0, JOY_AXIS_LEFT_Y)
+		if absf(jx) > 0.25 or absf(jy) > 0.25:
+			dir += Vector2(jx, jy)
+		if Input.is_joy_button_pressed(0, JOY_BUTTON_DPAD_LEFT): dir.x -= 1
+		if Input.is_joy_button_pressed(0, JOY_BUTTON_DPAD_RIGHT): dir.x += 1
+		if Input.is_joy_button_pressed(0, JOY_BUTTON_DPAD_UP): dir.y -= 1
+		if Input.is_joy_button_pressed(0, JOY_BUTTON_DPAD_DOWN): dir.y += 1
+	dir = dir.limit_length(1.0)
 	var cam := get_viewport().get_camera_3d()
 	var yaw := cam.global_rotation.y if cam else 0.0
 	var move := Vector3(dir.x, 0, dir.y).rotated(Vector3.UP, yaw)
-	var sp := run_speed if _k(KEY_SHIFT) else speed
+	var sp := run_speed if (_k(KEY_SHIFT) or Input.is_joy_button_pressed(0, JOY_BUTTON_X)) else speed
 	velocity.x = move.x * sp
 	velocity.z = move.z * sp
 	if is_on_floor():

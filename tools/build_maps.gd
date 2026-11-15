@@ -793,6 +793,7 @@ func _vesnice() -> void:
 		["Vesnican1", "Vesničan", "Vítej ve vesnici!|Nahoře na kopci bydlí truhlář a kovář.|Pozor na vlky v lese.", Vector2(30.5, 36.0)],
 		["Vesnican2", "Stará Anna", "Kašna je tu starší než celá vesnice.|Voda z ní nikdy nevyschla.", Vector2(35.5, 31.5)],
 		["Kovar", "Kovář", "Hmpf.", Vector2(12.2, 34.8), {"dialogue": "kovar", "tex": "res://npc/kovar.png", "ppm": 112.0}],
+		["Hostinsky", "Hostinský Bohouš", "Hostinec U Zlatého sudu.", Vector2(20.5, 36.5), {"dialogue": "hostinsky"}],
 		["Strazny", "Strážný", "Kdo chce na kopec, musí po schodech.|Dávej na sebe pozor, cizinče.", Vector2(25.5, 28.0)]]
 	_finish("res://scenes/vesnice.tscn", Vector3(3.5, 0, 39.0), npcs)
 
@@ -1014,7 +1015,7 @@ func _jeskyne() -> void:
 			if tm.cells.has(c2) and (tm.cells[c2] as Vector2i).x == 0:
 				_inst(nm, q, rng.randf_range(0, 360), rng.randf_range(0.8, 1.2))
 	_inst("w_hrob", Vector2(33.0, 9.5), 0.0)
-	_inst("w_truhla", Vector2(36.0, 30.0), 200.0)
+	_chest(Vector2(36.0, 30.0), 200.0, 1, [["ruda", 2], ["gold", 80]])
 	_inst("w_bedna_otevrena", Vector2(33.5, 29.0), 20.0)
 	_inst("w_socha", Vector2(31.0, 17.5), 180.0)
 	_mark("Vchod", Vector3(14.0, 0, 31.5))
@@ -1094,6 +1095,21 @@ func _obchod() -> void:
 	_exit("Vychod_obchod", Vector3(8.0, 0.0, 11.75), Vector3(5.0, 2.5, 1.0), "res://scenes/vesnice.tscn", "Z_obchodu")
 	var npcs := [["Prodavacka", "Prodavačka", "Dobrý den!", Vector2(8.0, 4.4), {"dialogue": "prodavacka", "tex": "res://npc/prodavacka.png", "ppm": 125.0}]]
 	_finish("res://scenes/obchod.tscn", Vector3(8.0, 0.0, 10.0), npcs)
+
+
+func _chest(p: Vector2, yaw: float, lock: int, loot: Array) -> void:
+	var c := Chest3D.new()
+	c.name = "Truhla_%d_%d" % [int(p.x), int(p.y)]
+	c.lock_level = lock
+	c.loot = loot
+	c.position = Vector3(p.x, _h(p.x, p.y), p.y)
+	c.rotation_degrees.y = yaw
+	scn.add_child(c)
+	c.owner = scn
+	var ps := load("res://props/w_truhla.tscn") as PackedScene
+	var v := ps.instantiate() as Node3D
+	c.add_child(v)
+	v.owner = scn
 
 
 func _web(pos: Vector3, yaw: float, sz: float) -> void:
@@ -1233,8 +1249,10 @@ func _hrbitov() -> void:
 	_exit("Vchod_hrobka", Vector3(21.0, 0, 6.9), Vector3(2.4, 2.5, 0.8), "res://scenes/hrobka.tscn", "Vchod")
 	_foe_at("Kostlivec_h1", ["skeleton", "skeleton"], Vector2(12, 17), 3.0)
 	_foe_at("Kostlivec_h2", ["skeleton", "bandit"], Vector2(31, 18), 3.0)
+	_foe_at("Duch_h1", ["ghost", "skeleton"], Vector2(33, 10), 2.0)
 	_foe_at("Kostlivec_h3", ["skeleton", "skeleton", "skeleton"], Vector2(21, 14), 2.0)
-	_finish("res://scenes/hrbitov.tscn", Vector3(3.0, 0, 27.0), [])
+	_finish("res://scenes/hrbitov.tscn", Vector3(3.0, 0, 27.0), [
+		["Knez", "Farář Alois", "Pokoj s tebou.", Vector2(8.0, 25.0), {"dialogue": "knez"}]])
 	sun_energy = 0.95
 
 
@@ -1302,7 +1320,7 @@ func _hrobka() -> void:
 	_inst("w_sud", Vector2(26.8, 42.0), 0.0)
 	_inst("lp_barel", Vector2(26.0, 42.5), 70.0)
 	# západní krypta: sklad
-	_inst("w_truhla", Vector2(4.5, 28.0), 90.0)
+	_chest(Vector2(4.5, 28.0), 90.0, 1, [["ruda", 3], ["gold", 120], ["lektvar", 2]])
 	_inst("w_bedna_otevrena", Vector2(6.5, 28.6), 20.0)
 	_inst("w_bedna_mala", Vector2(8.0, 28.4), 60.0)
 	_inst("w_sud", Vector2(10.5, 28.2), 0.0)
@@ -1314,7 +1332,7 @@ func _hrobka() -> void:
 	_inst("w_pytle", Vector2(41.0, 28.0), 20.0)
 	_inst("lp_barel", Vector2(35.0, 28.5), 0.0)
 	_inst("w_kotlik", Vector2(41.0, 21.5), 10.0)
-	_inst("w_truhla", Vector2(35.0, 20.5), 180.0)
+	_chest(Vector2(35.0, 20.5), 180.0, 2, [["kost", 4], ["gold", 200], ["zelezny_mec", 1]])
 	_inst("w_socha", Vector2(23, 22.0), 0.0)
 	# trůn krále
 	_inst("w_hrob", Vector2(23, 3.4), 0.0, 1.4)
@@ -1332,6 +1350,8 @@ func _hrobka() -> void:
 	_exit("Vychod_hrobka", Vector3(23.0, 0, 44.2), Vector3(5, 2.5, 1.0), "res://scenes/hrbitov.tscn", "Z_hrobky")
 	_foe_at("Hrobka_1", ["skeleton", "skeleton"], Vector2(23, 31), 2.0)
 	_foe_at("Hrobka_2", ["skeleton", "skeleton", "bandit"], Vector2(23, 25), 3.0)
+	_foe_at("Hrobka_5", ["ghost", "ghost"], Vector2(23, 17), 2.0)
+	_foe_at("Hrobka_6", ["knight", "skeleton"], Vector2(23, 11), 1.5)
 	_foe_at("Hrobka_3", ["skeleton", "slime", "skeleton"], Vector2(7.5, 25), 2.5)
 	_foe_at("Hrobka_4", ["skeleton", "bandit", "skeleton"], Vector2(38.5, 25), 2.5)
 	_foe_at("Kral", ["king"], Vector2(23, 5.0), 0.4)

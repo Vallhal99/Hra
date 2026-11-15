@@ -300,8 +300,12 @@ func _scan_scene() -> void:
 	_scene_path = path
 	var nm := path.get_file().get_basename()
 	_indoor = false
-	_cave = nm.begins_with("jeskyne") or nm.begins_with("hrobka")
-	_crypt = nm.begins_with("hrobka")
+	var ref := nm
+	if nm == "battle":
+		var bmn := get_node_or_null("/root/BattleManager")
+		ref = str(bmn.return_scene).get_file().get_basename() if bmn else nm
+	_cave = ref.begins_with("jeskyne") or ref.begins_with("hrobka")
+	_crypt = ref.begins_with("hrobka")
 	for k in INDOOR:
 		if nm.begins_with(k):
 			_indoor = true

@@ -119,6 +119,68 @@ func _base_y(u: BattleUnit) -> float:
 	return _height(u) * 0.5
 
 
+var _dungeon := false
+var _night := false
+
+
+func _build_dungeon(cave: bool) -> void:
+	for c in get_children():
+		if c is DirectionalLight3D:
+			(c as DirectionalLight3D).light_energy = 0.3
+		elif c is MeshInstance3D and (c as MeshInstance3D).mesh is CylinderMesh or c is MeshInstance3D and (c as MeshInstance3D).mesh is PlaneMesh:
+			var mm := (c as MeshInstance3D).mesh.material as StandardMaterial3D
+			if mm:
+				mm.albedo_color = mm.albedo_color * 0.5
+	var st := StandardMaterial3D.new()
+	st.albedo_texture = load("res://textures/ground/dlazba.png")
+	st.albedo_color = Color(0.5, 0.46, 0.44)
+	st.uv1_scale = Vector3(6, 3, 1)
+	st.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+	var wall := MeshInstance3D.new()
+	var bm := BoxMesh.new()
+	bm.size = Vector3(70, 14, 1)
+	wall.mesh = bm
+	wall.material_override = st
+	wall.position = Vector3(0, 7, -12)
+	add_child(wall)
+	for sx in [-16.0, -9.0, 9.0, 16.0]:
+		var pm := MeshInstance3D.new()
+		var cm := CylinderMesh.new()
+		cm.top_radius = 0.9
+		cm.bottom_radius = 0.9
+		cm.height = 12.0
+		pm.mesh = cm
+		pm.material_override = st
+		pm.position = Vector3(sx, 6, -9.5)
+		add_child(pm)
+	for sx in [-12.5, 0.0, 12.5]:
+		var l := OmniLight3D.new()
+		l.position = Vector3(sx, 2.6, -8.0)
+		l.light_color = Color(0.5, 0.8, 1.0) if cave else Color(1.0, 0.62, 0.28)
+		l.light_energy = 3.5
+		l.omni_range = 13.0
+		add_child(l)
+		var fm := MeshInstance3D.new()
+		var sm := SphereMesh.new()
+		sm.radius = 0.3
+		sm.height = 0.6
+		fm.mesh = sm
+		var m := StandardMaterial3D.new()
+		m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		m.albedo_color = l.light_color
+		fm.material_override = m
+		fm.position = l.position
+		add_child(fm)
+	var sp := SpotLight3D.new()
+	sp.position = Vector3(0, 12, -1)
+	sp.rotation_degrees = Vector3(-90, 0, 0)
+	sp.light_color = Color(0.7, 0.8, 1.0)
+	sp.light_energy = 4.0
+	sp.spot_range = 16.0
+	sp.spot_angle = 30.0
+	add_child(sp)
+
+
 func _build_world() -> void:
 	var sun := DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-48, -35, 0)
@@ -131,13 +193,18 @@ func _build_world() -> void:
 	_center.position = Vector3(0, 0, 0)
 	add_child(_center)
 	# podlaha: tráva + hliněná aréna
-	_floor(90.0, "res://textures/ground/trava.png", 0.0)
-	_floor(7.5, "res://textures/ground/hlina.png", 0.02, true)
+	var rs: String = str(get_node("/root/BattleManager").return_scene)
+	_dungeon = "hrobka" in rs or "jeskyne" in rs
+	_night = "hrbitov" in rs
+	_floor(90.0, "res://textures/ground/dlazba.png" if _dungeon else "res://textures/ground/trava.png", 0.0)
+	_floor(7.5, "res://textures/ground/dlazba.png" if _dungeon else "res://textures/ground/hlina.png", 0.02, true)
+	if _dungeon:
+		_build_dungeon("jeskyne" in rs)
 	# les v pozadí: husté řady vysokých jehličnatých stromů (rozmazané hloubkou ostrosti)
 	var scenes := ["res://props/strom_smrk.tscn", "res://props/strom_smrk.tscn", "res://props/strom_listnaty.tscn", "res://props/strom_smrk.tscn"]
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 11
-	for row in 6:
+	for row in (0 if _dungeon else 6):
 		var zrow := -7.0 - row * 4.2
 		var x := -34.0
 		while x < 34.0:
@@ -150,7 +217,7 @@ func _build_world() -> void:
 				add_child(tr)
 			x += rng.randf_range(2.4, 3.6)
 	# velké stromy po stranách, blízko kamery (silně rozostřené)
-	for sx in [-13.5, -11.0, 12.5, 14.5]:
+	for sx in ([] if _dungeon else [-13.5, -11.0, 12.5, 14.5]):
 		var ps2 := load("res://props/strom_smrk.tscn") as PackedScene
 		if ps2:
 			var t2 := ps2.instantiate() as Node3D
@@ -175,6 +242,18 @@ func _build_world() -> void:
 		env.fog_density = 0.015
 		env.ambient_light_color = Color(0.5, 0.64, 0.72)
 		env.ambient_light_energy = 0.5
+		if _dungeon:
+			env.background_color = Color(0.03, 0.02, 0.02)
+			env.fog_light_color = Color(0.2, 0.14, 0.11)
+			env.fog_density = 0.03
+			env.ambient_light_color = Color(0.62, 0.5, 0.42)
+			env.ambient_light_energy = 0.7
+		elif _night:
+			env.background_color = Color(0.05, 0.07, 0.14)
+			env.fog_light_color = Color(0.15, 0.2, 0.32)
+			env.fog_density = 0.03
+			env.ambient_light_color = Color(0.3, 0.38, 0.62)
+			env.ambient_light_energy = 0.5
 	# jednotky
 	_place(party, HERO_X, 1.0)
 	_place(enemies, ENEMY_X, -1.0)
@@ -237,6 +316,7 @@ func _place(list: Array[BattleUnit], base_x: float, dir: float) -> void:
 			sp.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 		sp.flip_h = (u.is_hero == u.faces_right)
 		sp.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+		sp.modulate = u.tint
 		root.add_child(sp)
 		root.add_child(HD2DSprite.blob_shadow())
 		u.node = root
@@ -333,6 +413,7 @@ func _run() -> void:
 	ui.hide_menu()
 	ui.set_order(null, [])
 	if st == 1:
+		get_node("/root/Audio").sfx("s_win")
 		await _say("Vítězství!", 0.4)
 		var bmv := get_node_or_null("/root/BattleManager")
 		var rw: Dictionary = bmv.collect_rewards(enemies) if bmv else {}
@@ -620,7 +701,8 @@ func _show_rewards(rw: Dictionary) -> void:
 
 func _flash(u: BattleUnit, col: Color) -> void:
 	u.sprite.modulate = col
-	create_tween().tween_property(u.sprite, "modulate", Color(1, 1, 1), 0.3)
+	create_tween().tween_property(u.sprite, "modulate", u.tint, 0.3)
+	get_node("/root/Audio").sfx("s_hit", -3.0)
 
 
 func _shake(u: BattleUnit) -> void:

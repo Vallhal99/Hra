@@ -861,6 +861,139 @@
    ]
   },
   {
+   "id": "knez",
+   "name": "Farář – rozhovor",
+   "start": "f1",
+   "nodes": [
+    {
+     "id": "f1",
+     "speaker": "Farář Alois",
+     "text": "Pokoj s tebou, poutníku. Ale ne s tímhle místem... Hrobka pod mauzoleem se otevřela a z hlubin se ozývá chrastění kostí.",
+     "choices": [
+      {
+       "text": "Co se stalo?",
+       "next": "f_q",
+       "cond": {
+        "quest_not_started": "kral"
+       }
+      },
+      {
+       "text": "Kostěný král je poražen.",
+       "next": "f_done",
+       "cond": {
+        "quest_ready": "kral"
+       }
+      },
+      {
+       "text": "Kde je ta Hrobka?",
+       "next": "f_where",
+       "cond": {
+        "quest_active": "kral"
+       }
+      },
+      {
+       "text": "Nashledanou.",
+       "next": "f_bye"
+      }
+     ]
+    },
+    {
+     "id": "f_q",
+     "speaker": "Farář Alois",
+     "text": "Dávný král, jehož kosti tu odpočívaly sto let, se probudil. Vede mrtvé do boje. Sestup do Hrobky a zastav ho, dřív než zaplaví vesnici. Slabí jsou proti světlu a ohni.",
+     "choices": [
+      {
+       "text": "Zastavím ho.",
+       "next": "f_ok",
+       "effects": [
+        {
+         "start_quest": "kral"
+        }
+       ]
+      },
+      {
+       "text": "Nejdřív se připravím.",
+       "next": "f1"
+      }
+     ]
+    },
+    {
+     "id": "f_ok",
+     "speaker": "Farář Alois",
+     "text": "Ať tě světlo provází. Dveře jsou v mauzoleu na severu hřbitova. Vezmi si lektvary a vylepši zbraň u kováře."
+    },
+    {
+     "id": "f_where",
+     "speaker": "Farář Alois",
+     "text": "Mauzoleum na severu hřbitova. Uvnitř jdi stále dál na sever, král sedí na pódiu."
+    },
+    {
+     "id": "f_done",
+     "speaker": "Farář Alois",
+     "text": "Děkuji ti, hrdino! Tvoje jméno bude žít v modlitbách. Tohle je odměna od všech vesničanů.",
+     "effects": [
+      {
+       "complete_quest": "kral"
+      }
+     ]
+    },
+    {
+     "id": "f_bye",
+     "speaker": "Farář Alois",
+     "text": "Pokoj s tebou."
+    }
+   ]
+  },
+  {
+   "id": "hostinsky",
+   "name": "Hostinský – rozhovor",
+   "start": "h1",
+   "nodes": [
+    {
+     "id": "h1",
+     "speaker": "Hostinský Bohouš",
+     "text": "Vítej v hostinci U Zlatého sudu! Postel za 20 zlatých a ráno ti dám i snídani.",
+     "choices": [
+      {
+       "text": "Přenocovat (20 zl., uložit hru).",
+       "next": "h_rest",
+       "cond": {
+        "gold": 20
+       }
+      },
+      {
+       "text": "Co je nového?",
+       "next": "h_news"
+      },
+      {
+       "text": "Jen se dívám.",
+       "next": "h_bye"
+      }
+     ]
+    },
+    {
+     "id": "h_rest",
+     "speaker": "Hostinský Bohouš",
+     "text": "Zzzz... Dobré ráno! Hra byla uložena do slotu 1. Máš naspáno?",
+     "effects": [
+      {
+       "rest": 20
+      }
+     ]
+    },
+    {
+     "id": "h_news",
+     "speaker": "Hostinský Bohouš",
+     "text": "Povídá se, že u hřbitova straší a v Hvozdu řádí zbojníci. A kovář prý umí vylepšit i obyčejný meč."
+    },
+    {
+     "id": "h_bye",
+     "speaker": "Hostinský Bohouš",
+     "text": "Kdyby něco, jen zavolej."
+    }
+   ]
+  },
+  {
    "id": "kovar",
    "name": "Kovář – rozhovor",
    "start": "k1",
@@ -929,6 +1062,35 @@
   }
  ],
  "quests": [
+  {
+   "id": "kral",
+   "name": "Kostěný král",
+   "giver": "Farář Alois",
+   "desc": "V Hrobce pod hřbitovem se probudil dávný král. Poraz ho.",
+   "level": 4,
+   "objectives": [
+    {
+     "type": "event",
+     "target": "kill:Kostěný král",
+     "count": 1,
+     "text": "Poraz Kostěného krále"
+    }
+   ],
+   "rewards": {
+    "xp": 600,
+    "gold": 400,
+    "items": [
+     [
+      "lektvar_many",
+      3
+     ],
+     [
+      "ozdobny_mec",
+      1
+     ]
+    ]
+   }
+  },
   {
    "id": "tabor",
    "name": "Zbojnický tábor",

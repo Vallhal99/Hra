@@ -101,6 +101,10 @@ func _apply(effects: Array) -> void:
 				"gold": I.add("gold", int(v))
 				"xp": get_node("/root/Hero").add_xp(int(v))
 				"recruit": get_node("/root/Party").recruit(str(v))
+				"rest":
+					I.add("gold", -int(v))
+					get_node("/root/Atmo").tod = 0.3
+					get_node("/root/SaveGame").save(1)
 				"shop":
 					_close()
 					preload("res://loot/shop.gd").open(get_tree(), v)
