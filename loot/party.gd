@@ -14,7 +14,7 @@ const DEFS := {
 		"base": [150, 12, 22, 14, 6], "grow": [16, 2, 2.2, 1.4, 0.2], "join_level": 99,
 		"bio": "Mlčenlivý obr, který raději bije kladivem do kovadliny než do lidí. Pokud musí, tak i do lidí."},
 	"rys": {"name": "Rys", "title": "Bývalý zbojník", "cls": "zlodej", "wtype": "dagger", "tex": "res://enemies/zbojnik.png", "ppm": 105.0,
-		"base": [95, 20, 18, 7, 16], "grow": [10, 3, 1.8, 0.7, 0.6], "join_level": 5,
+		"base": [95, 20, 18, 7, 16], "grow": [10, 3, 1.8, 0.7, 0.6], "join_level": 99,
 		"bio": "Zběhl od zbojníků, protože mu nechtěli dělit kořist. Cynik se zlatým srdcem (dobře schovaným)."},
 }
 

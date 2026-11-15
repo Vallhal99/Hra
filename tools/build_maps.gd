@@ -885,7 +885,7 @@ func _hvozd() -> void:
 	_foe_at("Slizak_2", ["slime", "slime"], Vector2(38.0, 15.0), 3.0)
 	_label(props, "JESKYNĚ", Vector3(cave_plaza.x, _h(cave_plaza.x, cave_plaza.y + 3.2) + 3.2, cave_plaza.y + 3.2), 0.0, 44)
 	_finish("res://scenes/hvozd.tscn", Vector3(26.0, 0, 3.5), [
-		["Hlidka", "Zběhlý hlídač", "Pst! Tábor zbojníků je na jihovýchodě. Jestli jdeš tam, nevolej na ně.|V noci spí... aspoň někteří.", Vector2(25.0, 6.0)]])
+		["Hlidka", "Zběhlý hlídač", "Pst! Tábor zbojníků je na jihovýchodě. Jestli jdeš tam, nevolej na ně.|V noci spí... aspoň někteří.", Vector2(25.0, 6.0), {"dialogue": "hlidka"}]])
 
 
 func _jezero() -> void:
@@ -970,7 +970,7 @@ func _jezero() -> void:
 	_foe_at("Slizak_j1", ["slime", "slime"], Vector2(28.0, 31.0), 3.0)
 	_foe_at("Kostlivec_j1", ["skeleton"], Vector2(41.0, 20.0), 2.5)
 	_finish("res://scenes/jezero.tscn", Vector3(4.0, 0, 21.5), [
-		["Rybar", "Rybář Tomáš", "Ryby nekoušou. Možná je to tím, že u jeskyně straší.|Nemáš náhodou červy?", Vector2(15.5, 18.3), {"routine": [{"t0": 0.28, "t1": 0.80, "off": Vector3(0, 0, 0)}, {"t0": 0.80, "t1": 0.28, "hide": true}], "night": "Chrrr... (Rybář spí.)"}]])
+		["Rybar", "Rybář Tomáš", "Ryby nekoušou. Možná je to tím, že u jeskyně straší.|Nemáš náhodou červy?", Vector2(15.5, 18.3), {"dialogue": "rybar", "routine": [{"t0": 0.28, "t1": 0.80, "off": Vector3(0, 0, 0)}, {"t0": 0.80, "t1": 0.28, "hide": true}], "night": "Chrrr... (Rybář spí.)"}]])
 
 
 func _jeskyne() -> void:

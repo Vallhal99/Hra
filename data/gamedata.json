@@ -414,6 +414,123 @@
  ],
  "dialogues": [
   {
+   "id": "hlidka",
+   "name": "Hlídač",
+   "start": "h1",
+   "nodes": [
+    {
+     "id": "h1",
+     "speaker": "Zběhlý hlídač",
+     "text": "Pst! Tábor zbojníků je na jihovýchodě. Kdyby je někdo zahnal, kraj by si oddechl.",
+     "choices": [
+      {
+       "text": "Zahnat je? Beru to.",
+       "next": "h_ok",
+       "cond": {
+        "quest_not_started": "tabor"
+       }
+      },
+      {
+       "text": "Tábor je hotový.",
+       "next": "h_done",
+       "cond": {
+        "quest_ready": "tabor"
+       }
+      },
+      {
+       "text": "Rozloučit se.",
+       "next": "h_bye"
+      }
+     ]
+    },
+    {
+     "id": "h_ok",
+     "speaker": "Zběhlý hlídač",
+     "text": "Hlídej si záda. Můžeš je překvapit zezadu, nebo jim nastražit past (klávesa T).",
+     "effects": [
+      {
+       "start_quest": "tabor"
+      }
+     ]
+    },
+    {
+     "id": "h_done",
+     "speaker": "Zběhlý hlídač",
+     "text": "Báječně! Jeden z nich, Rys, má o tobě už prý dobré mínění. Najde si tě.",
+     "effects": [
+      {
+       "complete_quest": "tabor"
+      },
+      {
+       "recruit": "rys"
+      }
+     ]
+    },
+    {
+     "id": "h_bye",
+     "speaker": "Zběhlý hlídač",
+     "text": "Opatrně."
+    }
+   ]
+  },
+  {
+   "id": "rybar",
+   "name": "Rybář",
+   "start": "r1",
+   "nodes": [
+    {
+     "id": "r1",
+     "speaker": "Rybář Tomáš",
+     "text": "Ryby nekoušou. Možná je to tím, že u jeskyně straší.",
+     "choices": [
+      {
+       "text": "Podívám se na to.",
+       "next": "r_ok",
+       "cond": {
+        "quest_not_started": "strach"
+       }
+      },
+      {
+       "text": "Kostlivci jsou pryč.",
+       "next": "r_done",
+       "cond": {
+        "quest_ready": "strach"
+       }
+      },
+      {
+       "text": "Nic.",
+       "next": "r_bye"
+      }
+     ]
+    },
+    {
+     "id": "r_ok",
+     "speaker": "Rybář Tomáš",
+     "text": "Jeskyně je na západ od rozcestí v Hvozdu. Nespěchej, kostlivci se nejlépe bojí světla.",
+     "effects": [
+      {
+       "start_quest": "strach"
+      }
+     ]
+    },
+    {
+     "id": "r_done",
+     "speaker": "Rybář Tomáš",
+     "text": "Konečně klid! Tady je něco na cestu.",
+     "effects": [
+      {
+       "complete_quest": "strach"
+      }
+     ]
+    },
+    {
+     "id": "r_bye",
+     "speaker": "Rybář Tomáš",
+     "text": "Nemáš náhodou červy?"
+    }
+   ]
+  },
+  {
    "id": "obchodnik",
    "name": "Obchodník – rozhovor",
    "start": "n1",
@@ -607,6 +724,56 @@
   }
  ],
  "quests": [
+  {
+   "id": "tabor",
+   "name": "Zbojnický tábor",
+   "giver": "Zběhlý hlídač",
+   "desc": "Zbojníci v Hvozdu přepadají cestovatele. Porazí jich čtyři.",
+   "level": 2,
+   "objectives": [
+    {
+     "type": "event",
+     "target": "kill:Zbojník",
+     "count": 4,
+     "text": "Poraz zbojníky (4)"
+    }
+   ],
+   "rewards": {
+    "xp": 150,
+    "gold": 120,
+    "items": [
+     [
+      "past",
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "id": "strach",
+   "name": "Strach u jeskyně",
+   "giver": "Rybář Tomáš",
+   "desc": "U jeskyně se potulují kostlivci. Porazí jich čtyři, ať ryby zase berou.",
+   "level": 3,
+   "objectives": [
+    {
+     "type": "event",
+     "target": "kill:Kostlivec",
+     "count": 4,
+     "text": "Poraz kostlivce (4)"
+    }
+   ],
+   "rewards": {
+    "xp": 220,
+    "gold": 150,
+    "items": [
+     [
+      "lektvar",
+      3
+     ]
+    ]
+   }
+  },
   {
    "id": "kufr",
    "name": "Zamčená truhla",
