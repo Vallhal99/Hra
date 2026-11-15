@@ -9,6 +9,7 @@ var level := 1
 var xp := 0
 var points := 0
 var invested: Dictionary = {}
+var sub := ""            ## podpovolání (druhé povolání: dovednosti navíc)
 var skip_select := false
 var _ui: CanvasLayer
 
@@ -45,7 +46,9 @@ func bonus(k: String) -> int:
 		for slot in inv.equip:
 			var id = inv.equip[slot]
 			if id != null and inv.ITEMS.has(id):
-				t += int(inv.ITEMS[id].get(k, 0))
+				var lv: int = inv.dura_level(slot)
+				var f: float = [1.0, 0.85, 0.5, 0.0][lv]
+				t += int(round(float(inv.ITEMS[id].get(k, 0)) * f))
 	return t
 
 

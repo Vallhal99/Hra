@@ -38,6 +38,13 @@ func reset_state() -> void:
 	Inventory.gold = 25
 	Quests.state = {}
 	Quests.flags = {}
+	Hero.sub = ""
+	Inventory.dura = {}
+	MapEnemy.gone = {}
+	Party.members = {}
+	Party.order = []
+	Party.recruit("lia", true)
+	Atmo.tod = 0.40
 	Inventory.changed.emit()
 	Hero.changed.emit()
 	Quests.changed.emit()
@@ -55,6 +62,7 @@ func save(slot: int) -> bool:
 		"hero": {"class_id": Hero.class_id, "level": Hero.level, "xp": Hero.xp, "points": Hero.points, "invested": Hero.invested},
 		"inv": {"bag": Inventory.bag, "equip": Inventory.equip, "gold": Inventory.gold},
 		"quests": {"state": Quests.state, "flags": Quests.flags},
+		"world": {"atmo": Atmo.get_state(), "party": Party.get_state(), "dura": Inventory.dura, "sub": Hero.sub, "gone": MapEnemy.gone},
 	}
 	var f := FileAccess.open(path(slot), FileAccess.WRITE)
 	if f == null:
@@ -87,6 +95,12 @@ func load_slot(slot: int) -> void:
 		Inventory.bag[k] = int(iv["bag"][k])
 	Inventory.equip = iv.get("equip", {})
 	Inventory.gold = int(iv.get("gold", 0))
+	var wd: Dictionary = d.get("world", {})
+	Atmo.set_state(wd.get("atmo", {}))
+	Party.set_state(wd.get("party", {}))
+	Inventory.dura = wd.get("dura", {})
+	Hero.sub = str(wd.get("sub", ""))
+	MapEnemy.gone = wd.get("gone", {})
 	var q: Dictionary = d.get("quests", {})
 	Quests.state = q.get("state", {})
 	Quests.flags = q.get("flags", {})
@@ -112,6 +126,11 @@ func _ready() -> void:
 
 
 func _unhandled_input(ev: InputEvent) -> void:
+	if ev.is_action_pressed("ui_cancel") and get_tree().root.has_node("PartyMenu"):
+		get_tree().root.get_node("PartyMenu").queue_free()
+		get_tree().paused = false
+		get_viewport().set_input_as_handled()
+		return
 	if ev.is_action_pressed("ui_cancel"):
 		var sc := get_tree().current_scene
 		if sc == null or sc.scene_file_path == MENU_SCENE or not get_tree().get_first_node_in_group("player"):
@@ -144,6 +163,12 @@ func _open() -> void:
 	b.text = "Pokračovat"
 	b.pressed.connect(_close)
 	v.add_child(b)
+	var bp := Button.new()
+	bp.text = "Družina, dovednosti, výbava, nastavení"
+	bp.pressed.connect(func():
+		_close()
+		PartyMenu.open(get_tree(), 0))
+	v.add_child(bp)
 	for i in SLOTS:
 		var sl := i + 1
 		var bs := Button.new()

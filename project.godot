@@ -17,6 +17,9 @@ Hero="*res://loot/hero.gd"
 Quests="*res://loot/quests.gd"
 DialogueRunner="*res://loot/dialogue_runner.gd"
 SaveGame="*res://loot/save_game.gd"
+Atmo="*res://fx/atmo.gd"
+Party="*res://loot/party.gd"
+Settings="*res://loot/settings.gd"
 
 [display]
 

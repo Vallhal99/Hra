@@ -62,6 +62,90 @@
    "use": {}
   },
   {
+   "id": "dyka",
+   "name": "Dýka",
+   "category": "Zbraně/Dýky",
+   "slot": "zbran",
+   "atk": 4,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 90,
+   "desc": "Lehká zbraň na blízko. Vysoká šance na kritický zásah, útočí jen na přední řadu.",
+   "icon": "items/dyka.png",
+   "use": {}
+  },
+  {
+   "id": "sekera",
+   "name": "Bojová sekera",
+   "category": "Zbraně/Sekery",
+   "slot": "zbran",
+   "atk": 8,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 220,
+   "desc": "Těžký útok na přední řadu, láme štíty dvakrát rychleji.",
+   "icon": "items/sekera.png",
+   "use": {}
+  },
+  {
+   "id": "kopi",
+   "name": "Kopí",
+   "category": "Zbraně/Kopí",
+   "slot": "zbran",
+   "atk": 7,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 200,
+   "desc": "Zasáhne cíl i nepřítele za ním.",
+   "icon": "items/kopi.png",
+   "use": {}
+  },
+  {
+   "id": "luk",
+   "name": "Lovecký luk",
+   "category": "Zbraně/Luky",
+   "slot": "zbran",
+   "atk": 6,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 180,
+   "desc": "Dosáhne na celé bojiště. V dešti často mine.",
+   "icon": "items/luk.png",
+   "use": {}
+  },
+  {
+   "id": "hul",
+   "name": "Dubová hůl",
+   "category": "Zbraně/Hole",
+   "slot": "zbran",
+   "atk": 4,
+   "def": 0,
+   "hp": 0,
+   "sp": 15,
+   "price": 160,
+   "desc": "Zasáhne dva sousední cíle, přidává SP.",
+   "icon": "items/hul.png",
+   "use": {}
+  },
+  {
+   "id": "past",
+   "name": "Past na zvěř",
+   "category": "Předměty",
+   "slot": "",
+   "atk": 0,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "price": 40,
+   "desc": "Stiskni T a polož ji na zem. Nepřítel, který do ní šlápne, začne boj zraněný a otrávený.",
+   "icon": "",
+   "use": {}
+  },
+  {
    "id": "helma",
    "name": "Rytířská přilba",
    "category": "Brnění/Helmy",
@@ -469,8 +553,37 @@
        "next": "k_shop"
       },
       {
+       "text": "Potřebuji opravit výbavu.",
+       "next": "k_rep"
+      },
+      {
+       "text": "Potřeboval bys z kovárny na čerstvý vzduch? Pojď se mnou.",
+       "next": "k_join"
+      },
+      {
        "text": "Jen jdu okolo.",
        "next": "k_bye"
+      }
+     ]
+    },
+    {
+     "id": "k_rep",
+     "speaker": "Kovář",
+     "text": "Dej to sem. Spočítám ti to podle škod.",
+     "effects": [
+      {
+       "shop": "kovar"
+      }
+     ],
+     "next": "k1"
+    },
+    {
+     "id": "k_join",
+     "speaker": "Kovář",
+     "text": "Hmpf... Dobře. Kladivo beru s sebou. Brum je tvůj.",
+     "effects": [
+      {
+       "recruit": "brum"
       }
      ]
     },
@@ -528,6 +641,7 @@
     "lektvar",
     "lektvar_many",
     "paklic",
+    "past",
     "zelezny_mec",
     "helma"
    ],
@@ -556,6 +670,11 @@
    "stock": [
     "zelezny_mec",
     "ozdobny_mec",
+    "dyka",
+    "sekera",
+    "kopi",
+    "luk",
+    "hul",
     "helma",
     "telo",
     "rukavice",
@@ -563,7 +682,8 @@
     "boty"
    ],
    "buy_mult": 1.1,
-   "sell_mult": 0.6
+   "sell_mult": 0.6,
+   "repair": true
   }
  ]
 }

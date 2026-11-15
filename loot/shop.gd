@@ -37,6 +37,15 @@ static func _build(tree: SceneTree, cl: CanvasLayer, sh: Dictionary) -> void:
 	t.text = "%s     Tvoje zlato: %d" % [sh.get("name", "Obchod"), inv.gold]
 	t.add_theme_color_override("font_color", Color(1, 0.9, 0.4))
 	vb.add_child(t)
+	if sh.get("repair", false):
+		var rb := Button.new()
+		var rc: int = inv.repair_cost()
+		rb.text = "Opravit veškerou výbavu – %d zl." % rc if rc > 0 else "Výbava je v pořádku"
+		rb.disabled = rc <= 0 or inv.gold < rc
+		rb.pressed.connect(func():
+			inv.repair_all()
+			_build(tree, cl, sh))
+		vb.add_child(rb)
 	var hb := HBoxContainer.new()
 	hb.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	vb.add_child(hb)

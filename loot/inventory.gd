@@ -11,6 +11,7 @@ var ITEMS: Dictionary = {}
 var bag: Dictionary = {"paklic": 3}
 var equip: Dictionary = {}
 var gold := 25
+var dura: Dictionary = {}   ## slot -> odolnost 0..100 (chybí = 100)
 var _ui: CanvasLayer
 var _root: Control
 
@@ -22,6 +23,66 @@ func _ready() -> void:
 	_ui.layer = 80
 	_ui.visible = false
 	add_child(_ui)
+
+
+func dura_of(slot: String) -> float:
+	return float(dura.get(slot, 100.0))
+
+
+## 0 v pořádku, 1 poškozeno, 2 kriticky, 3 zničeno (kus odpadl, bonusy zmizely)
+func dura_level(slot: String) -> int:
+	if equip.get(slot) == null:
+		return 0
+	var d := dura_of(slot)
+	if d <= 0.0:
+		return 3
+	if d < 30.0:
+		return 2
+	if d < 60.0:
+		return 1
+	return 0
+
+
+func hurt_gear(ratio: float) -> String:
+	## ratio = zasažené HP / max HP. Vrátí zprávu o nově poškozeném kusu ("" = nic).
+	var worn: Array = []
+	for s in SLOTS:
+		if s != "zbran" and equip.get(s) != null and dura_of(s) > 0.0:
+			worn.append(s)
+	if worn.is_empty():
+		return ""
+	var slot: String = worn[randi() % worn.size()]
+	var before := dura_level(slot)
+	dura[slot] = maxf(0.0, dura_of(slot) - (4.0 + ratio * 70.0))
+	var after := dura_level(slot)
+	changed.emit()
+	if after != before:
+		var nm: String = ITEMS.get(equip[slot], {}).get("name", SLOT_NAMES[slot])
+		return ["", "%s praskl(a)!" % nm, "%s se rozpadá!" % nm, "%s odpadl(a)!" % nm][after]
+	return ""
+
+
+func wear_weapon(amount: float) -> void:
+	if equip.get("zbran") != null:
+		dura["zbran"] = maxf(0.0, dura_of("zbran") - amount)
+
+
+func repair_cost() -> int:
+	var c := 0
+	for s in SLOTS:
+		if equip.get(s) != null:
+			c += int(round((100.0 - dura_of(s)) * 0.6))
+	return c
+
+
+func repair_all() -> bool:
+	var c := repair_cost()
+	if c <= 0 or gold < c:
+		return false
+	gold -= c
+	dura.clear()
+	changed.emit()
+	return true
 
 
 func count(id: String) -> int:

@@ -1,7 +1,10 @@
-# Hra – HD-2D hra ve stylu Octopath Traveler (Godot 4.7)
+# Babrak2 – HD-2D RPG (Godot 4.7)
 
-Projekt otevři v Godotu 4.7 (Forward+). Hlavní scéna: `scenes/louka.tscn`.
+Ovládání: WASD/šipky chůze, Shift běh, E/Enter/mezerník mluvit, I inventář, J úkoly, C družina/dovednosti/výbava/nastavení,
+T položit past, Esc pauza + ukládání, F9 zkušební souboj.
 
-- `addons/terrain_builder/` – plugin pro stavbu map (terén, přechody textur, vegetace, vítr, kamera + postprocessing)
-- `battle/` – tahový souboj (nepřátelé vlevo, hrdinové vpravo); v běžící hře spustíš klávesou **F9**
-- `tools/` – generátor ukázkové mapy a testovací skripty (`battle_test.gd`, `shot.gd`)
+Generování map: `godot --headless --path . -s res://tools/build_sample.gd`, potom `-s res://tools/build_maps.gd`.
+Export: Projekt → Export (předvolby Windows a Linux jsou připravené). Doporučený renderer: Forward+ (hloubka ostrosti, AO, objemová mlha).
+
+Systémy: fx/atmo.gd (denní doba, počasí, paprsky), battle/rules.gd (prvky, statusy, zbraně, dovednosti, limity, prostředí),
+battle/map_enemy.gd (nepřátelé na mapě, způsoby vstupu do boje), loot/party.gd (parťáci), ui/party_menu.gd, loot/settings.gd.

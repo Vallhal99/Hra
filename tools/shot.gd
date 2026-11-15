@@ -7,6 +7,13 @@ func _initialize() -> void:
 	var ps := load(OS.get_environment("MAP") if OS.get_environment("MAP") != "" else "res://scenes/louka.tscn") as PackedScene
 	var sc := ps.instantiate()
 	get_root().add_child(sc)
+	current_scene = sc
+	var at := get_root().get_node_or_null("Atmo")
+	if at and OS.get_environment("WEATHER") != "":
+		at.set_weather(OS.get_environment("WEATHER"))
+		at.rain_level = 1.0 if OS.get_environment("WEATHER") == "rain" else 0.0
+	if at and OS.get_environment("TOD") != "":
+		at.tod = float(OS.get_environment("TOD"))
 	if args.size() > 1:
 		var p := sc.get_node("Player") as Node3D
 		var parts := args[1].split(",")

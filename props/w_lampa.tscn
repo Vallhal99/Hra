@@ -222,7 +222,7 @@ texture_filter = 5
 height = 3.144
 radius = 0.39914766
 
-[node name="w_lampa" type="Node3D" unique_id=1843496733]
+[node name="w_lampa" type="Node3D" unique_id=894223423]
 
 [node name="Model" type="Node3D" parent="." unique_id=947006859 instance=ExtResource("1_pfffm")]
 transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
@@ -254,13 +254,13 @@ transform = Transform3D(0.7071068, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, 0.70710
 mesh = SubResource("ArrayMesh_ae7s4")
 surface_material_override/0 = SubResource("StandardMaterial3D_tky86")
 
-[node name="Kolize" type="StaticBody3D" parent="." unique_id=52416863]
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=221969058]
 
-[node name="@CollisionShape3D@34" type="CollisionShape3D" parent="Kolize" unique_id=838240449]
+[node name="@CollisionShape3D@47" type="CollisionShape3D" parent="Kolize" unique_id=1183041094]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.41758788, 1.572, 0)
 shape = SubResource("CylinderShape3D_326hv")
 
-[node name="Svetlo" type="OmniLight3D" parent="." unique_id=297410662]
+[node name="Svetlo" type="OmniLight3D" parent="." unique_id=287756616]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 light_color = Color(1, 0.78, 0.45, 1)
 light_energy = 2.4

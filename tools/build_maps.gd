@@ -21,6 +21,7 @@ var bz1 := 0
 var lights_energy := 1.3
 var indoor := false
 var sun_energy := 0.95
+var enemy_cfg: Array = []
 
 
 func _initialize() -> void:
@@ -41,12 +42,16 @@ func _run() -> void:
 	_reka()
 	_vesnice()
 	_obchod()
+	_hvozd()
+	_jezero()
+	_jeskyne()
 	print("HOTOVO")
 	quit()
 
 
 # ---------------- společné ----------------
 func _begin(nm: String, x0: int, x1: int, z0: int, z1: int, seed_: int) -> void:
+	enemy_cfg.clear()
 	rng.seed = seed_
 	kind.clear()
 	noveg.clear()
@@ -439,11 +444,22 @@ func _finish(path: String, spawn: Vector3, speaker_npcs: Array = []) -> void:
 		npc.lines = d[2]
 		if d.size() > 4:
 			npc.dialogue_id = d[4].get("dialogue", "")
-			npc.texture = load(d[4]["tex"])
+			if d[4].has("tex"):
+				npc.texture = load(d[4]["tex"])
 			npc.ppm = d[4].get("ppm", 32.0)
+			npc.night_text = d[4].get("night", "")
+			npc.routine = d[4].get("routine", [])
 		npc.position = Vector3(d[3].x, _h(d[3].x, d[3].y), d[3].y)
 		scn.add_child(npc)
 		npc.owner = scn
+	for e in enemy_cfg:
+		var me := MapEnemy.new()
+		me.name = e[0]
+		me.kinds = PackedStringArray(e[1])
+		me.patrol = e[3]
+		me.position = Vector3(e[2].x, _h(e[2].x, e[2].y), e[2].y)
+		scn.add_child(me)
+		me.owner = scn
 	var pl := Player3D.new()
 	pl.name = "Player"
 	pl.position = spawn + Vector3(0, 0.1, 0)
@@ -470,7 +486,7 @@ func _rozcesti() -> void:
 			var cz := z + 0.5
 			var nzv := nz.get_noise_2d(x * 0.9, z * 0.9)
 			var band := absf(cz - J.y) < 5.0 + 1.2 * nzv
-			var corr := absf(cx - J.x) < 5.0 + 1.2 * nzv and cz < J.y
+			var corr := absf(cx - J.x) < 5.0 + 1.2 * nzv
 			var ell := pow((cx - J.x) / 11.0, 2) + pow((cz - J.y) / 8.5, 2) < 1.0 + 0.2 * nzv
 			var lobes := pow((cx - 9.0) / 6.5, 2) + pow((cz - 29.0) / 4.5, 2) < 1.0 or pow((cx - 38.5) / 6.5, 2) + pow((cz - 10.0) / 4.5, 2) < 1.0
 			if not (band or corr or ell or lobes):
@@ -483,7 +499,7 @@ func _rozcesti() -> void:
 			elif nzb.get_noise_2d(x * 1.3, z * 1.3) > 0.45:
 				m = 5
 			var onh := absf(cz - J.y) <= 1.7 + 0.3 * nzv
-			var onv := absf(cx - J.x) <= 1.7 + 0.3 * nzv and cz < J.y
+			var onv := absf(cx - J.x) <= 1.7 + 0.3 * nzv
 			if onh or onv:
 				m = 3 if rng.randf() < 0.12 else 2
 				k = 2
@@ -517,6 +533,10 @@ func _rozcesti() -> void:
 	_exit("Vychod_sever", Vector3(J.x, 0, 0.8), Vector3(8, 2.5, 1), "res://scenes/louka.tscn", "Z_jihu")
 	_exit("Vychod_vlevo", Vector3(0.8, 0, J.y), Vector3(1, 2.5, 8), "res://scenes/louka_reka.tscn", "Z_vychodu")
 	_exit("Vychod_vpravo", Vector3(47.2, 0, J.y), Vector3(1, 2.5, 8), "res://scenes/vesnice.tscn", "Ze_zapadu")
+	_mark("Z_jihu", Vector3(J.x, 0, 34.0))
+	_exit("Vychod_jih", Vector3(J.x, 0, 37.2), Vector3(8, 2.5, 1), "res://scenes/hvozd.tscn", "Ze_severu")
+	_foe_at("Slizak_r1", ["slime"], Vector2(37.0, 11.0), 3.0)
+	_foe_at("Zbojnik_r1", ["bandit", "slime"], Vector2(10.0, 29.0), 3.0)
 	_finish("res://scenes/rozcesti.tscn", Vector3(J.x, 0, 3.5))
 
 
@@ -634,6 +654,8 @@ func _reka() -> void:
 	_edge_trees(80)
 	_mark("Z_vychodu", Vector3(54.0, 0.5, 36.5))
 	_exit("Vychod_vychod", Vector3(57.2, 0.5, 36.5), Vector3(1, 2.5, 7), "res://scenes/rozcesti.tscn", "Z_leva")
+	_foe_at("Slizak_l1", ["slime", "slime"], Vector2(38.0, 12.0), 3.0)
+	_foe_at("Kostlivec_l1", ["skeleton"], Vector2(30.0, 40.0), 3.0)
 	_finish("res://scenes/louka_reka.tscn", Vector3(54.0, 0.5, 36.5))
 
 
@@ -774,6 +796,233 @@ func _vesnice() -> void:
 
 
 # ======================= OBCHOD (interiér) =======================
+# ======================= NOVÉ MAPY: HVOZD, JEZERO, JESKYNĚ =======================
+func _seg_dist(p: Vector2, pts: Array) -> float:
+	var best := 999.0
+	for i in pts.size() - 1:
+		var a: Vector2 = pts[i]
+		var b: Vector2 = pts[i + 1]
+		var ab := b - a
+		var t := clampf((p - a).dot(ab) / maxf(ab.length_squared(), 0.001), 0.0, 1.0)
+		best = minf(best, p.distance_to(a + ab * t))
+	return best
+
+
+func _omni(pos: Vector3, col: Color, energy: float, rng_: float) -> void:
+	var l := OmniLight3D.new()
+	l.position = pos
+	l.light_color = col
+	l.light_energy = energy
+	l.omni_range = rng_
+	scn.add_child(l)
+	l.owner = scn
+
+
+func _foe_at(nm: String, kinds_: Array, p: Vector2, patrol_ := 3.0) -> void:
+	enemy_cfg.append([nm, kinds_, p, patrol_])
+
+
+func _hvozd() -> void:
+	_begin("Hvozd", 0, 52, 0, 46, 211)
+	var main_path := [Vector2(26, 0), Vector2(26, 9), Vector2(23, 17), Vector2(25, 25), Vector2(31, 29), Vector2(37, 31)]
+	var west := [Vector2(23, 17), Vector2(16, 25), Vector2(11, 33), Vector2(9, 38)]
+	var east := [Vector2(26, 9), Vector2(34, 12), Vector2(43, 17), Vector2(52, 22)]
+	var camp := Vector2(38, 31)
+	var cave_plaza := Vector2(9, 38)
+	for x in range(0, 52):
+		for z in range(0, 46):
+			var c := Vector2i(x, z)
+			var p := Vector2(x + 0.5, z + 0.5)
+			var nzv := nz.get_noise_2d(x * 0.8, z * 0.8)
+			var dp := minf(_seg_dist(p, main_path), minf(_seg_dist(p, west), _seg_dist(p, east)))
+			var in_camp := p.distance_to(camp) < 7.5 + 1.0 * nzv
+			var in_cave := p.distance_to(cave_plaza) < 4.2 + 0.6 * nzv
+			if dp < 2.2 + 0.5 * nzv or in_camp or in_cave:
+				var onp := dp < 1.3 or p.distance_to(camp) < 5.0 or in_cave
+				tm.cells[c] = Vector2i(0, 2 if onp else 1)
+				kind[c] = 2 if onp else 1
+			elif dp < 4.5 + nzv and nzb.get_noise_2d(x, z) > 0.0:
+				tm.cells[c] = Vector2i(0, 4 if nz.get_noise_2d(x * 1.5, z) > 0 else 1)
+				kind[c] = 1
+			else:
+				_forest(c, 3)
+	noveg.append(Rect2(camp.x - 6.5, camp.y - 6.5, 13, 13))
+	noveg.append(Rect2(cave_plaza.x - 4, cave_plaza.y - 4, 8, 8))
+	_edge_trees(110, 2.2)
+	_rocks(10, [1], [Rect2(camp.x - 8, camp.y - 8, 16, 16)])
+	# tábor zbojníků
+	_inst("lp_stan", camp + Vector2(-3.6, -2.4), 30.0)
+	_inst("lp_stan", camp + Vector2(3.4, -3.0), 330.0)
+	_inst("lp_stan", camp + Vector2(4.2, 2.8), 250.0)
+	_inst("w_ohniste", camp + Vector2(0.0, 0.2), 0.0)
+	_inst("w_kotlik", camp + Vector2(-1.4, 1.6), 20.0)
+	_inst("w_bedna_velka", camp + Vector2(-5.0, 1.2), 70.0)
+	_inst("w_bedna_mala", camp + Vector2(-4.4, 2.0), 10.0)
+	_inst("w_sud", camp + Vector2(2.2, -5.2), 0.0)
+	_inst("lp_barel", camp + Vector2(3.0, -5.0), 40.0)
+	_inst("w_truhla", camp + Vector2(5.8, -0.4), 270.0)
+	_inst("w_vlajka", camp + Vector2(-0.5, -4.4), 0.0)
+	_inst("w_strasak", camp + Vector2(-6.0, -3.5), 20.0)
+	# vchod do jeskyně: skalní masiv
+	_inst("w_kamenny_kopec", cave_plaza + Vector2(0.0, 5.2), 0.0, 1.6)
+	_inst("w_skala", cave_plaza + Vector2(-3.3, 3.8), 40.0)
+	_inst("w_skala", cave_plaza + Vector2(3.3, 3.8), 300.0)
+	_inst("w_krystaly", cave_plaza + Vector2(-2.6, 1.0), 0.0)
+	_inst("w_ohnisko_miska", cave_plaza + Vector2(2.6, 0.2), 0.0)
+	_inst("w_hrob", Vector2(17.0, 21.0), 20.0)
+	_inst("w_houba", Vector2(30.0, 4.0))
+	_inst("w_menhir", Vector2(43.0, 6.0), 15.0)
+	_inst("w_rozcestnik", Vector2(24.2, 16.2), 40.0)
+	_mark("Ze_severu", Vector3(26.0, 0, 3.5))
+	_mark("Z_jeskyne", Vector3(cave_plaza.x, 0, cave_plaza.y + 1.5))
+	_mark("Ze_zapadu", Vector3(48.0, 0, 21.5))
+	_exit("Vychod_sever", Vector3(26.0, 0, 0.8), Vector3(7, 2.5, 1), "res://scenes/rozcesti.tscn", "Z_jihu")
+	_exit("Vchod_jeskyne", Vector3(cave_plaza.x, 0, cave_plaza.y + 3.6), Vector3(4.0, 2.5, 1.4), "res://scenes/jeskyne.tscn", "Vchod")
+	_exit("Vychod_vychod", Vector3(51.2, 0, 22.0), Vector3(1, 2.5, 7), "res://scenes/jezero.tscn", "Z_zapadu")
+	_foe_at("Zbojnici_1", ["bandit", "bandit"], camp + Vector2(-1.0, -1.0), 3.0)
+	_foe_at("Zbojnici_2", ["bandit", "slime", "bandit"], camp + Vector2(2.5, 3.0), 2.5)
+	_foe_at("Slizak_1", ["slime"], Vector2(25.0, 20.0), 3.0)
+	_foe_at("Slizak_2", ["slime", "slime"], Vector2(38.0, 15.0), 3.0)
+	_label(props, "JESKYNĚ", Vector3(cave_plaza.x, _h(cave_plaza.x, cave_plaza.y + 3.2) + 3.2, cave_plaza.y + 3.2), 0.0, 44)
+	_finish("res://scenes/hvozd.tscn", Vector3(26.0, 0, 3.5), [
+		["Hlidka", "Zběhlý hlídač", "Pst! Tábor zbojníků je na jihovýchodě. Jestli jdeš tam, nevolej na ně.|V noci spí... aspoň někteří.", Vector2(25.0, 6.0)]])
+
+
+func _jezero() -> void:
+	_begin("Jezero", 0, 50, 0, 40, 307)
+	var lake := Vector2(33, 21)
+	for x in range(0, 50):
+		for z in range(0, 40):
+			var c := Vector2i(x, z)
+			var p := Vector2(x + 0.5, z + 0.5)
+			var nzv := nz.get_noise_2d(x * 0.7, z * 0.7)
+			var dl := pow((p.x - lake.x) / 11.0, 2) + pow((p.y - lake.y) / 8.0, 2)
+			var land := pow((p.x - 20.0) / 24.0, 2) + pow((p.y - 20.0) / 17.0, 2) < 1.0 + 0.12 * nzv
+			var corr := p.x < 22.0 and absf(p.y - 21.5) < 4.0 + nzv
+			if dl < 1.0 + 0.1 * nzv:
+				tm.cells[c] = Vector2i(0, 3)
+				kind[c] = 5
+			elif dl < 1.45 + 0.12 * nzv and (land or corr):
+				tm.cells[c] = Vector2i(0, 3 if rng.randf() < 0.5 else 4)
+				kind[c] = 3
+			elif land or corr:
+				var m := 0
+				if nz.get_noise_2d(x, z) > 0.25:
+					m = 1
+				elif nzb.get_noise_2d(x * 1.3, z * 1.3) > 0.35:
+					m = 5
+				var onp := absf(p.y - 21.5) < 1.5 + 0.3 * nzv and p.x < 24.0
+				tm.cells[c] = Vector2i(0, 2 if onp else m)
+				kind[c] = 2 if onp else 1
+			else:
+				_forest(c, 3)
+	var pts: Array = []
+	var a := 0.0
+	while a <= TAU + 0.3:
+		pts.append(Vector3(lake.x + cos(a) * 8.5, 0.3, lake.y + sin(a) * 5.6))
+		a += 0.45
+	var wr := WaterFx.ribbon(pts, 9.0)
+	wr.name = "Jezero"
+	scn.add_child(wr)
+	wr.owner = scn
+	var wr2 := WaterFx.ribbon([Vector3(lake.x - 8, 0.3, lake.y), Vector3(lake.x, 0.3, lake.y), Vector3(lake.x + 8, 0.3, lake.y)], 11.5)
+	scn.add_child(wr2)
+	wr2.owner = scn
+	# neviditelná zeď kolem vody
+	var n := 20
+	for i in n:
+		var ang := TAU * i / n
+		var sb := StaticBody3D.new()
+		var cs := CollisionShape3D.new()
+		var bs := BoxShape3D.new()
+		bs.size = Vector3(5.4, 3.0, 3.2)
+		cs.shape = bs
+		sb.add_child(cs)
+		sb.position = Vector3(lake.x + cos(ang) * 10.6, 1.3, lake.y + sin(ang) * 7.4)
+		sb.rotation.y = -ang
+		scn.add_child(sb)
+		sb.owner = scn
+		cs.owner = scn
+	noveg.append(Rect2(lake.x - 12, lake.y - 9, 24, 18))
+	_edge_trees(70, 2.4)
+	_rocks(16, [1], [Rect2(lake.x - 12, lake.y - 9, 24, 18)])
+	# molo a rybářská chýše
+	var wood := _wood()
+	var pier := Node3D.new()
+	pier.name = "Molo"
+	props.add_child(pier)
+	pier.owner = scn
+	var pz := 21.0
+	var px := lake.x - 12.2
+	for i in 9:
+		_box(pier, Vector3(px + i * 0.6, 0.62, pz), Vector3(0.62, 0.08, 1.5), wood)
+	_inst("lp_domek", Vector2(14.0, 15.5), 160.0)
+	_inst("w_sud", Vector2(17.6, 16.5), 0.0)
+	_inst("w_ohniste", Vector2(18.5, 24.5), 0.0)
+	_inst("w_seno", Vector2(11.0, 26.5), 35.0)
+	_inst("w_plot", Vector2(12.0, 19.5), 90.0)
+	_inst("lp_barel", Vector2(16.0, 26.0), 30.0)
+	_inst("w_oblazky", Vector2(24.5, 13.5), 0.0)
+	_inst("w_krystaly", Vector2(44.0, 6.0), 0.0)
+	_inst("w_kamen_mechovy", Vector2(40.0, 31.0), 20.0)
+	_mark("Z_zapadu", Vector3(4.0, 0, 21.5))
+	_exit("Vychod_zapad", Vector3(0.8, 0, 21.5), Vector3(1, 2.5, 7), "res://scenes/hvozd.tscn", "Ze_zapadu")
+	_foe_at("Slizak_j1", ["slime", "slime"], Vector2(28.0, 31.0), 3.0)
+	_foe_at("Kostlivec_j1", ["skeleton"], Vector2(41.0, 20.0), 2.5)
+	_finish("res://scenes/jezero.tscn", Vector3(4.0, 0, 21.5), [
+		["Rybar", "Rybář Tomáš", "Ryby nekoušou. Možná je to tím, že u jeskyně straší.|Nemáš náhodou červy?", Vector2(15.5, 18.3), {"routine": [{"t0": 0.28, "t1": 0.80, "off": Vector3(0, 0, 0)}, {"t0": 0.80, "t1": 0.28, "hide": true}], "night": "Chrrr... (Rybář spí.)"}]])
+
+
+func _jeskyne() -> void:
+	indoor = true
+	sun_energy = 0.12
+	_begin("Jeskyne", 0, 44, 0, 36, 409)
+	var rooms := [[Vector2(14, 29), 4.0], [Vector2(14, 17), 6.0], [Vector2(31, 14), 7.0], [Vector2(35, 27), 4.5]]
+	var corridors := [[Vector2(14, 34), Vector2(14, 23)], [Vector2(14, 17), Vector2(31, 14)], [Vector2(31, 14), Vector2(35, 27)]]
+	for x in range(0, 44):
+		for z in range(0, 36):
+			var c := Vector2i(x, z)
+			var p := Vector2(x + 0.5, z + 0.5)
+			var nzv := nz.get_noise_2d(x * 0.8, z * 0.8)
+			var open := false
+			for r in rooms:
+				if p.distance_to(r[0]) < float(r[1]) + 0.8 * nzv:
+					open = true
+			for cr in corridors:
+				if _seg_dist(p, [cr[0], cr[1]]) < 1.9 + 0.4 * nzv:
+					open = true
+			if open:
+				tm.cells[c] = Vector2i(0, 3 if nzb.get_noise_2d(x, z) > -0.1 else 2)
+				kind[c] = 2
+			else:
+				tm.cells[c] = Vector2i(9 + (1 if nzb.get_noise_2d(x, z) > 0.3 else 0), 3)
+				kind[c] = 0
+	# krystaly svítí
+	var cr_spots := [Vector2(10.5, 15.5), Vector2(19.0, 19.5), Vector2(27.0, 10.0), Vector2(36.5, 17.0), Vector2(12.0, 30.5), Vector2(38.0, 29.5)]
+	for p in cr_spots:
+		_inst("w_krystaly", p, rng.randf_range(0, 360), 1.2)
+		_omni(Vector3(p.x, _h(p.x, p.y) + 1.4, p.y), Color(0.45, 0.8, 1.0), 2.6, 9.0)
+	_omni(Vector3(14, 1.8, 33), Color(1.0, 0.8, 0.5), 2.0, 8.0)
+	for nm in ["w_kamen_stredni", "w_kamen_maly", "w_balvan", "w_kamen_dvojice", "w_oblazky"]:
+		for i in 3:
+			var q := Vector2(rng.randf_range(8, 38), rng.randf_range(10, 31))
+			var c2 := Vector2i(floori(q.x), floori(q.y))
+			if tm.cells.has(c2) and (tm.cells[c2] as Vector2i).x == 0:
+				_inst(nm, q, rng.randf_range(0, 360), rng.randf_range(0.8, 1.2))
+	_inst("w_hrob", Vector2(33.0, 9.5), 0.0)
+	_inst("w_truhla", Vector2(36.0, 30.0), 200.0)
+	_inst("w_bedna_otevrena", Vector2(33.5, 29.0), 20.0)
+	_inst("w_socha", Vector2(31.0, 17.5), 180.0)
+	_mark("Vchod", Vector3(14.0, 0, 31.5))
+	_exit("Vychod_jeskyne", Vector3(14.0, 0, 35.2), Vector3(5, 2.5, 1.0), "res://scenes/hvozd.tscn", "Z_jeskyne")
+	_foe_at("Kostlivci_1", ["skeleton", "skeleton"], Vector2(14, 17), 3.0)
+	_foe_at("Kostlivci_2", ["skeleton", "slime", "skeleton"], Vector2(31, 14), 3.5)
+	_foe_at("Strazce", ["skeleton", "skeleton", "bandit"], Vector2(35, 26), 2.0)
+	_finish("res://scenes/jeskyne.tscn", Vector3(14.0, 0, 31.5), [])
+	indoor = false
+	sun_energy = 0.95
+
+
 func _obchod() -> void:
 	_begin("Obchod", 0, 16, 2, 12, 31)
 	indoor = true

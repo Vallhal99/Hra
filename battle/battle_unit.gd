@@ -26,6 +26,16 @@ var broken := false
 var broken_turns := 0
 var bp := 1
 var row := 0 ## 0 = přední řada, 1 = zadní
+var status: Dictionary = {}   ## id -> zbývající kola
+var resist: Dictionary = {}   ## prvek -> násobič (0.5 odolný, 1.5 citlivý, 0 imunní)
+var wtype := "fist"           ## typ zbraně (viz Rules.WEAPON_TYPES)
+var class_id := ""
+var ranged := false           ## nepřítel útočí na kohokoli
+var boss := false
+var xp_value := 0
+var gold_value := 0
+var drops: Array = []         ## [[id, šance]]
+var member_id := ""           ## "" = hlavní hrdina, jinak id parťáka
 @export var ppm := 32.0 ## pixelů na metr (hrdina z Dílny má 133)
 ## Kam se postava na obrázku dívá. Hrdina stojí vpravo a musí se dívat doleva, nepřítel naopak (obrázek se sám překlopí).
 @export var faces_right := true
@@ -50,6 +60,36 @@ func reset() -> void:
 	broken_turns = 0
 	weak_known = []
 	bp = 1
+	status = {}
+
+
+func has_st(id: String) -> bool:
+	return status.has(id)
+
+
+func add_st(id: String, turns: int) -> void:
+	status[id] = maxi(int(status.get(id, 0)), turns)
+
+
+func eff_spd() -> float:
+	var v := float(spd)
+	for k in status:
+		v *= float(Rules.STATUS[k].get("spd", 1.0))
+	return v
+
+
+func eff_atk() -> float:
+	var v := float(atk)
+	for k in status:
+		v *= float(Rules.STATUS[k].get("atk", 1.0))
+	return v
+
+
+func taken_mult() -> float:
+	var v := 1.0
+	for k in status:
+		v *= float(Rules.STATUS[k].get("taken", 1.0))
+	return v
 
 
 func alive() -> bool:
@@ -73,26 +113,43 @@ static func make(n: String, hero: bool, hp_: int, sp_: int, atk_: int, def_: int
 
 static func default_party() -> Array[BattleUnit]:
 	var out: Array[BattleUnit] = []
-	var H = Engine.get_main_loop().root.get_node_or_null("Hero")
+	var root: Window = (Engine.get_main_loop() as SceneTree).root
+	var H = root.get_node_or_null("Hero")
+	var inv = root.get_node_or_null("/root/Inventory")
 	if H != null and H.class_id != "":
-		out.append(make(H.cls().name, true, H.max_hp(), H.max_sp(), H.atk() + 6, H.defense() + 3, H.spd() + 4, Color(0.25, 0.45, 0.9), [
-			{"name": "Silný úder", "cost": 8, "power": 1.9, "kind": "sword"},
-			{"name": "Vír ostří", "cost": 14, "power": 1.1, "all": true, "kind": "wind"}]))
-		var hs: Dictionary = load("res://hero/hero_sprite.gd").sheet("Idle", "W", H.get_node("/root/Inventory").equip)
-		if not hs.is_empty():
-			out[0].texture = hs.tex
-			out[0].hframes = hs.frames
-			out[0].ppm = 115.0
-			out[0].faces_right = false
-			out[0].hero_anim = true
+		var u := make(H.cls().name, true, H.max_hp(), H.max_sp(), H.atk() + 6, H.defense() + 3, H.spd() + 4, Color(0.25, 0.45, 0.9))
+		u.class_id = H.class_id
+		u.skills = Rules.skills_for(H.class_id, H.sub, H.level)
+		out.append(u)
 	else:
-		out.append(make("Hrdina", true, 120, 30, 26, 9, 12, Color(0.25, 0.45, 0.9), [
-		{"name": "Silný úder", "cost": 8, "power": 1.9, "kind": "sword"},
-		{"name": "Vír ostří", "cost": 14, "power": 1.1, "all": true, "kind": "wind"}]))
-	out.append(make("Léčitelka", true, 90, 40, 15, 6, 9, Color(0.9, 0.85, 0.95), [
-		{"name": "Léčení", "cost": 10, "heal": 45},
-		{"name": "Světelný šíp", "cost": 8, "power": 1.6, "kind": "light"}]))
+		var u := make("Hrdina", true, 120, 30, 26, 9, 12, Color(0.25, 0.45, 0.9))
+		u.class_id = "valecnik"
+		u.skills = Rules.skills_for("valecnik", "", 8)
+		out.append(u)
+	var hs: Dictionary = load("res://hero/hero_sprite.gd").sheet("Idle", "W", inv.equip)
+	if not hs.is_empty():
+		out[0].texture = hs.tex
+		out[0].hframes = hs.frames
+		out[0].ppm = 115.0
+		out[0].faces_right = false
+		out[0].hero_anim = true
+	out[0].wtype = Rules.weapon_type_of(str(inv.equip.get("zbran", "")) if inv.equip.get("zbran") != null else "")
+	var P = root.get_node_or_null("Party")
+	if P != null:
+		for id in P.order:
+			out.append(P.make_unit(id))
+	else:
+		out.append(make("Léčitelka", true, 90, 40, 15, 6, 9, Color(0.9, 0.85, 0.95), Rules.SKILLS["klerik"]))
 	return out
+
+
+static func make_kind(k: String) -> BattleUnit:
+	match k:
+		"skeleton":
+			return _skeleton(4, ["light", "axe", "fire", "staff"])
+		"bandit":
+			return _bandit(3, ["ice", "bow", "dagger"])
+	return _slime(3, ["fire", "sword", "wind"])
 
 
 static func default_enemies() -> Array[BattleUnit]:
@@ -107,12 +164,16 @@ static func _foe(n: String, hp_: int, atk_: int, def_: int, spd_: int, col: Colo
 	var u := make(n, false, hp_, 0, atk_, def_, spd_, col)
 	u.shield_max = sh
 	u.weak = weak_
+	u.xp_value = 20 + atk_
+	u.gold_value = 8 + hp_ / 10
 	u.reset()
 	return u
 
 
 static func _slime(sh: int, weak_: Array) -> BattleUnit:
 	var u := _foe("Slizák", 70, 16, 4, 8, Color(0.3, 0.8, 0.35), sh, weak_)
+	u.resist = {"ice": 0.6, "dark": 0.8}
+	u.drops = [["lektvar", 0.3]]
 	var fps := {"Idle": 6.0, "Attack": 12.0, "Hurt": 9.0, "Death": 7.0}
 	for k in fps:
 		var t := load("res://enemies/slime_%s.png" % k) as Texture2D
@@ -125,6 +186,8 @@ static func _slime(sh: int, weak_: Array) -> BattleUnit:
 
 static func _skeleton(sh: int, weak_: Array) -> BattleUnit:
 	var u := _foe("Kostlivec", 85, 20, 6, 10, Color(0.85, 0.85, 0.8), sh, weak_)
+	u.resist = {"dark": 0.0, "dagger": 0.7, "bow": 0.6}
+	u.drops = [["paklic", 0.35]]
 	u.texture = load("res://enemies/kostlivec.png")
 	u.ppm = 105.0
 	u.proc = true
@@ -133,6 +196,8 @@ static func _skeleton(sh: int, weak_: Array) -> BattleUnit:
 
 static func _bandit(sh: int, weak_: Array) -> BattleUnit:
 	var u := _foe("Zbojník", 75, 22, 5, 14, Color(0.5, 0.2, 0.25), sh, weak_)
+	u.ranged = true
+	u.drops = [["lektvar", 0.4], ["paklic", 0.2]]
 	u.texture = load("res://enemies/zbojnik.png")
 	u.ppm = 105.0
 	u.proc = true

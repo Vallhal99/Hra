@@ -1314,7 +1314,7 @@ texture_filter = 5
 height = 1.2450885
 radius = 1.0129366
 
-[node name="w_ohniste" type="Node3D" unique_id=1886317669]
+[node name="w_ohniste" type="Node3D" unique_id=2060113884]
 
 [node name="Model" type="Node3D" parent="." unique_id=1502800415 instance=ExtResource("1_snr6s")]
 
@@ -1430,13 +1430,13 @@ surface_material_override/0 = SubResource("StandardMaterial3D_8esju")
 surface_material_override/1 = SubResource("StandardMaterial3D_yuif3")
 surface_material_override/2 = SubResource("StandardMaterial3D_y6iiw")
 
-[node name="Kolize" type="StaticBody3D" parent="." unique_id=403499767]
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=1928881490]
 
-[node name="@CollisionShape3D@31" type="CollisionShape3D" parent="Kolize" unique_id=719665471]
+[node name="@CollisionShape3D@44" type="CollisionShape3D" parent="Kolize" unique_id=1184422727]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.011638284, 0.57745576, 0.008857608)
 shape = SubResource("CylinderShape3D_v4cdb")
 
-[node name="Svetlo" type="OmniLight3D" parent="." unique_id=1918476031]
+[node name="Svetlo" type="OmniLight3D" parent="." unique_id=1297468850]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 light_color = Color(1, 0.62, 0.28, 1)
 light_energy = 3.2

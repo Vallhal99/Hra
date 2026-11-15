@@ -34,15 +34,53 @@ static func has_set(a: String, d: String) -> bool:
 	return _atlas.has("nahe_helma") and _atlas["nahe_helma"].meta.has("%s (%s)" % [a, d])
 
 
+static func _dlevel(slot: String) -> int:
+	var l := Engine.get_main_loop() as SceneTree
+	var inv = l.root.get_node_or_null("Inventory") if l else null
+	return inv.dura_level(slot) if inv else 0
+
+
 static func layers_for(equip: Dictionary) -> Array:
 	var out := []
 	for s in SLOTS.slice(0, 5):
-		if equip.get(s) == null:
+		if equip.get(s) == null or (s != "zbran" and _dlevel(s) >= 3):
 			out.append("nahe_" + s)
 	for s in SLOTS:
-		if equip.get(s) != null:
+		if equip.get(s) != null and not (s != "zbran" and _dlevel(s) >= 3):
 			out.append(s)
 	return out
+
+
+## Poškozený kus: ztmavení a praskliny (level 1 = pár trhlin, 2 = hodně).
+static func _damage(img: Image, lv: int, seed_: int, w: int, n: int, h: int) -> void:
+	var rng := RandomNumberGenerator.new()
+	for f in n:
+		rng.seed = seed_ + lv * 7919
+		var x0 := f * w
+		for yy in h:
+			for xx in w:
+				var c := img.get_pixel(x0 + xx, yy)
+				if c.a > 0.5:
+					var k := 1.0 - 0.1 * lv - (0.12 if ((xx / 5 + yy / 5) * 2654435761 >> 3) % 7 == 0 else 0.0) * lv
+					img.set_pixel(x0 + xx, yy, Color(c.r * k, c.g * k, c.b * k, c.a))
+		for i in 3 * lv + 2:
+			var p := Vector2.ZERO
+			var ok := false
+			for t in 30:
+				p = Vector2(rng.randi_range(10, w - 10), rng.randi_range(20, h - 40))
+				if img.get_pixel(x0 + int(p.x), int(p.y)).a > 0.5:
+					ok = true
+					break
+			if not ok:
+				continue
+			var ang := rng.randf() * TAU
+			for st in rng.randi_range(6, 12 + 4 * lv):
+				ang += rng.randf_range(-0.6, 0.6)
+				p += Vector2(cos(ang), sin(ang)) * 1.4
+				var px := int(p.x)
+				var py := int(p.y)
+				if px >= 0 and px < w and py >= 0 and py < h and img.get_pixel(x0 + px, py).a > 0.5:
+					img.set_pixel(x0 + px, py, Color(0.06, 0.05, 0.08, 1.0))
 
 
 ## Meč v ruce při stání/chůzi (atlas zbraně tyto animace nemá) – kreslí se do snímků.
@@ -116,7 +154,10 @@ static func sheet(a: String, d: String, equip: Dictionary) -> Dictionary:
 	var key := "%s (%s)" % [a, d]
 	var layers := layers_for(equip)
 	var sw := _has_sword(equip) and a in ["Idle", "Walk", "Run"]
-	var ck := key + "|" + ",".join(layers) + ("|sw" if sw else "")
+	var dl := ""
+	for l in layers:
+		dl += str(_dlevel(l))
+	var ck := key + "|" + ",".join(layers) + ("|sw" if sw else "") + "|" + dl
 	if _cache.has(ck):
 		return _cache[ck]
 	var res := {}
@@ -134,7 +175,13 @@ static func sheet(a: String, d: String, equip: Dictionary) -> Dictionary:
 		var m: Dictionary = _atlas[l].meta.get(key, {})
 		if m.is_empty():
 			continue
-		img.blend_rect(_atlas[l].img, Rect2i(int(m.x), int(m.y), w * n, h), Vector2i.ZERO)
+		var lv := _dlevel(l) if l != "zbran" and not l.begins_with("nahe_") else 0
+		if lv > 0:
+			var tmp: Image = _atlas[l].img.get_region(Rect2i(int(m.x), int(m.y), w * n, h))
+			_damage(tmp, lv, l.hash(), w, n, h)
+			img.blend_rect(tmp, Rect2i(0, 0, w * n, h), Vector2i.ZERO)
+		else:
+			img.blend_rect(_atlas[l].img, Rect2i(int(m.x), int(m.y), w * n, h), Vector2i.ZERO)
 	if sw and not back:
 		_draw_sword(img, w, h, n, a, d)
 	img.generate_mipmaps()

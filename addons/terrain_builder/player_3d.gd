@@ -41,6 +41,25 @@ func _ready() -> void:
 	add_child(HD2DSprite.blob_shadow())
 
 
+func _place_trap() -> void:
+	var inv := get_node_or_null("/root/Inventory")
+	if inv == null or inv.count("past") <= 0:
+		return
+	inv.remove("past", 1)
+	var m := MeshInstance3D.new()
+	var c := CylinderMesh.new()
+	c.top_radius = 0.35
+	c.bottom_radius = 0.35
+	c.height = 0.05
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = Color(0.25, 0.22, 0.2)
+	c.material = mat
+	m.mesh = c
+	m.add_to_group("traps")
+	get_tree().current_scene.add_child(m)
+	m.global_position = global_position + Vector3(0, 0.04, 0)
+
+
 func _k(k: Key) -> bool:
 	return Input.is_physical_key_pressed(k)
 
@@ -50,6 +69,9 @@ func _unhandled_input(ev: InputEvent) -> void:
 		return
 	var dlg := get_node_or_null("/root/Dialogue")
 	if dlg and dlg.active:
+		return
+	if ev is InputEventKey and ev.pressed and not ev.echo and ev.keycode == KEY_T:
+		_place_trap()
 		return
 	var press: bool = ev.is_action_pressed("ui_accept") or (ev is InputEventKey and ev.pressed and not ev.echo and ev.keycode == KEY_E)
 	if not press:
