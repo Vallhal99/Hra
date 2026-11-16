@@ -17,7 +17,7 @@ const WEAPON_TYPES := {
 	"staff": {"reach": "adjacent", "melee": false, "desc": "Zasáhne dva sousední cíle."},
 	"fist": {"reach": "front", "melee": true, "desc": "Přední řada."},
 }
-const WEAPON_ITEMS := {"zelezny_mec": "sword", "ozdobny_mec": "sword", "dyka": "dagger", "sekera": "axe", "kopi": "spear", "luk": "bow", "hul": "staff"}
+const WEAPON_ITEMS := {"zelezny_mec": "sword", "ozdobny_mec": "sword", "dyka": "dagger", "sekera": "axe", "kopi": "spear", "pecetni_hrot": "spear", "luk": "bow", "hul": "staff"}
 
 const STATUS := {
 	"poison": {"name": "Jed", "ico": "☠", "col": Color(0.5, 0.9, 0.3), "dot": 0.07},

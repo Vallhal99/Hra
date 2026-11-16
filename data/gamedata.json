@@ -465,6 +465,33 @@
    "desc": "Na páčení zámků.",
    "icon": "",
    "use": {}
+  },
+  {
+   "id": "klic_mauzolea",
+   "name": "Klíč od mauzolea",
+   "category": "Ostatní",
+   "slot": "",
+   "atk": 0,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "use": {},
+   "price": 0,
+   "desc": "Starý železný klíč. Farář Alois ho střežil čtyřicet let."
+  },
+  {
+   "id": "pecetni_hrot",
+   "name": "Pečetní hrot",
+   "category": "Zbraně/Kopí",
+   "slot": "zbran",
+   "atk": 16,
+   "def": 0,
+   "hp": 0,
+   "sp": 0,
+   "use": {},
+   "price": 0,
+   "desc": "Hrot kopí z kovářovy nejlepší oceli a kostního prachu. Mrtví před ním ustupují.",
+   "icon": "items/kopi.png"
   }
  ],
  "classes": [
@@ -618,66 +645,6 @@
   }
  ],
  "dialogues": [
-  {
-   "id": "hlidka",
-   "name": "Hlídač",
-   "start": "h1",
-   "nodes": [
-    {
-     "id": "h1",
-     "speaker": "Zběhlý hlídač",
-     "text": "Pst! Tábor zbojníků je na jihovýchodě. Kdyby je někdo zahnal, kraj by si oddechl.",
-     "choices": [
-      {
-       "text": "Zahnat je? Beru to.",
-       "next": "h_ok",
-       "cond": {
-        "quest_not_started": "tabor"
-       }
-      },
-      {
-       "text": "Tábor je hotový.",
-       "next": "h_done",
-       "cond": {
-        "quest_ready": "tabor"
-       }
-      },
-      {
-       "text": "Rozloučit se.",
-       "next": "h_bye"
-      }
-     ]
-    },
-    {
-     "id": "h_ok",
-     "speaker": "Zběhlý hlídač",
-     "text": "Hlídej si záda. Můžeš je překvapit zezadu, nebo jim nastražit past (klávesa T).",
-     "effects": [
-      {
-       "start_quest": "tabor"
-      }
-     ]
-    },
-    {
-     "id": "h_done",
-     "speaker": "Zběhlý hlídač",
-     "text": "Báječně! Jeden z nich, Rys, má o tobě už prý dobré mínění. Najde si tě.",
-     "effects": [
-      {
-       "complete_quest": "tabor"
-      },
-      {
-       "recruit": "rys"
-      }
-     ]
-    },
-    {
-     "id": "h_bye",
-     "speaker": "Zběhlý hlídač",
-     "text": "Opatrně."
-    }
-   ]
-  },
   {
    "id": "rybar",
    "name": "Rybář",
@@ -861,6 +828,107 @@
    ]
   },
   {
+   "id": "prolog",
+   "name": "Prolog",
+   "start": "p1",
+   "nodes": [
+    {
+     "id": "p1",
+     "speaker": "Vypravěč",
+     "text": "Pět let jsi putoval od vsi ke vsi jako námezdní bojovník. Žádný domov, žádný cíl, jen cesta a v kapse pár mincí.",
+     "next": "p2"
+    },
+    {
+     "id": "p2",
+     "speaker": "Vypravěč",
+     "text": "Dnes jsi dorazil na Rozcestí. Na jihu leží vesnice U Zlatého sudu a lidé říkají, že tam hledají odvážné ruce. Řeka, hvozd i hřbitov jsou prý poslední dobou neklidné.",
+     "next": "p3"
+    },
+    {
+     "id": "p3",
+     "speaker": "Vypravěč",
+     "text": "Tip: pohyb WASD/šipky nebo páka, E = mluvit, J = deník úkolů, Esc = menu (družina, vaření, bestiář)."
+    }
+   ]
+  },
+  {
+   "id": "hlidka",
+   "name": "Hlídač",
+   "start": "h1",
+   "nodes": [
+    {
+     "id": "h1",
+     "speaker": "Zběhlý hlídač",
+     "text": "Pst! Tábor zbojníků je na jihovýchodě. Kdyby je někdo zahnal, kraj by si oddechl.",
+     "choices": [
+      {
+       "text": "Zahnat je? Beru to.",
+       "next": "h_ok",
+       "cond": {
+        "quest_not_started": "tabor"
+       }
+      },
+      {
+       "text": "Tábor je hotový.",
+       "next": "h_done",
+       "cond": {
+        "quest_ready": "tabor"
+       }
+      },
+      {
+       "text": "Rozloučit se.",
+       "next": "h_bye"
+      }
+     ]
+    },
+    {
+     "id": "h_ok",
+     "speaker": "Zběhlý hlídač",
+     "text": "Hlídej si záda. Můžeš je překvapit zezadu, nebo jim nastražit past (klávesa T). A slyšel jsem, že v noci kopali na starém hřbitově. Proč, to nevím.",
+     "effects": [
+      {
+       "start_quest": "tabor"
+      }
+     ]
+    },
+    {
+     "id": "h_done",
+     "speaker": "Zběhlý hlídač",
+     "text": "Báječně! Jeden z nich, Rys, na tebe už čeká za rohem. Prý ti chce něco říct.",
+     "effects": [
+      {
+       "complete_quest": "tabor"
+      },
+      {
+       "recruit": "rys"
+      }
+     ],
+     "next": "h_rys"
+    },
+    {
+     "id": "h_rys",
+     "speaker": "Rys",
+     "text": "Takže ty jsi ten, co rozprášil naši partu. Dobře, že to byl někdo, kdo neřeže hned. Poslouchej: byl jsem u toho, když jsme kopali pod mauzoleem. Hledali jsme královský poklad.",
+     "next": "h_rys2"
+    },
+    {
+     "id": "h_rys2",
+     "speaker": "Rys",
+     "text": "Pod deskou byla pečeť. Šéf ji rozbil kladivem. Pak se ozvalo to... chrastění. Utekl jsem první. Teď to musím napravit. Beru tě za slovo, jdu s tebou.",
+     "effects": [
+      {
+       "set_flag": "rys_vina"
+      }
+     ]
+    },
+    {
+     "id": "h_bye",
+     "speaker": "Zběhlý hlídač",
+     "text": "Opatrně, cizinče."
+    }
+   ]
+  },
+  {
    "id": "knez",
    "name": "Farář – rozhovor",
    "start": "f1",
@@ -868,20 +936,43 @@
     {
      "id": "f1",
      "speaker": "Farář Alois",
-     "text": "Pokoj s tebou, poutníku. Ale ne s tímhle místem... Hrobka pod mauzoleem se otevřela a z hlubin se ozývá chrastění kostí.",
+     "text": "Pokoj s tebou, poutníku. Ale ne s tímhle místem... Hřbitov už není, co býval.",
      "choices": [
       {
-       "text": "Co se stalo?",
-       "next": "f_q",
+       "text": "Co se tu děje?",
+       "next": "f_n",
        "cond": {
+        "quest_not_started": "neklid"
+       }
+      },
+      {
+       "text": "Přízraky jsou pryč.",
+       "next": "f_n_done",
+       "cond": {
+        "quest_ready": "neklid"
+       }
+      },
+      {
+       "text": "Kde je ten přízrak, o kterém mluvíš?",
+       "next": "f_n_where",
+       "cond": {
+        "quest_active": "neklid"
+       }
+      },
+      {
+       "text": "Brum už pečeť obnovil.",
+       "next": "f_seal",
+       "cond": {
+        "quest_done": "zapecetit",
         "quest_not_started": "kral"
        }
       },
       {
-       "text": "Kostěný král je poražen.",
-       "next": "f_done",
+       "text": "Co mám dělat dál?",
+       "next": "f_next",
        "cond": {
-        "quest_ready": "kral"
+        "quest_done": "neklid",
+        "quest_not_started": "zapecetit"
        }
       },
       {
@@ -892,22 +983,36 @@
        }
       },
       {
+       "text": "Kostěný král je poražen.",
+       "next": "f_end",
+       "cond": {
+        "quest_ready": "kral"
+       }
+      },
+      {
+       "text": "Jak se ti daří, otče?",
+       "next": "f_after",
+       "cond": {
+        "quest_done": "kral"
+       }
+      },
+      {
        "text": "Nashledanou.",
        "next": "f_bye"
       }
      ]
     },
     {
-     "id": "f_q",
+     "id": "f_n",
      "speaker": "Farář Alois",
-     "text": "Dávný král, jehož kosti tu odpočívaly sto let, se probudil. Vede mrtvé do boje. Sestup do Hrobky a zastav ho, dřív než zaplaví vesnici. Slabí jsou proti světlu a ohni.",
+     "text": "Před sto lety tu byl pohřben král Gorvan, krutý panovník. Mniši ho zapečetili pod mauzoleem. Teď se ze země zjevují přízraky. Poraz dva z nich, ať vidím, jak silně je pečeť poškozená. Jsou slabí proti světlu a ohni.",
      "choices": [
       {
-       "text": "Zastavím ho.",
-       "next": "f_ok",
+       "text": "Postarám se o to.",
+       "next": "f_n_ok",
        "effects": [
         {
-         "start_quest": "kral"
+         "start_quest": "neklid"
         }
        ]
       },
@@ -918,29 +1023,244 @@
      ]
     },
     {
+     "id": "f_n_ok",
+     "speaker": "Farář Alois",
+     "text": "Ať tě světlo provází."
+    },
+    {
+     "id": "f_n_where",
+     "speaker": "Farář Alois",
+     "text": "Potulují se po hřbitově. Hledej jejich modrou záři."
+    },
+    {
+     "id": "f_n_done",
+     "speaker": "Farář Alois",
+     "text": "Dobrá práce. Pečeť je tedy opravdu rozbitá, jak jsem se bál. Tady je klíč od mauzolea. Čtyřicet let jsem ho nosil na krku a doufal, že ho nikdy nebudu potřebovat.",
+     "effects": [
+      {
+       "complete_quest": "neklid"
+      }
+     ],
+     "next": "f_next"
+    },
+    {
+     "id": "f_next",
+     "speaker": "Farář Alois",
+     "text": "Pečeť před dvaceti lety opravoval kovář Brum. Jen on ví, jak ji znovu ukovat. Zajdi za ním do vesnice. Řekni mu, že tě posílám já."
+    },
+    {
+     "id": "f_seal",
+     "speaker": "Farář Alois",
+     "text": "Díky Bohu. Pečeť drží, ale král už je vzhůru a uvnitř jeho kostlivců přibývá. Musíš sestoupit do Hrobky a skoncovat s ním. Dveře jsou v mauzoleu na severu hřbitova.",
+     "choices": [
+      {
+       "text": "Jdu na to.",
+       "next": "f_ok",
+       "effects": [
+        {
+         "start_quest": "kral"
+        }
+       ]
+      },
+      {
+       "text": "Ještě se připravím.",
+       "next": "f1"
+      }
+     ]
+    },
+    {
      "id": "f_ok",
      "speaker": "Farář Alois",
-     "text": "Ať tě světlo provází. Dveře jsou v mauzoleu na severu hřbitova. Vezmi si lektvary a vylepši zbraň u kováře."
+     "text": "Vezmi si lektvary a nech si u kováře vylepšit zbraň. Kostěný král je slabý proti světlu, ohni a sekeře. Ať tě světlo provází."
     },
     {
      "id": "f_where",
      "speaker": "Farář Alois",
-     "text": "Mauzoleum na severu hřbitova. Uvnitř jdi stále dál na sever, král sedí na pódiu."
+     "text": "Mauzoleum na severu hřbitova. Uvnitř jdi stále na sever, král sedí na pódiu."
     },
     {
-     "id": "f_done",
+     "id": "f_end",
      "speaker": "Farář Alois",
-     "text": "Děkuji ti, hrdino! Tvoje jméno bude žít v modlitbách. Tohle je odměna od všech vesničanů.",
+     "text": "Takže je po všem? Slyšel jsem, jak se zem otřásla... Děkuji ti, hrdino. Všechny mrtvé jsi vrátil k odpočinku. Co teď uděláš?",
+     "choices": [
+      {
+       "text": "Zůstanu tady. Tohle místo je teď můj domov.",
+       "next": "f_stay"
+      },
+      {
+       "text": "Půjdu dál. Cesta na mě ještě čeká.",
+       "next": "f_go"
+      }
+     ]
+    },
+    {
+     "id": "f_stay",
+     "speaker": "Farář Alois",
+     "text": "Vesnice ti otevře dveře i srdce. Tohle je odměna od všech vesničanů.",
      "effects": [
       {
        "complete_quest": "kral"
+      },
+      {
+       "set_flag": "konec_zustat"
+      },
+      {
+       "ending": "zustat"
       }
      ]
+    },
+    {
+     "id": "f_go",
+     "speaker": "Farář Alois",
+     "text": "Cesta tě volá a ty ji nikdy nezradíš. Tohle je odměna od všech vesničanů. Vždy se můžeš vrátit.",
+     "effects": [
+      {
+       "complete_quest": "kral"
+      },
+      {
+       "set_flag": "konec_putovat"
+      },
+      {
+       "ending": "putovat"
+      }
+     ]
+    },
+    {
+     "id": "f_after",
+     "speaker": "Farář Alois",
+     "text": "Hřbitov je klidný jako nikdy. Děkuji ti."
     },
     {
      "id": "f_bye",
      "speaker": "Farář Alois",
      "text": "Pokoj s tebou."
+    }
+   ]
+  },
+  {
+   "id": "kovar",
+   "name": "Kovář – rozhovor",
+   "start": "k1",
+   "nodes": [
+    {
+     "id": "k1",
+     "speaker": "Kovář Brum",
+     "text": "Hmpf. Potřebuješ pořádnou ocel, nebo jen okukuješ moje kovadlinu?",
+     "choices": [
+      {
+       "text": "Ukaž mi zbraně a zbroj.",
+       "next": "k_shop"
+      },
+      {
+       "text": "Potřebuji opravit výbavu nebo vylepšit zbraň.",
+       "next": "k_rep"
+      },
+      {
+       "text": "Farář Alois mě posílá kvůli pečeti.",
+       "next": "k_p1",
+       "cond": {
+        "quest_done": "neklid",
+        "quest_not_started": "zapecetit"
+       }
+      },
+      {
+       "text": "Mám rudu a kostní prach.",
+       "next": "k_p2",
+       "cond": {
+        "quest_ready": "zapecetit"
+       }
+      },
+      {
+       "text": "Co ta pečeť? Potřebuješ ještě něco?",
+       "next": "k_p1w",
+       "cond": {
+        "quest_active": "zapecetit"
+       }
+      },
+      {
+       "text": "Jen jdu okolo.",
+       "next": "k_bye"
+      }
+     ]
+    },
+    {
+     "id": "k_rep",
+     "speaker": "Kovář Brum",
+     "text": "Dej to sem. Spočítám ti to podle škod.",
+     "effects": [
+      {
+       "shop": "kovar"
+      }
+     ],
+     "next": "k1"
+    },
+    {
+     "id": "k_shop",
+     "speaker": "Kovář Brum",
+     "text": "Tohle je poctivá práce. Vyber si.",
+     "effects": [
+      {
+       "shop": "kovar"
+      }
+     ],
+     "next": "k1"
+    },
+    {
+     "id": "k_p1",
+     "speaker": "Kovář Brum",
+     "text": "Hmpf. Takže se to stalo. Před dvaceti lety jsem ji kul já, s mnichy. Pečeť z oceli, zalitá kostním prachem. Pamatuju si ji do poslední rýhy.",
+     "next": "k_p1b"
+    },
+    {
+     "id": "k_p1b",
+     "speaker": "Kovář Brum",
+     "text": "Potřebuju tři kusy železné rudy a dvě hrsti kostního prachu. Ruda i prach padají z kostlivců a zbojníků. Obchoduju s nimi taky, ale bez prachu to nepůjde. Přines mi to.",
+     "choices": [
+      {
+       "text": "Mám to u sebe. Hned se vrátím.",
+       "next": "k_p1c",
+       "effects": [
+        {
+         "start_quest": "zapecetit"
+        }
+       ]
+      },
+      {
+       "text": "Vrátím se.",
+       "next": "k1"
+      }
+     ]
+    },
+    {
+     "id": "k_p1c",
+     "speaker": "Kovář Brum",
+     "text": "Hmpf. Dobře."
+    },
+    {
+     "id": "k_p1w",
+     "speaker": "Kovář Brum",
+     "text": "Tři kusy rudy, dvě hrsti prachu. Jinak ti nic neukovám."
+    },
+    {
+     "id": "k_p2",
+     "speaker": "Kovář Brum",
+     "text": "Hmpf. To stačí. Kladivo sem. ...Hotovo. Pečeť je zpátky na místě. Tady, z odřezků jsem ti ukul hrot kopí. Mrtví před ním ustupují. A ještě něco: půjdu s tebou. Je to moje pečeť, moje práce.",
+     "effects": [
+      {
+       "complete_quest": "zapecetit"
+      },
+      {
+       "recruit": "brum"
+      },
+      {
+       "set_flag": "seal_done"
+      }
+     ]
+    },
+    {
+     "id": "k_bye",
+     "speaker": "Kovář Brum",
+     "text": "Tak ať ti meč slouží."
     }
    ]
   },
@@ -958,12 +1278,16 @@
        "text": "Přenocovat (20 zl., uložit hru).",
        "next": "h_rest",
        "cond": {
-        "gold": 20
+        "gold_min": 20
        }
       },
       {
        "text": "Co je nového?",
        "next": "h_news"
+      },
+      {
+       "text": "Povídej o vsi.",
+       "next": "h_lore"
       },
       {
        "text": "Jen se dívám.",
@@ -984,79 +1308,17 @@
     {
      "id": "h_news",
      "speaker": "Hostinský Bohouš",
-     "text": "Povídá se, že u hřbitova straší a v Hvozdu řádí zbojníci. A kovář prý umí vylepšit i obyčejný meč."
+     "text": "Povídá se, že na hřbitově straší a v Hvozdu řádí zbojníci. Farář Alois je z toho celý bez sebe, nikdy ho neviděl nespat. A kovář prý umí vylepšit i obyčejný meč."
+    },
+    {
+     "id": "h_lore",
+     "speaker": "Hostinský Bohouš",
+     "text": "Vesnici založil můj pradědeček, když jsme tu našli pramen a zlatý sud pod kořeny dubu. Dub už je dávno pryč, hospoda zůstala. Lidé se k nám vždycky vrátí. I ti, co odešli."
     },
     {
      "id": "h_bye",
      "speaker": "Hostinský Bohouš",
      "text": "Kdyby něco, jen zavolej."
-    }
-   ]
-  },
-  {
-   "id": "kovar",
-   "name": "Kovář – rozhovor",
-   "start": "k1",
-   "nodes": [
-    {
-     "id": "k1",
-     "speaker": "Kovář",
-     "text": "Hmpf. Potřebuješ pořádnou ocel, nebo jen okukuješ moje kovadlinu?",
-     "choices": [
-      {
-       "text": "Ukaž mi zbraně a zbroj.",
-       "next": "k_shop"
-      },
-      {
-       "text": "Potřebuji opravit výbavu.",
-       "next": "k_rep"
-      },
-      {
-       "text": "Potřeboval bys z kovárny na čerstvý vzduch? Pojď se mnou.",
-       "next": "k_join"
-      },
-      {
-       "text": "Jen jdu okolo.",
-       "next": "k_bye"
-      }
-     ]
-    },
-    {
-     "id": "k_rep",
-     "speaker": "Kovář",
-     "text": "Dej to sem. Spočítám ti to podle škod.",
-     "effects": [
-      {
-       "shop": "kovar"
-      }
-     ],
-     "next": "k1"
-    },
-    {
-     "id": "k_join",
-     "speaker": "Kovář",
-     "text": "Hmpf... Dobře. Kladivo beru s sebou. Brum je tvůj.",
-     "effects": [
-      {
-       "recruit": "brum"
-      }
-     ]
-    },
-    {
-     "id": "k_shop",
-     "speaker": "Kovář",
-     "text": "Tohle je poctivá práce. Vyber si.",
-     "effects": [
-      {
-       "shop": "kovar"
-      }
-     ],
-     "next": "k1"
-    },
-    {
-     "id": "k_bye",
-     "speaker": "Kovář",
-     "text": "Tak ať ti meč slouží."
     }
    ]
   }
@@ -1066,7 +1328,7 @@
    "id": "kral",
    "name": "Kostěný král",
    "giver": "Farář Alois",
-   "desc": "V Hrobce pod hřbitovem se probudil dávný král. Poraz ho.",
+   "desc": "Pečeť je obnovená. Sestup do Hrobky pod mauzoleem a poraz Kostěného krále Gorvana.",
    "level": 4,
    "objectives": [
     {
@@ -1095,7 +1357,7 @@
    "id": "tabor",
    "name": "Zbojnický tábor",
    "giver": "Zběhlý hlídač",
-   "desc": "Zbojníci v Hvozdu přepadají cestovatele. Porazí jich čtyři.",
+   "desc": "Zbojníci v Hvozdu přepadají cestovatele a prý v noci kopali na hřbitově. Poraz čtyři z nich.",
    "level": 2,
    "objectives": [
     {
@@ -1166,6 +1428,68 @@
      [
       "lektvar",
       2
+     ]
+    ]
+   }
+  },
+  {
+   "id": "neklid",
+   "name": "Neklidné hroby",
+   "giver": "Farář Alois",
+   "desc": "Na hřbitově se zjevují přízraky. Poraz dva, ať farář zjistí, odkud se berou.",
+   "level": 3,
+   "objectives": [
+    {
+     "type": "event",
+     "target": "kill:Přízrak",
+     "count": 2,
+     "text": "Poraz přízraky na hřbitově (2)"
+    }
+   ],
+   "rewards": {
+    "xp": 250,
+    "gold": 100,
+    "items": [
+     [
+      "klic_mauzolea",
+      1
+     ],
+     [
+      "lektvar",
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "id": "zapecetit",
+   "name": "Pečeť z oceli",
+   "giver": "Kovář Brum",
+   "desc": "Kovář Brum před dvaceti lety kul pečeť Gorvanovy hrobky. Obnovit ji může jen s rudou a kostním prachem.",
+   "level": 3,
+   "objectives": [
+    {
+     "type": "collect",
+     "target": "ruda",
+     "count": 3,
+     "take": true,
+     "text": "Přines Železnou rudu (3)"
+    },
+    {
+     "type": "collect",
+     "target": "kost",
+     "count": 2,
+     "take": true,
+     "text": "Přines Kostní prach (2)"
+    }
+   ],
+   "rewards": {
+    "xp": 300,
+    "gold": 0,
+    "items": [
+     [
+      "pecetni_hrot",
+      1
      ]
     ]
    }

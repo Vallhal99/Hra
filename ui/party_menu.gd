@@ -55,9 +55,10 @@ static func _build(tree: SceneTree, cl: CanvasLayer, tab: int) -> void:
 	tc.add_child(_tab_gear(tree, cl))
 	tc.add_child(_tab_cook(tree, cl, tab))
 	tc.add_child(_tab_bestiary(tree))
+	tc.add_child(_tab_chars())
 	tc.add_child(_tab_settings(tree, cl))
-	for i in 6:
-		tc.set_tab_title(i, ["Družina", "Dovednosti", "Výbava", "Vaření", "Bestiář", "Nastavení"][i])
+	for i in 7:
+		tc.set_tab_title(i, ["Družina", "Dovednosti", "Výbava", "Vaření", "Bestiář", "Postavy", "Nastavení"][i])
 	tc.current_tab = tab
 	var close := Button.new()
 	close.text = "Zavřít (Esc)"
@@ -226,6 +227,19 @@ static func _tab_bestiary(tree: SceneTree) -> Control:
 		if e.drops.size() > 0:
 			t += "\nKořist: " + ", ".join(e.drops.map(func(d): return str(tree.root.get_node("Inventory").ITEMS[d].name)))
 		v.add_child(_lbl(t, 16))
+	return sc
+
+
+static func _tab_chars() -> Control:
+	var sc := ScrollContainer.new()
+	sc.name = "Postavy"
+	var v := VBoxContainer.new()
+	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	sc.add_child(v)
+	for c in Lore.CHARS:
+		var t := "%s  –  %s\nCharakter: %s\nŽivot: %s\nCíl: %s" % [c.name, c.role, c.char, c.life, c.goal]
+		v.add_child(_lbl(t, 15))
+		v.add_child(HSeparator.new())
 	return sc
 
 

@@ -1,0 +1,107 @@
+import json
+I=lambda id,name,cat,slot,atk=0,df=0,hp=0,sp=0,price=0,desc='',icon='',use=None:{'id':id,'name':name,'category':cat,'slot':slot,'atk':atk,'def':df,'hp':hp,'sp':sp,'price':price,'desc':desc,'icon':icon,'use':use or {}}
+items=[I('zelezny_mec','Železný meč','Zbraně/Meče','zbran',atk=6,price=120,desc='Obyčejný spolehlivý meč.',icon='items/zelezny_mec.png'),
+I('ozdobny_mec','Ozdobný meč','Zbraně/Meče','zbran',atk=9,price=400,desc='Dlouhý meč s ozdobnou záštitou.',icon='items/ozdobny_mec.png'),
+I('dyka','Dýka','Zbraně/Dýky','zbran',atk=4,price=90,desc='Lehká zbraň na blízko. Vysoká šance na kritický zásah, útočí jen na přední řadu.',icon='items/dyka.png'),
+I('sekera','Bojová sekera','Zbraně/Sekery','zbran',atk=8,price=220,desc='Těžký útok na přední řadu, láme štíty dvakrát rychleji.',icon='items/sekera.png'),
+I('kopi','Kopí','Zbraně/Kopí','zbran',atk=7,price=200,desc='Zasáhne cíl i nepřítele za ním.',icon='items/kopi.png'),
+I('luk','Lovecký luk','Zbraně/Luky','zbran',atk=6,price=180,desc='Dosáhne na celé bojiště. V dešti často mine.',icon='items/luk.png'),
+I('hul','Dubová hůl','Zbraně/Hole','zbran',atk=4,sp=15,price=160,desc='Zasáhne dva sousední cíle, přidává SP.',icon='items/hul.png'),
+I('past','Past na zvěř','Předměty','',price=40,desc='Stiskni T a polož ji na zem. Nepřítel, který do ní šlápne, začne boj zraněný a otrávený.'),
+I('ruda','Železná ruda','Suroviny','',price=20,desc='Surovina pro kováře. Padá ze zbojníků a kostlivců.'),
+I('kost','Kostní prach','Suroviny','',price=12,desc='Surovina na vylepšení zbraní.'),
+I('zele','Slizké želé','Suroviny','',price=8,desc='Podivně sladké. Dá se z toho uvařit dezert.'),
+I('maso','Maso','Suroviny','',price=15,desc='Čerstvé maso na vaření.'),
+I('ryba','Ryba','Suroviny','',price=10,desc='Rybářova specialita.'),
+I('bylina','Bylina','Suroviny','',price=6,desc='Voňavá bylinka.'),
+I('houba','Lesní houba','Suroviny','',price=8,desc='Jedlá, doufejme.'),
+I('koreni','Koření','Suroviny','',price=12,desc='Zlepší chuť všeho.'),
+I('gulas','Guláš','Spotřební/Jídlo','',price=60,desc='Obnoví 90 životů a po 3 kola dál léčí.',use={'heal':90,'st':['regen',3]}),
+I('ryb_polevka','Rybí polévka','Spotřební/Jídlo','',price=45,desc='Obnoví 60 životů a 20 SP.',use={'heal':60,'sp':20}),
+I('houbova_panev','Houbová pánev','Spotřební/Jídlo','',price=40,desc='Obnoví 40 SP.',use={'sp':40}),
+I('bylinny_caj','Bylinný čaj','Spotřební/Jídlo','',price=35,desc='Obnoví 40 životů a zvýší obranu na 3 kola.',use={'heal':40,'st':['defup',3]}),
+I('zele_dezert','Želé dezert','Spotřební/Jídlo','',price=30,desc='Obnoví 25 SP a zvýší sílu na 3 kola.',use={'sp':25,'st':['atkup',3]}),
+I('helma','Rytířská přilba','Brnění/Helmy','helma',df=3,hp=10,price=150,desc='Uzavřená ocelová přilba.',icon='items/helma.png'),
+I('telo','Plátový krunýř','Brnění/Hruď','telo',df=8,hp=25,price=420,desc='Ocelový hrudní plát s ramenicemi.',icon='items/telo.png'),
+I('rukavice','Ocelové rukavice','Brnění/Rukavice','rukavice',atk=1,df=3,price=140,desc='Těžké rukavice z oceli.',icon='items/rukavice.png'),
+I('kalhoty','Kalhoty s chrániči','Brnění/Kalhoty','kalhoty',df=4,hp=10,price=180,desc='Tuhé kalhoty s chrániči kolen.',icon='items/kalhoty.png'),
+I('boty','Plátové holínky','Brnění/Boty','boty',df=3,hp=5,price=160,desc='Vysoké ocelové boty.',icon='items/boty.png'),
+I('lektvar','Léčivý lektvar','Spotřební/Lektvary','',price=25,desc='Obnoví 30 životů.',use={'heal':30}),
+I('lektvar_many','Lektvar many','Spotřební/Lektvary','',price=30,desc='Obnoví 15 many.',use={'sp':15}),
+I('paklic','Paklíč','Nástroje','',price=15,desc='Na páčení zámků.')]
+classes=[
+{'id':'valecnik','name':'Válečník','desc':'Silný bojovník zblízka. Hodně životů, těžká zbroj.','stats':{'sila':8,'obratnost':4,'vitalita':8,'inteligence':2,'stesti':3},'growth':{'sila':1,'vitalita':1},'items':['zelezny_mec','lektvar'],'skills':['Úder štítem','Výpad','Bojový pokřik']},
+{'id':'lucistnik','name':'Lučištník','desc':'Přesné útoky z dálky, rychlý a mrštný.','stats':{'sila':5,'obratnost':9,'vitalita':5,'inteligence':3,'stesti':4},'growth':{'obratnost':1},'items':['lektvar','paklic'],'skills':['Přesný výstřel','Salva','Past']},
+{'id':'mag','name':'Mág','desc':'Křehký, ale ničivá kouzla a hodně many.','stats':{'sila':2,'obratnost':4,'vitalita':3,'inteligence':10,'stesti':4},'growth':{'inteligence':1},'items':['lektvar_many','lektvar'],'skills':['Ohnivá koule','Ledová střela','Štít z many']},
+{'id':'zlodej','name':'Zloděj','desc':'Rychlý, kritické údery, mistr paklíčů.','stats':{'sila':5,'obratnost':10,'vitalita':4,'inteligence':3,'stesti':6},'growth':{'obratnost':1,'stesti':1},'items':['paklic','paklic','paklic'],'skills':['Zadní úder','Otrávená čepel','Kapsářství']},
+{'id':'klerik','name':'Klerik','desc':'Léčí družinu a posiluje ji.','stats':{'sila':4,'obratnost':3,'vitalita':6,'inteligence':7,'stesti':4},'growth':{'inteligence':1,'vitalita':1},'items':['lektvar','lektvar'],'skills':['Uzdravení','Požehnání','Posvátný plamen']},
+{'id':'paladin','name':'Paladin','desc':'Svatý rytíř: výdrž a podpůrná kouzla.','stats':{'sila':7,'obratnost':3,'vitalita':7,'inteligence':4,'stesti':3},'growth':{'sila':1,'vitalita':1},'items':['ozdobny_mec'],'skills':['Svatý úder','Ochrana','Soud']}]
+D={'format':'dilna-postav-gamedata','version':1,
+'stat_names':{'sila':'Síla','obratnost':'Obratnost','vitalita':'Vitalita','inteligence':'Inteligence','stesti':'Štěstí'},
+'derived':{'hp':'20 + vitalita*6 + (level-1)*4','sp':'5 + inteligence*3','atk':'sila*2','def':'vitalita','spd':'obratnost*1.5','crit':'stesti*1.5'},
+'progression':{'max_level':30,'xp_base':40,'xp_exp':1.5,'points_per_level':3},
+'item_categories':['Zbraně/Meče','Brnění/Helmy','Brnění/Hruď','Brnění/Rukavice','Brnění/Kalhoty','Brnění/Boty','Spotřební/Lektvary','Nástroje'],
+'items':items,'classes':classes,
+'dialogues':[{'id':'hlidka','name':'Hlídač','start':'h1','nodes':[
+ {'id':'h1','speaker':'Zběhlý hlídač','text':'Pst! Tábor zbojníků je na jihovýchodě. Kdyby je někdo zahnal, kraj by si oddechl.','choices':[{'text':'Zahnat je? Beru to.','next':'h_ok','cond':{'quest_not_started':'tabor'}},{'text':'Tábor je hotový.','next':'h_done','cond':{'quest_ready':'tabor'}},{'text':'Rozloučit se.','next':'h_bye'}]},
+ {'id':'h_ok','speaker':'Zběhlý hlídač','text':'Hlídej si záda. Můžeš je překvapit zezadu, nebo jim nastražit past (klávesa T).','effects':[{'start_quest':'tabor'}]},
+ {'id':'h_done','speaker':'Zběhlý hlídač','text':'Báječně! Jeden z nich, Rys, má o tobě už prý dobré mínění. Najde si tě.','effects':[{'complete_quest':'tabor'},{'recruit':'rys'}]},
+ {'id':'h_bye','speaker':'Zběhlý hlídač','text':'Opatrně.'}]},
+{'id':'rybar','name':'Rybář','start':'r1','nodes':[
+ {'id':'r1','speaker':'Rybář Tomáš','text':'Ryby nekoušou. Možná je to tím, že u jeskyně straší.','choices':[{'text':'Podívám se na to.','next':'r_ok','cond':{'quest_not_started':'strach'}},{'text':'Kostlivci jsou pryč.','next':'r_done','cond':{'quest_ready':'strach'}},{'text':'Nic.','next':'r_bye'}]},
+ {'id':'r_ok','speaker':'Rybář Tomáš','text':'Jeskyně je na západ od rozcestí v Hvozdu. Nespěchej, kostlivci se nejlépe bojí světla.','effects':[{'start_quest':'strach'}]},
+ {'id':'r_done','speaker':'Rybář Tomáš','text':'Konečně klid! Tady je něco na cestu.','effects':[{'complete_quest':'strach'}]},
+ {'id':'r_bye','speaker':'Rybář Tomáš','text':'Nemáš náhodou červy?'}]},
+{'id':'obchodnik','name':'Obchodník – rozhovor','start':'n1','nodes':[
+ {'id':'n1','speaker':'Obchodník','text':'Vítej, cestovateli! Mám zboží z celé země. Co to bude?','choices':[
+   {'text':'Chci nakupovat.','next':'n_shop'},
+   {'text':'Nemáš nějakou práci?','next':'n_q1','cond':{'quest_not_started':'kufr'}},
+   {'text':'Truhlu jsem otevřel!','next':'n_q1done','cond':{'quest_ready':'kufr'}},
+   {'text':'Nic, jen se dívám.','next':'n_bye'}]},
+ {'id':'n_shop','speaker':'Obchodník','text':'Jen si vyber.','effects':[{'shop':'obchodnik'}],'next':'n1'},
+ {'id':'n_q1','speaker':'Obchodník','text':'Někdo mi tu u tábora nechal zamčenou truhlu. Otevři ji a přines, co v ní je. Odměnu nechám být.','choices':[{'text':'Postarám se o to.','next':'n_q1ok','effects':[{'start_quest':'kufr'}]},{'text':'Teď ne.','next':'n1'}]},
+ {'id':'n_q1ok','speaker':'Obchodník','text':'Skvěle! Truhla stojí poblíž stanu na paloučku.'},
+ {'id':'n_q1done','speaker':'Obchodník','text':'Výborně! Tady je tvoje odměna.','effects':[{'complete_quest':'kufr'}]},
+ {'id':'n_bye','speaker':'Obchodník','text':'Kdybys cokoliv potřeboval, jsem tady.'}]},
+
+{'id':'prodavacka','name':'Prodavačka – rozhovor','start':'p1','nodes':[
+ {'id':'p1','speaker':'Prodavačka','text':'Dobrý den! Vítejte v našem obchodě. Co to bude dnes?','choices':[{'text':'Rád bych nakupoval.','next':'p_shop'},{'text':'Jen se rozhlížím.','next':'p_bye'}]},
+ {'id':'p_shop','speaker':'Prodavačka','text':'Račte si vybrat.','effects':[{'shop':'prodavacka'}],'next':'p1'},
+ {'id':'p_bye','speaker':'Prodavačka','text':'Kdyby cokoliv, jsem tady u pultu.'}]},
+{'id':'knez','name':'Farář – rozhovor','start':'f1','nodes':[
+ {'id':'f1','speaker':'Farář Alois','text':'Pokoj s tebou, poutníku. Ale ne s tímhle místem... Hrobka pod mauzoleem se otevřela a z hlubin se ozývá chrastění kostí.','choices':[
+   {'text':'Co se stalo?','next':'f_q','cond':{'quest_not_started':'kral'}},
+   {'text':'Kostěný král je poražen.','next':'f_done','cond':{'quest_ready':'kral'}},
+   {'text':'Kde je ta Hrobka?','next':'f_where','cond':{'quest_active':'kral'}},
+   {'text':'Nashledanou.','next':'f_bye'}]},
+ {'id':'f_q','speaker':'Farář Alois','text':'Dávný král, jehož kosti tu odpočívaly sto let, se probudil. Vede mrtvé do boje. Sestup do Hrobky a zastav ho, dřív než zaplaví vesnici. Slabí jsou proti světlu a ohni.','choices':[{'text':'Zastavím ho.','next':'f_ok','effects':[{'start_quest':'kral'}]},{'text':'Nejdřív se připravím.','next':'f1'}]},
+ {'id':'f_ok','speaker':'Farář Alois','text':'Ať tě světlo provází. Dveře jsou v mauzoleu na severu hřbitova. Vezmi si lektvary a vylepši zbraň u kováře.'},
+ {'id':'f_where','speaker':'Farář Alois','text':'Mauzoleum na severu hřbitova. Uvnitř jdi stále dál na sever, král sedí na pódiu.'},
+ {'id':'f_done','speaker':'Farář Alois','text':'Děkuji ti, hrdino! Tvoje jméno bude žít v modlitbách. Tohle je odměna od všech vesničanů.','effects':[{'complete_quest':'kral'}]},
+ {'id':'f_bye','speaker':'Farář Alois','text':'Pokoj s tebou.'}]},
+{'id':'hostinsky','name':'Hostinský – rozhovor','start':'h1','nodes':[
+ {'id':'h1','speaker':'Hostinský Bohouš','text':'Vítej v hostinci U Zlatého sudu! Postel za 20 zlatých a ráno ti dám i snídani.','choices':[
+   {'text':'Přenocovat (20 zl., uložit hru).','next':'h_rest','cond':{'gold':20}},
+   {'text':'Co je nového?','next':'h_news'},
+   {'text':'Jen se dívám.','next':'h_bye'}]},
+ {'id':'h_rest','speaker':'Hostinský Bohouš','text':'Zzzz... Dobré ráno! Hra byla uložena do slotu 1. Máš naspáno?','effects':[{'rest':20}]},
+ {'id':'h_news','speaker':'Hostinský Bohouš','text':'Povídá se, že u hřbitova straší a v Hvozdu řádí zbojníci. A kovář prý umí vylepšit i obyčejný meč.'},
+ {'id':'h_bye','speaker':'Hostinský Bohouš','text':'Kdyby něco, jen zavolej.'}]},
+{'id':'kovar','name':'Kovář – rozhovor','start':'k1','nodes':[
+ {'id':'k1','speaker':'Kovář','text':'Hmpf. Potřebuješ pořádnou ocel, nebo jen okukuješ moje kovadlinu?','choices':[{'text':'Ukaž mi zbraně a zbroj.','next':'k_shop'},{'text':'Potřebuji opravit výbavu.','next':'k_rep'},{'text':'Potřeboval bys z kovárny na čerstvý vzduch? Pojď se mnou.','next':'k_join'},{'text':'Jen jdu okolo.','next':'k_bye'}]},
+ {'id':'k_rep','speaker':'Kovář','text':'Dej to sem. Spočítám ti to podle škod.','effects':[{'shop':'kovar'}],'next':'k1'},
+ {'id':'k_join','speaker':'Kovář','text':'Hmpf... Dobře. Kladivo beru s sebou. Brum je tvůj.','effects':[{'recruit':'brum'}]},
+ {'id':'k_shop','speaker':'Kovář','text':'Tohle je poctivá práce. Vyber si.','effects':[{'shop':'kovar'}],'next':'k1'},
+ {'id':'k_bye','speaker':'Kovář','text':'Tak ať ti meč slouží.'}]}],
+'quests':[{'id':'kral','name':'Kostěný král','giver':'Farář Alois','desc':'V Hrobce pod hřbitovem se probudil dávný král. Poraz ho.','level':4,'objectives':[{'type':'event','target':'kill:Kostěný král','count':1,'text':'Poraz Kostěného krále'}],'rewards':{'xp':600,'gold':400,'items':[['lektvar_many',3],['ozdobny_mec',1]]}},
+{'id':'tabor','name':'Zbojnický tábor','giver':'Zběhlý hlídač','desc':'Zbojníci v Hvozdu přepadají cestovatele. Porazí jich čtyři.','level':2,'objectives':[{'type':'event','target':'kill:Zbojník','count':4,'text':'Poraz zbojníky (4)'}],'rewards':{'xp':150,'gold':120,'items':[['past',2]]}},
+{'id':'strach','name':'Strach u jeskyně','giver':'Rybář Tomáš','desc':'U jeskyně se potulují kostlivci. Porazí jich čtyři, ať ryby zase berou.','level':3,'objectives':[{'type':'event','target':'kill:Kostlivec','count':4,'text':'Poraz kostlivce (4)'}],'rewards':{'xp':220,'gold':150,'items':[['lektvar',3],['ryba',4]]}},
+{'id':'kufr','name':'Zamčená truhla','giver':'Obchodník','desc':'Otevři zamčenou truhlu u tábora a vrať se za obchodníkem.','level':1,
+ 'objectives':[{'type':'event','target':'chest_open','count':1,'text':'Otevři truhlu u tábora'}],
+ 'rewards':{'xp':60,'gold':50,'items':[['lektvar',2]]}}],
+'shops':[{'id':'obchodnik','name':'Obchodník','stock':['lektvar','lektvar_many','paklic','past','bylina','koreni','maso','zelezny_mec','helma'],'buy_mult':1.0,'sell_mult':0.5},
+ {'id':'prodavacka','name':'Prodavačka','stock':['lektvar','lektvar_many','paklic','bylina','koreni','houba','helma','telo','rukavice','kalhoty','boty'],'buy_mult':1.0,'sell_mult':0.5},
+ {'id':'kovar','name':'Kovář','stock':['ruda','kost','zelezny_mec','ozdobny_mec','dyka','sekera','kopi','luk','hul','helma','telo','rukavice','kalhoty','boty'],'buy_mult':1.1,'sell_mult':0.6,'repair':True}]}
+exec(open('story.py',encoding='utf-8').read())
+json.dump(D,open('gamedata.json','w',encoding='utf-8'),ensure_ascii=False,indent=1)
+print('ok',len(json.dumps(D)))

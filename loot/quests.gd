@@ -17,6 +17,20 @@ func _ready() -> void:
 	call_deferred("_hook")
 
 
+func _process(_dt: float) -> void:
+	if flags.get("intro", false):
+		return
+	var sc := get_tree().current_scene
+	if sc == null or sc.scene_file_path.get_file().get_basename() != "rozcesti":
+		return
+	var dlg := get_node_or_null("/root/DialogueRunner")
+	var sm := get_node_or_null("/root/SceneManager")
+	if dlg == null or dlg.active or (sm != null and sm.busy):
+		return
+	flags["intro"] = true
+	dlg.start("prolog")
+
+
 func _hook() -> void:
 	get_node("/root/Inventory").changed.connect(func(): changed.emit())
 

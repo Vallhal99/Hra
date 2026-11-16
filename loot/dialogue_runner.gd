@@ -101,6 +101,9 @@ func _apply(effects: Array) -> void:
 				"gold": I.add("gold", int(v))
 				"xp": get_node("/root/Hero").add_xp(int(v))
 				"recruit": get_node("/root/Party").recruit(str(v))
+				"ending":
+					_close()
+					Ending.show_ending(get_tree(), str(v))
 				"rest":
 					I.add("gold", -int(v))
 					get_node("/root/Atmo").tod = 0.3
