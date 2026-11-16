@@ -218,7 +218,25 @@ static func _skeleton(sh: int, weak_: Array) -> BattleUnit:
 	u.texture = load("res://enemies/kostlivec.png")
 	u.ppm = 105.0
 	u.proc = true
+	_load_rt(u, "kostlivec")
 	return u
+
+
+## animace prenesene z hrdiny (tools/retarget); kdyz chybi, zustane procedurální dýchání
+static func _load_rt(u: BattleUnit, nm: String) -> void:
+	var jp := "res://enemies/rt/%s_anims.json" % nm
+	if not FileAccess.file_exists(jp):
+		return
+	var meta: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(jp))
+	for k in ["Idle", "Attack", "Hurt", "Death"]:
+		var png := "res://enemies/rt/%s_%s.png" % [nm, k]
+		if not meta.has(k) or not ResourceLoader.exists(png):
+			return
+	for k in ["Idle", "Attack", "Hurt", "Death"]:
+		u.anims[k] = {"tex": load("res://enemies/rt/%s_%s.png" % [nm, k]), "frames": int(meta[k]["frames"]), "fps": float(meta[k]["fps"])}
+	u.texture = u.anims["Idle"]["tex"]
+	u.hframes = u.anims["Idle"]["frames"]
+	u.proc = false
 
 
 static func _king() -> BattleUnit:

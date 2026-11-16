@@ -1,0 +1,8 @@
+{
+ "cx": 68, "height": 211,
+ "neck_y": 72, "shoulder_y": 78, "hand_y": 150, "arm_x": 46,
+ "hip_y": 140, "foot_y": 208, "leg_pow": 1.0,
+ "rotate": false, "shadow_y": 198, "shadow_max": 50,
+ "names": {"Swordslash": "Attack", "Attackcombo3hit": "Attack"},
+ "anims": {"Walk": {"gain": 1.6}, "Idle": {"gain": 1.6}, "Swordslash": {"gain": 0.6, "legs": false, "clamp": 22}, "Hurt": {"gain": 0.8, "legs": false}, "Death": {"gain": 1.0, "legs": false, "topple": 88, "pad": [90, 8, 90, 6]}}
+}
