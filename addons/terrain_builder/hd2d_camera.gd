@@ -22,6 +22,10 @@ extends Camera3D
 @export var grade := true  ## barevný grading + bloom + zrno (postprocess shader)
 @export_range(0.0, 1.0) var tilt_strength := 0.6  ## síla tilt-shift rozostření nahoře/dole
 
+var _skirt: MeshInstance3D
+var _occ: Array = []          ## [{n: Node3D, ms: Array, t: float}]
+var _occ_scene: Node
+var _occ_timer := 0.0
 var _snap := true
 var _bounds := Rect2()
 var _has_bounds := false
@@ -53,7 +57,8 @@ func _process(dt: float) -> void:
 		return
 	var focus := t.global_position + Vector3(0, height_offset, 0)
 	if limit_to_map and not Engine.is_editor_hint():
-		focus = _clamp_focus(focus)
+		# kamera se u okraje jen zpomalí, postava ale zůstane vždy na obrazovce (za okrajem je "sukně" lesa)
+		focus = _clamp_focus(focus).lerp(focus, 0.45)
 	var off := Vector3(0, sin(deg_to_rad(pitch)), cos(deg_to_rad(pitch))) * distance
 	var goal := focus + off.rotated(Vector3.UP, deg_to_rad(yaw))
 	if _snap or Engine.is_editor_hint():
@@ -62,6 +67,70 @@ func _process(dt: float) -> void:
 	else:
 		global_position = global_position.lerp(goal, 1.0 - exp(-smoothing * dt))
 	rotation_degrees = Vector3(-pitch, yaw, 0)
+	if not Engine.is_editor_hint():
+		_update_skirt(focus)
+		_update_occlusion(t, dt)
+
+
+func _update_skirt(focus: Vector3) -> void:
+	if _skirt == null:
+		_skirt = MeshInstance3D.new()
+		var pm := PlaneMesh.new()
+		pm.size = Vector2(700, 700)
+		_skirt.mesh = pm
+		var m := StandardMaterial3D.new()
+		m.albedo_color = Color(0.07, 0.12, 0.06)
+		m.roughness = 1.0
+		_skirt.material_override = m
+		_skirt.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		add_child(_skirt)
+		_skirt.top_level = true
+	var at := get_node_or_null("/root/Atmo")
+	var indoor: bool = at != null and (bool(at.get("_indoor")) or bool(at.get("_cave")))
+	_skirt.visible = not indoor
+	_skirt.global_position = Vector3(focus.x, -30.0, focus.z)
+
+
+func _update_occlusion(t: Node3D, dt: float) -> void:
+	var sc := get_tree().current_scene
+	if sc != _occ_scene:
+		_occ_scene = sc
+		_occ.clear()
+		if sc != null:
+			for n in sc.find_children("*", "Node3D", true, false):
+				var nm := String(n.name)
+				if nm.begins_with("strom") or nm.begins_with("lp_dub") or nm.begins_with("lp_borovice") or nm.begins_with("Strom"):
+					var ms: Array = n.find_children("*", "MeshInstance3D", true, false)
+					if ms.size() > 0:
+						_occ.append({"n": n, "ms": ms, "t": 0.0})
+	if _occ.is_empty() or t == null or not current:
+		return
+	var vs := get_viewport().get_visible_rect().size
+	var pp := t.global_position + Vector3(0, 1.0, 0)
+	if is_position_behind(pp):
+		return
+	var ps := unproject_position(pp)
+	var pd := global_position.distance_to(pp)
+	var rad := vs.y * 0.2
+	for e in _occ:
+		var n: Node3D = e.n
+		if not is_instance_valid(n):
+			continue
+		var c := n.global_position + Vector3(0, 2.6 * n.scale.y, 0)
+		var goal := 0.0
+		if not is_position_behind(c) and global_position.distance_to(c) < pd - 0.3:
+			var sp := unproject_position(c)
+			var dx := absf(sp.x - ps.x)
+			var dy := sp.y - ps.y
+			if dx < rad * 0.9 and dy > -rad * 1.8 and dy < rad * 1.4:
+				goal = 0.85
+		var cur: float = e.t
+		if absf(goal - cur) > 0.01:
+			cur = lerpf(cur, goal, 1.0 - exp(-9.0 * dt))
+			e.t = cur
+			for m in e.ms:
+				if is_instance_valid(m):
+					(m as GeometryInstance3D).transparency = cur
 
 
 func _find_bounds() -> void:

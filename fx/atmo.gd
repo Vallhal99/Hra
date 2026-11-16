@@ -200,22 +200,31 @@ uniform vec3 tint : source_color = vec3(1.0, 0.93, 0.7);
 uniform float strength = 0.0;
 uniform float lean = 2.5;
 uniform float seed = 0.0;
+uniform bool compat = false;
+uniform sampler2D depth_tex : hint_depth_texture, repeat_disable, filter_nearest;
 void vertex() {
 	MODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], MODEL_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);
 	VERTEX.x += (1.0 - UV.y) * lean;
 }
 void fragment() {
-	float across = max(sin(clamp(UV.x, 0.0, 1.0) * 3.14159), 0.0);
-	across = pow(across, 1.6);
-	float along = smoothstep(0.0, 0.18, UV.y) * pow(max(1.0 - UV.y, 0.0), 1.2);
+	float xx = (clamp(UV.x, 0.0, 1.0) - 0.5) * 2.0;
+	float across = exp(-xx * xx * 3.2) * smoothstep(1.0, 0.45, abs(xx));
+	float along = smoothstep(0.0, 0.3, UV.y) * pow(max(1.0 - UV.y, 0.0), 1.3);
+	along *= smoothstep(5.0, 15.0, length(VERTEX));
 	float fl = 0.75 + 0.25 * sin(TIME * 0.6 + seed * 6.0) + 0.1 * sin(TIME * 1.7 + seed);
-	float a = clamp(across * along * fl * strength, 0.0, 1.0);
+	float dz = texture(depth_tex, SCREEN_UV).x;
+	vec3 ndc = vec3(SCREEN_UV * 2.0 - 1.0, compat ? dz * 2.0 - 1.0 : dz);
+	vec4 vw = INV_PROJECTION_MATRIX * vec4(ndc, 1.0);
+	vw.xyz /= vw.w;
+	float soft = clamp((-vw.z + VERTEX.z) / 2.5, 0.0, 1.0);
+	float a = clamp(across * along * fl * strength * soft, 0.0, 1.0);
 	ALBEDO = tint * a;
 	ALPHA = 1.0;
 }
 """
 	_shaft_mat = ShaderMaterial.new()
 	_shaft_mat.shader = sh
+	_shaft_mat.set_shader_parameter("compat", RenderingServer.get_current_rendering_method() == "gl_compatibility")
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 77
 	for i in 9:
@@ -228,7 +237,7 @@ void fragment() {
 		mi.material_override = mm
 		mi.position = Vector3(rng.randf_range(-11, 11), q.size.y * 0.5 - 0.5, rng.randf_range(-9, 5))
 		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		_rig.add_child(mi)
+		add_child(mi)
 		_shafts.append(mi)
 
 
@@ -292,7 +301,7 @@ func _process(dt: float) -> void:
 
 func _scan_scene() -> void:
 	var sc := get_tree().current_scene
-	if sc == null:
+	if sc == null or not sc.is_inside_tree():
 		return
 	var path := sc.scene_file_path
 	if path == _scene_path:
@@ -317,8 +326,46 @@ func _scan_scene() -> void:
 			l.set_meta("base_e", (l as Light3D).light_energy)
 		_lights.append(l)
 	_sun = null
+	_attach_flames(sc)
+	var b := Rect2(-12, -10, 24, 20)
+	for tmn in sc.find_children("*", "TerrainMap", true, false):
+		var tmm := tmn as TerrainMap
+		if tmm != null and not tmm.cells.is_empty():
+			var mn := Vector2(INF, INF)
+			var mx := Vector2(-INF, -INF)
+			for c: Vector2i in tmm.cells:
+				mn = mn.min(Vector2(c))
+				mx = mx.max(Vector2(c) + Vector2.ONE)
+			b = Rect2(mn, mx - mn).grow(-3.0)
+			break
+	var rr := RandomNumberGenerator.new()
+	rr.seed = 77
 	for s in _shafts:
 		s.visible = FOREST.has(nm)
+		var hh: float = (s.mesh as QuadMesh).size.y
+		s.global_position = Vector3(rr.randf_range(b.position.x, b.end.x), hh * 0.5 - 0.5, rr.randf_range(b.position.y, b.end.y))
+
+
+func _attach_flames(sc: Node) -> void:
+	for m in sc.find_children("*Flame*", "MeshInstance3D", true, false):
+		var mi := m as MeshInstance3D
+		var par := mi.get_parent()
+		if par == null or par.has_meta("flamed"):
+			mi.visible = false
+			continue
+		par.set_meta("flamed", true)
+		mi.visible = false
+		var fx := FlameFx.new()
+		fx.top_level = true
+		var sz := 1.0
+		var nm := String(par.name)
+		if nm.begins_with("Cauldron"):
+			sz = 0.7
+		fx.size = sz
+		par.add_child(fx)
+		fx.global_position = mi.global_position - Vector3(0, 0.25 * sz, 0)
+	for m in sc.find_children("*Flame*", "MeshInstance3D", true, false):
+		(m as MeshInstance3D).visible = false
 
 
 func _apply(cam: Camera3D) -> void:

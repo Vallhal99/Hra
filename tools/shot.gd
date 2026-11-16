@@ -5,6 +5,8 @@ func _initialize() -> void:
 	var args := OS.get_cmdline_user_args()
 	if args.size() > 0: out = args[0]
 	var ps := load(OS.get_environment("MAP") if OS.get_environment("MAP") != "" else "res://scenes/louka.tscn") as PackedScene
+	var qn := get_root().get_node_or_null("Quests")
+	if qn: qn.flags["intro"] = true
 	var sc := ps.instantiate()
 	get_root().add_child(sc)
 	current_scene = sc

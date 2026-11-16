@@ -17,6 +17,9 @@ func _ready() -> void:
 	call_deferred("_hook")
 
 
+var _intro_t := 0.0
+
+
 func _process(_dt: float) -> void:
 	if flags.get("intro", false):
 		return
@@ -26,6 +29,9 @@ func _process(_dt: float) -> void:
 	var dlg := get_node_or_null("/root/DialogueRunner")
 	var sm := get_node_or_null("/root/SceneManager")
 	if dlg == null or dlg.active or (sm != null and sm.busy):
+		return
+	_intro_t += _dt
+	if _intro_t < 1.2:
 		return
 	flags["intro"] = true
 	dlg.start("prolog")

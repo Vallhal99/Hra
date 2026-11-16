@@ -233,7 +233,7 @@ func _edge_trees(count: int, mind := 2.5) -> void:
 				break
 		if ok:
 			placed.append(p)
-			_inst(names[rng.randi() % 5], p)
+			_inst(names[rng.randi() % 5], p, 0.0, 0.8)
 
 
 func _rocks(count: int, ks: Array, avoid: Array) -> void:
@@ -422,7 +422,38 @@ func _signpost(p: Vector2) -> void:
 		_label(n, d[0], Vector3(side * 0.75, d[2], 0.07), d[3], 34)
 
 
+## Okolo mapy dodá pás lesa, aby kamera nikdy neukázala prázdno (a vznikl prostor "dolů" i do stran).
+func _pad(n: int) -> void:
+	var inner := Rect2i(bx0, bz0, bx1 - bx0, bz1 - bz0)
+	for x in range(bx0 - n, bx1 + n):
+		for z in range(bz0 - n, bz1 + n):
+			var c := Vector2i(x, z)
+			if not tm.cells.has(c):
+				var lvl := 3 + (1 if nz.get_noise_2d(x * 0.45, z * 0.45) > 0.1 else 0)
+				tm.cells[c] = Vector2i(lvl, 7 if nzb.get_noise_2d(x, z) > -0.15 else 1)
+				kind[c] = 0
+	var names := ["strom_listnaty", "strom_smrk", "strom_smrk", "strom_listnaty"]
+	var placed: Array[Vector2] = []
+	var tries := 0
+	var want := int((float(bx1 - bx0 + 2 * n) * float(bz1 - bz0 + 2 * n) - float(bx1 - bx0) * float(bz1 - bz0)) / 12.0)
+	while placed.size() < want and tries < want * 30:
+		tries += 1
+		var p := Vector2(rng.randf_range(bx0 - n + 1, bx1 + n - 1), rng.randf_range(bz0 - n + 1, bz1 + n - 1))
+		if p.x > bx0 + 1 and p.x < bx1 - 1 and p.y > bz0 + 1 and p.y < bz1 - 1:
+			continue
+		var ok := true
+		for q in placed:
+			if q.distance_to(p) < 3.0:
+				ok = false
+				break
+		if ok:
+			placed.append(p)
+			_inst(names[rng.randi() % names.size()], p, rng.randf() * 360.0, rng.randf_range(0.85, 1.15))
+
+
 func _finish(path: String, spawn: Vector3, speaker_npcs: Array = []) -> void:
+	if not indoor:
+		_pad(10)
 	tm.sync_data()
 	var veg := VegetationLayer.new()
 	veg.name = "Vegetation"

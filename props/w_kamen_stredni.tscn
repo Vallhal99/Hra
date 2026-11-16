@@ -152,7 +152,7 @@ texture_filter = 5
 height = 1.2891626
 radius = 1.0653358
 
-[node name="w_kamen_stredni" type="Node3D" unique_id=1511179433]
+[node name="w_kamen_stredni" type="Node3D" unique_id=683648681]
 
 [node name="Model" type="Node3D" parent="." unique_id=340179867 instance=ExtResource("1_ox8nx")]
 
@@ -166,8 +166,8 @@ surface_material_override/1 = SubResource("StandardMaterial3D_hpiq6")
 surface_material_override/2 = SubResource("StandardMaterial3D_qo4ja")
 surface_material_override/3 = SubResource("StandardMaterial3D_ir072")
 
-[node name="Kolize" type="StaticBody3D" parent="." unique_id=1182392766]
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=2098280844]
 
-[node name="@CollisionShape3D@82" type="CollisionShape3D" parent="Kolize" unique_id=700433495]
+[node name="@CollisionShape3D@82" type="CollisionShape3D" parent="Kolize" unique_id=386657242]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.034326315, 0.6445813, 0.04027593)
 shape = SubResource("CylinderShape3D_fp4os")

@@ -888,7 +888,7 @@ texture_filter = 5
 [sub_resource type="BoxShape3D" id="BoxShape3D_8086u"]
 size = Vector3(3.588, 1.5235201, 1.656)
 
-[node name="w_vuz" type="Node3D" unique_id=1635473434]
+[node name="w_vuz" type="Node3D" unique_id=794107541]
 
 [node name="Model" type="Node3D" parent="." unique_id=1988982850 instance=ExtResource("1_u7aj5")]
 
@@ -1008,8 +1008,8 @@ transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0.6, -0.78)
 mesh = SubResource("ArrayMesh_5ne6d")
 surface_material_override/0 = SubResource("StandardMaterial3D_0ar0e")
 
-[node name="Kolize" type="StaticBody3D" parent="." unique_id=1414482229]
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=1760635113]
 
-[node name="@CollisionShape3D@60" type="CollisionShape3D" parent="Kolize" unique_id=2139568074]
+[node name="@CollisionShape3D@60" type="CollisionShape3D" parent="Kolize" unique_id=570042721]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.82800007, 0)
 shape = SubResource("BoxShape3D_8086u")
