@@ -205,11 +205,11 @@ void vertex() {
 	VERTEX.x += (1.0 - UV.y) * lean;
 }
 void fragment() {
-	float across = sin(UV.x * 3.14159);
+	float across = max(sin(clamp(UV.x, 0.0, 1.0) * 3.14159), 0.0);
 	across = pow(across, 1.6);
-	float along = smoothstep(0.0, 0.18, UV.y) * pow(1.0 - UV.y, 1.2);
+	float along = smoothstep(0.0, 0.18, UV.y) * pow(max(1.0 - UV.y, 0.0), 1.2);
 	float fl = 0.75 + 0.25 * sin(TIME * 0.6 + seed * 6.0) + 0.1 * sin(TIME * 1.7 + seed);
-	float a = across * along * fl * strength;
+	float a = clamp(across * along * fl * strength, 0.0, 1.0);
 	ALBEDO = tint * a;
 	ALPHA = 1.0;
 }
