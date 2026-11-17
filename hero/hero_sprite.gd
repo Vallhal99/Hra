@@ -91,6 +91,13 @@ const SWORD := {
 	"W": [-12, 152, -55, 74, 0], "SW": [-30, 152, -28, 74, 0]}
 
 
+static func _wtype(equip: Dictionary) -> String:
+	var z = equip.get("zbran")
+	if z == null or z == "":
+		return "fist"
+	return Rules.weapon_type_of(str(z))
+
+
 static func _has_sword(equip: Dictionary) -> bool:
 	var z = equip.get("zbran")
 	return z != null and z != ""
@@ -112,7 +119,69 @@ static func _hand_track(a: String, d: String) -> Array:
 	return _hands.get("%s (%s)" % [a, d], [])
 
 
-static func _draw_sword(img: Image, w: int, h: int, n: int, a: String, d: String) -> void:
+## usecka (tlusta) do snimku
+static func _stroke(img: Image, a: Vector2, b: Vector2, half: float, col: Color, x0: int, w: int) -> void:
+	var ln := a.distance_to(b)
+	var dirv := (b - a) / maxf(ln, 0.001)
+	var side := Vector2(-dirv.y, dirv.x)
+	var t := 0.0
+	while t <= ln:
+		var k := -half
+		while k <= half:
+			var q := a + dirv * t + side * k
+			_put(img, int(round(q.x)), int(round(q.y)), col, x0, w)
+			k += 0.5
+		t += 0.5
+
+
+const STEEL := Color(0.82, 0.86, 0.92)
+const OUTL := Color(0.08, 0.08, 0.1)
+const WOOD := Color(0.45, 0.28, 0.14)
+const GOLD := Color(0.86, 0.68, 0.25)
+
+
+## Ostatni zbrane (kopi, sekera, dyka, hul, luk) - kresli se stejne do ruky jako mec.
+static func _draw_other(img: Image, o: Vector2, up: Vector2, wt: String, x0: int, w: int) -> void:
+	var side := Vector2(-up.y, up.x)
+	for pass_i in 2:
+		var ol := pass_i == 0
+		var g := 1.2 if ol else 0.0
+		match wt:
+			"spear":
+				_stroke(img, o - up * 32.0, o + up * 78.0, 1.7 + g, OUTL if ol else WOOD, x0, w)
+				var tip := o + up * 104.0
+				_stroke(img, o + up * 78.0, tip, 4.0 + g, OUTL if ol else STEEL, x0, w)
+				_stroke(img, o + up * 94.0, tip, 2.0 + g, OUTL if ol else Color(0.95, 0.97, 1.0), x0, w)
+			"axe":
+				_stroke(img, o - up * 14.0, o + up * 70.0, 1.9 + g, OUTL if ol else WOOD, x0, w)
+				for i in 9:
+					var u := 52.0 + i * 2.4
+					var wd := 3.0 + 9.0 * sin(float(i) / 8.0 * PI)
+					_stroke(img, o + up * u + side * 1.5, o + up * u + side * (1.5 + wd), 1.4 + g, OUTL if ol else STEEL, x0, w)
+				_stroke(img, o + up * 70.0, o + up * 74.0, 2.0 + g, OUTL if ol else GOLD, x0, w)
+			"dagger":
+				_stroke(img, o - up * 8.0, o + up * 2.0, 1.7 + g, OUTL if ol else WOOD, x0, w)
+				_stroke(img, o + up * 2.0 - side * 4.0, o + up * 2.0 + side * 4.0, 1.0 + g, OUTL if ol else GOLD, x0, w)
+				_stroke(img, o + up * 3.0, o + up * 36.0, 2.0 + g, OUTL if ol else STEEL, x0, w)
+			"staff":
+				_stroke(img, o - up * 30.0, o + up * 74.0, 1.8 + g, OUTL if ol else WOOD, x0, w)
+				var orb := o + up * 82.0
+				_stroke(img, orb - side * 5.0, orb + side * 5.0, 5.0 + g, OUTL if ol else Color(0.45, 0.7, 1.0), x0, w)
+				if not ol:
+					_stroke(img, orb - side * 2.0 - up * 1.0, orb - side * 2.0 + up * 1.0, 1.5, Color(0.9, 1.0, 1.0), x0, w)
+			"bow":
+				var prev := o - up * 38.0
+				for i in range(1, 17):
+					var t := -38.0 + float(i) * (76.0 / 16.0)
+					var bul := 15.0 * (1.0 - pow(t / 38.0, 2.0))
+					var q := o + up * t + side * bul
+					_stroke(img, prev, q, 1.5 + g, OUTL if ol else Color(0.55, 0.34, 0.16), x0, w)
+					prev = q
+				if not ol:
+					_stroke(img, o - up * 38.0, o + up * 38.0, 0.5, Color(0.92, 0.92, 0.85), x0, w)
+
+
+static func _draw_sword(img: Image, w: int, h: int, n: int, a: String, d: String, wt := "sword") -> void:
 	var cfg: Array = SWORD[d]
 	var track := _hand_track(a, d)
 	for f in n:
@@ -127,6 +196,9 @@ static func _draw_sword(img: Image, w: int, h: int, n: int, a: String, d: String
 		if track.size() == n:
 			hx = x0 + float(track[f][0]) + up.x * 5.0
 			hy = float(track[f][1]) + up.y * 5.0
+		if wt != "sword":
+			_draw_other(img, Vector2(hx, hy), up, wt, x0, w)
+			continue
 		var side := Vector2(-up.y, up.x)
 		var L: float = cfg[3]
 		# obrys, čepel, záštita, rukojeť, hlavice
@@ -169,10 +241,11 @@ static func sheet(a: String, d: String, equip: Dictionary) -> Dictionary:
 	var key := "%s (%s)" % [a, d]
 	var layers := layers_for(equip)
 	var sw := _has_sword(equip) and a in ["Idle", "Walk", "Run"]
+	var wt := _wtype(equip)
 	var dl := ""
 	for l in layers:
 		dl += str(_dlevel(l))
-	var ck := key + "|" + ",".join(layers) + ("|sw" if sw else "") + "|" + dl
+	var ck := key + "|" + ",".join(layers) + (("|sw_" + wt) if sw else "") + "|" + dl
 	if _cache.has(ck):
 		return _cache[ck]
 	var res := {}
@@ -185,7 +258,7 @@ static func sheet(a: String, d: String, equip: Dictionary) -> Dictionary:
 	var img := Image.create(w * n, h, false, Image.FORMAT_RGBA8)
 	var back: bool = sw and SWORD[d][4] == 1
 	if back:
-		_draw_sword(img, w, h, n, a, d)
+		_draw_sword(img, w, h, n, a, d, wt)
 	for l in layers:
 		var m: Dictionary = _atlas[l].meta.get(key, {})
 		if m.is_empty():
@@ -198,7 +271,7 @@ static func sheet(a: String, d: String, equip: Dictionary) -> Dictionary:
 		else:
 			img.blend_rect(_atlas[l].img, Rect2i(int(m.x), int(m.y), w * n, h), Vector2i.ZERO)
 	if sw and not back:
-		_draw_sword(img, w, h, n, a, d)
+		_draw_sword(img, w, h, n, a, d, wt)
 	img.generate_mipmaps()
 	res = {"tex": ImageTexture.create_from_image(img), "frames": n, "w": w, "h": h}
 	_cache[ck] = res
