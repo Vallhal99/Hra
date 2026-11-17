@@ -101,8 +101,20 @@ static func _put(img: Image, x: int, y: int, c: Color, x0: int, w: int) -> void:
 		img.set_pixel(x, y, c)
 
 
+static var _hands: Dictionary = {}
+
+
+## pozice ruky po framech (tools/retarget/sword_hand.py) -> hero/sword_hand.json
+static func _hand_track(a: String, d: String) -> Array:
+	if _hands.is_empty():
+		var p := "res://hero/sword_hand.json"
+		_hands = JSON.parse_string(FileAccess.get_file_as_string(p)) if FileAccess.file_exists(p) else {"_": []}
+	return _hands.get("%s (%s)" % [a, d], [])
+
+
 static func _draw_sword(img: Image, w: int, h: int, n: int, a: String, d: String) -> void:
 	var cfg: Array = SWORD[d]
+	var track := _hand_track(a, d)
 	for f in n:
 		var x0 := f * w
 		var bob := 0.0
@@ -112,6 +124,9 @@ static func _draw_sword(img: Image, w: int, h: int, n: int, a: String, d: String
 		var hy: float = float(cfg[1]) + bob
 		var ang := deg_to_rad(float(cfg[2]))
 		var up := Vector2(sin(ang), -cos(ang))
+		if track.size() == n:
+			hx = x0 + float(track[f][0]) + up.x * 5.0
+			hy = float(track[f][1]) + up.y * 5.0
 		var side := Vector2(-up.y, up.x)
 		var L: float = cfg[3]
 		# obrys, čepel, záštita, rukojeť, hlavice

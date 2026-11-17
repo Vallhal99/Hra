@@ -45,7 +45,6 @@ func reset_state() -> void:
 	Bestiary.seen = {}
 	Party.members = {}
 	Party.order = []
-	Party.recruit("lia", true)
 	Atmo.tod = 0.40
 	Inventory.changed.emit()
 	Hero.changed.emit()

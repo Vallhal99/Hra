@@ -1,0 +1,538 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://addons/terrain_builder/terrain_map.gd" id="1_q0cqi"]
+[ext_resource type="Script" path="res://addons/terrain_builder/terrain_mat.gd" id="2_osl0s"]
+[ext_resource type="Resource" path="res://library/materials/item_000.tres" id="3_k4l57"]
+[ext_resource type="Resource" path="res://library/materials/item_001.tres" id="4_8mtto"]
+[ext_resource type="Resource" path="res://library/materials/item_002.tres" id="5_htv7f"]
+[ext_resource type="Resource" path="res://library/materials/item_003.tres" id="6_54pbt"]
+[ext_resource type="Resource" path="res://library/materials/item_004.tres" id="7_pn87n"]
+[ext_resource type="Resource" path="res://library/materials/item_005.tres" id="8_8748i"]
+[ext_resource type="Resource" path="res://library/materials/item_006.tres" id="9_xn3y0"]
+[ext_resource type="Resource" path="res://library/materials/item_007.tres" id="10_pa7b6"]
+[ext_resource type="Script" path="res://addons/terrain_builder/prop_layer.gd" id="11_p1fl4"]
+[ext_resource type="Texture2D" path="res://textures/ground/dlazba.png" id="12_lecrr"]
+[ext_resource type="PackedScene" path="res://props/w_sud.tscn" id="13_hqov5"]
+[ext_resource type="PackedScene" path="res://props/w_bedna_velka.tscn" id="14_2gv7l"]
+[ext_resource type="Script" path="res://addons/terrain_builder/scene_exit.gd" id="15_865k4"]
+[ext_resource type="Script" path="res://addons/terrain_builder/vegetation_layer.gd" id="16_yws30"]
+[ext_resource type="Script" path="res://addons/terrain_builder/veg_type.gd" id="17_i87ya"]
+[ext_resource type="Resource" path="res://library/vegetation/item_000.tres" id="18_fgbsb"]
+[ext_resource type="Resource" path="res://library/vegetation/item_001.tres" id="19_47o5w"]
+[ext_resource type="Resource" path="res://library/vegetation/item_002.tres" id="20_hamxj"]
+[ext_resource type="Resource" path="res://library/vegetation/item_003.tres" id="21_4e7m1"]
+[ext_resource type="Resource" path="res://library/vegetation/item_004.tres" id="22_xh75u"]
+[ext_resource type="Resource" path="res://library/vegetation/item_005.tres" id="23_r1vc2"]
+[ext_resource type="Resource" path="res://library/vegetation/item_006.tres" id="24_yr8fx"]
+[ext_resource type="Resource" path="res://library/vegetation/item_007.tres" id="25_sro4q"]
+[ext_resource type="Resource" path="res://library/vegetation/item_008.tres" id="26_1o7xv"]
+[ext_resource type="Resource" path="res://library/vegetation/item_009.tres" id="27_vlsni"]
+[ext_resource type="Script" path="res://addons/terrain_builder/npc_3d.gd" id="28_t6d8a"]
+[ext_resource type="Script" path="res://addons/terrain_builder/player_3d.gd" id="29_4wy3w"]
+[ext_resource type="Script" path="res://addons/terrain_builder/hd2d_camera.gd" id="30_t3i7i"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wjrq8"]
+albedo_color = Color(0.5, 0.36, 0.24, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="BoxMesh_hgr6g"]
+size = Vector3(18.6, 3.8, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s4ks0"]
+size = Vector3(18.6, 3.8, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vex3f"]
+size = Vector3(0.5, 3.8, 11.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ef6ss"]
+size = Vector3(0.5, 3.8, 11.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_p4fd5"]
+size = Vector3(0.5, 3.8, 11.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xwj8u"]
+size = Vector3(0.5, 3.8, 11.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v2taa"]
+albedo_color = Color(0.3, 0.18, 0.1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mgm2i"]
+size = Vector3(18.6, 0.3, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bjik4"]
+albedo_color = Color(0.85, 0.85, 0.88, 1)
+albedo_texture = ExtResource("12_lecrr")
+roughness = 0.95
+uv1_scale = Vector3(2, 2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ra6dc"]
+size = Vector3(3, 2.6, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bjfkh"]
+size = Vector3(3, 2.6, 0.5)
+
+[sub_resource type="QuadMesh" id="QuadMesh_w2fb3"]
+size = Vector2(0.8, 1.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_a4sb7"]
+size = Vector3(5.6, 1.1, 1.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xiyab"]
+size = Vector3(5.6, 1.1, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yupwy"]
+albedo_color = Color(0.47, 0.32, 0.18, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_xw12t"]
+size = Vector3(5.9, 0.1, 1.4)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_c2e21"]
+top_radius = 0.8
+bottom_radius = 0.8
+height = 1.0
+radial_segments = 14
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_0tr0u"]
+height = 1.0
+radius = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_1hghw"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wp6ie"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_x14fo"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hqp2d"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_eujg2"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_the7u"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_yrawk"]
+top_radius = 0.8
+bottom_radius = 0.8
+height = 1.0
+radial_segments = 14
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8qq3u"]
+height = 1.0
+radius = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_ssvv2"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bcxid"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_prhyh"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_olfeg"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jidqk"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_myng0"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tyryh"]
+top_radius = 0.8
+bottom_radius = 0.8
+height = 1.0
+radial_segments = 14
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_uto0p"]
+height = 1.0
+radius = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_jmnn2"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cyl37"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yqs3i"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fo8r8"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_up0nc"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_815na"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_yo0l6"]
+top_radius = 0.8
+bottom_radius = 0.8
+height = 1.0
+radial_segments = 14
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_qmc7c"]
+height = 1.0
+radius = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_geoi8"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bnngv"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_a6sng"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_va6h6"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1nred"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vgulg"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mmgsv"]
+albedo_color = Color(0.45, 0.12, 0.12, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vyfmy"]
+size = Vector3(5, 0.05, 3.4)
+
+[node name="Hostinec" type="Node3D" unique_id=1590079526]
+
+[node name="TerrainMap" type="Node3D" parent="." unique_id=1463365949]
+script = ExtResource("1_q0cqi")
+materials = Array[ExtResource("2_osl0s")]([ExtResource("3_k4l57"), ExtResource("4_8mtto"), ExtResource("5_htv7f"), ExtResource("6_54pbt"), ExtResource("7_pn87n"), ExtResource("8_8748i"), ExtResource("9_xn3y0"), ExtResource("10_pa7b6")])
+data = PackedInt32Array(0, 2, 0, 2, 0, 3, 0, 6, 0, 4, 0, 2, 0, 5, 0, 2, 0, 6, 0, 6, 0, 7, 0, 2, 0, 8, 0, 2, 0, 9, 0, 6, 0, 10, 0, 2, 0, 11, 0, 2, 0, 12, 0, 6, 1, 2, 0, 6, 1, 3, 0, 2, 1, 4, 0, 2, 1, 5, 0, 6, 1, 6, 0, 2, 1, 7, 0, 2, 1, 8, 0, 6, 1, 9, 0, 2, 1, 10, 0, 2, 1, 11, 0, 6, 1, 12, 0, 2, 2, 2, 0, 2, 2, 3, 0, 2, 2, 4, 0, 6, 2, 5, 0, 2, 2, 6, 0, 2, 2, 7, 0, 6, 2, 8, 0, 2, 2, 9, 0, 2, 2, 10, 0, 6, 2, 11, 0, 2, 2, 12, 0, 2, 3, 2, 0, 2, 3, 3, 0, 6, 3, 4, 0, 2, 3, 5, 0, 2, 3, 6, 0, 6, 3, 7, 0, 2, 3, 8, 0, 2, 3, 9, 0, 6, 3, 10, 0, 2, 3, 11, 0, 2, 3, 12, 0, 6, 4, 2, 0, 6, 4, 3, 0, 2, 4, 4, 0, 2, 4, 5, 0, 6, 4, 6, 0, 2, 4, 7, 0, 2, 4, 8, 0, 6, 4, 9, 0, 2, 4, 10, 0, 2, 4, 11, 0, 6, 4, 12, 0, 2, 5, 2, 0, 2, 5, 3, 0, 2, 5, 4, 0, 6, 5, 5, 0, 2, 5, 6, 0, 2, 5, 7, 0, 6, 5, 8, 0, 2, 5, 9, 0, 2, 5, 10, 0, 6, 5, 11, 0, 2, 5, 12, 0, 2, 6, 2, 0, 2, 6, 3, 0, 6, 6, 4, 0, 2, 6, 5, 0, 2, 6, 6, 0, 6, 6, 7, 0, 2, 6, 8, 0, 2, 6, 9, 0, 6, 6, 10, 0, 2, 6, 11, 0, 2, 6, 12, 0, 6, 7, 2, 0, 6, 7, 3, 0, 2, 7, 4, 0, 2, 7, 5, 0, 6, 7, 6, 0, 2, 7, 7, 0, 2, 7, 8, 0, 6, 7, 9, 0, 2, 7, 10, 0, 2, 7, 11, 0, 6, 7, 12, 0, 2, 8, 2, 0, 2, 8, 3, 0, 2, 8, 4, 0, 6, 8, 5, 0, 2, 8, 6, 0, 2, 8, 7, 0, 6, 8, 8, 0, 2, 8, 9, 0, 2, 8, 10, 0, 6, 8, 11, 0, 2, 8, 12, 0, 2, 9, 2, 0, 2, 9, 3, 0, 6, 9, 4, 0, 2, 9, 5, 0, 2, 9, 6, 0, 6, 9, 7, 0, 2, 9, 8, 0, 2, 9, 9, 0, 6, 9, 10, 0, 2, 9, 11, 0, 2, 9, 12, 0, 6, 10, 2, 0, 6, 10, 3, 0, 2, 10, 4, 0, 2, 10, 5, 0, 6, 10, 6, 0, 2, 10, 7, 0, 2, 10, 8, 0, 6, 10, 9, 0, 2, 10, 10, 0, 2, 10, 11, 0, 6, 10, 12, 0, 2, 11, 2, 0, 2, 11, 3, 0, 2, 11, 4, 0, 6, 11, 5, 0, 2, 11, 6, 0, 2, 11, 7, 0, 6, 11, 8, 0, 2, 11, 9, 0, 2, 11, 10, 0, 6, 11, 11, 0, 2, 11, 12, 0, 2, 12, 2, 0, 2, 12, 3, 0, 6, 12, 4, 0, 2, 12, 5, 0, 2, 12, 6, 0, 6, 12, 7, 0, 2, 12, 8, 0, 2, 12, 9, 0, 6, 12, 10, 0, 2, 12, 11, 0, 2, 12, 12, 0, 6, 13, 2, 0, 6, 13, 3, 0, 2, 13, 4, 0, 2, 13, 5, 0, 6, 13, 6, 0, 2, 13, 7, 0, 2, 13, 8, 0, 6, 13, 9, 0, 2, 13, 10, 0, 2, 13, 11, 0, 6, 13, 12, 0, 2, 14, 2, 0, 2, 14, 3, 0, 2, 14, 4, 0, 6, 14, 5, 0, 2, 14, 6, 0, 2, 14, 7, 0, 6, 14, 8, 0, 2, 14, 9, 0, 2, 14, 10, 0, 6, 14, 11, 0, 2, 14, 12, 0, 2, 15, 2, 0, 2, 15, 3, 0, 6, 15, 4, 0, 2, 15, 5, 0, 2, 15, 6, 0, 6, 15, 7, 0, 2, 15, 8, 0, 2, 15, 9, 0, 6, 15, 10, 0, 2, 15, 11, 0, 2, 15, 12, 0, 6, 16, 2, 0, 6, 16, 3, 0, 2, 16, 4, 0, 2, 16, 5, 0, 6, 16, 6, 0, 2, 16, 7, 0, 2, 16, 8, 0, 6, 16, 9, 0, 2, 16, 10, 0, 2, 16, 11, 0, 6, 16, 12, 0, 2, 17, 2, 0, 2, 17, 3, 0, 2, 17, 4, 0, 6, 17, 5, 0, 2, 17, 6, 0, 2, 17, 7, 0, 6, 17, 8, 0, 2, 17, 9, 0, 2, 17, 10, 0, 6, 17, 11, 0, 2, 17, 12, 0, 2)
+
+[node name="Props" type="Node3D" parent="TerrainMap" unique_id=1406717504]
+script = ExtResource("11_p1fl4")
+
+[node name="@MeshInstance3D@1259" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=1272105755]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1.9, 1.75)
+material_override = SubResource("StandardMaterial3D_wjrq8")
+mesh = SubResource("BoxMesh_hgr6g")
+
+[node name="@StaticBody3D@1261" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1259" unique_id=940048009]
+
+[node name="@CollisionShape3D@1260" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1259/@StaticBody3D@1261" unique_id=337411918]
+shape = SubResource("BoxShape3D_s4ks0")
+
+[node name="@MeshInstance3D@1262" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=1282731584]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 1.9, 7.5)
+material_override = SubResource("StandardMaterial3D_wjrq8")
+mesh = SubResource("BoxMesh_vex3f")
+
+[node name="@StaticBody3D@1264" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1262" unique_id=1314052758]
+
+[node name="@CollisionShape3D@1263" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1262/@StaticBody3D@1264" unique_id=1852938400]
+shape = SubResource("BoxShape3D_ef6ss")
+
+[node name="@MeshInstance3D@1265" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=1297606922]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.25, 1.9, 7.5)
+material_override = SubResource("StandardMaterial3D_wjrq8")
+mesh = SubResource("BoxMesh_p4fd5")
+
+[node name="@StaticBody3D@1267" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1265" unique_id=598808745]
+
+[node name="@CollisionShape3D@1266" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1265/@StaticBody3D@1267" unique_id=1647858902]
+shape = SubResource("BoxShape3D_xwj8u")
+
+[node name="@MeshInstance3D@1268" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=1981451094]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 3.65, 1.95)
+material_override = SubResource("StandardMaterial3D_v2taa")
+mesh = SubResource("BoxMesh_mgm2i")
+
+[node name="@MeshInstance3D@1269" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=165155586]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, 1.3, 1.95)
+material_override = SubResource("StandardMaterial3D_bjik4")
+mesh = SubResource("BoxMesh_ra6dc")
+
+[node name="@StaticBody3D@1271" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1269" unique_id=1305858022]
+
+[node name="@CollisionShape3D@1270" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1269/@StaticBody3D@1271" unique_id=708196621]
+shape = SubResource("BoxShape3D_bjfkh")
+
+[node name="Ohniste" type="Node3D" parent="TerrainMap/Props" unique_id=789975533 groups=["ohniste"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, 0.55, 2.35)
+
+[node name="FlameMesh" type="MeshInstance3D" parent="TerrainMap/Props/Ohniste" unique_id=811811087]
+mesh = SubResource("QuadMesh_w2fb3")
+
+[node name="@MeshInstance3D@1273" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=617403913]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0.55, 4)
+material_override = SubResource("StandardMaterial3D_v2taa")
+mesh = SubResource("BoxMesh_a4sb7")
+
+[node name="@StaticBody3D@1275" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1273" unique_id=1013571089]
+
+[node name="@CollisionShape3D@1274" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1273/@StaticBody3D@1275" unique_id=1143032851]
+shape = SubResource("BoxShape3D_xiyab")
+
+[node name="@MeshInstance3D@1276" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=1104197198]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 1.12, 4)
+material_override = SubResource("StandardMaterial3D_yupwy")
+mesh = SubResource("BoxMesh_xw12t")
+
+[node name="w_sud" type="Node3D" parent="TerrainMap/Props" unique_id=1397654329 instance=ExtResource("13_hqov5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.4, 0, 2.55)
+
+[node name="@Node3D@1277" type="Node3D" parent="TerrainMap/Props" unique_id=57282430 instance=ExtResource("13_hqov5")]
+transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, 11.9, 0, 2.55)
+
+[node name="@Node3D@1278" type="Node3D" parent="TerrainMap/Props" unique_id=1313269467 instance=ExtResource("13_hqov5")]
+transform = Transform3D(0.49999997, 0, 0.86602545, 0, 1, 0, -0.86602545, 0, 0.49999997, 13.4, 0, 2.55)
+
+[node name="@Node3D@1279" type="Node3D" parent="TerrainMap/Props" unique_id=1075415477 instance=ExtResource("13_hqov5")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 14.9, 0, 2.55)
+
+[node name="@MeshInstance3D@1280" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=626729429]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0.5, 7.5)
+material_override = SubResource("StandardMaterial3D_yupwy")
+mesh = SubResource("CylinderMesh_c2e21")
+
+[node name="@StaticBody3D@1282" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1280" unique_id=949335631]
+
+[node name="@CollisionShape3D@1281" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1280/@StaticBody3D@1282" unique_id=1582337922]
+shape = SubResource("CylinderShape3D_0tr0u")
+
+[node name="@MeshInstance3D@1283" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=985365773]
+transform = Transform3D(0.8253356, 0, -0.5646425, 0, 1, 0, 0.5646425, 0, 0.8253356, 5.614203, 0.3, 8.262267)
+material_override = SubResource("StandardMaterial3D_v2taa")
+mesh = SubResource("BoxMesh_1hghw")
+
+[node name="@StaticBody3D@1285" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1283" unique_id=2016484459]
+
+[node name="@CollisionShape3D@1284" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1283/@StaticBody3D@1285" unique_id=1124369719]
+shape = SubResource("BoxShape3D_wp6ie")
+
+[node name="@MeshInstance3D@1286" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=1510520240]
+transform = Transform3D(-0.9016625, 0, -0.4324404, 0, 1, 0, 0.4324404, 0, -0.9016625, 3.2827556, 0.3, 8.083795)
+material_override = SubResource("StandardMaterial3D_v2taa")
+mesh = SubResource("BoxMesh_x14fo")
+
+[node name="@StaticBody3D@1288" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1286" unique_id=340622633]
+
+[node name="@CollisionShape3D@1287" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1286/@StaticBody3D@1288" unique_id=1343619897]
+shape = SubResource("BoxShape3D_hqp2d")
+
+[node name="@MeshInstance3D@1289" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=1210574927]
+transform = Transform3D(0.07632694, 0, 0.9970828, 0, 1, 0, -0.9970828, 0, 0.07632694, 4.603041, 0.3, 6.1539383)
+material_override = SubResource("StandardMaterial3D_v2taa")
+mesh = SubResource("BoxMesh_eujg2")
+
+[node name="@StaticBody3D@1291" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1289" unique_id=1620109636]
+
+[node name="@CollisionShape3D@1290" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1289/@StaticBody3D@1291" unique_id=424859708]
+shape = SubResource("BoxShape3D_the7u")
+
+[node name="@MeshInstance3D@1292" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=1926492630]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0.5, 9.8)
+material_override = SubResource("StandardMaterial3D_yupwy")
+mesh = SubResource("CylinderMesh_yrawk")
+
+[node name="@StaticBody3D@1294" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1292" unique_id=426417893]
+
+[node name="@CollisionShape3D@1293" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1292/@StaticBody3D@1294" unique_id=1568080672]
+shape = SubResource("CylinderShape3D_8qq3u")
+
+[node name="@MeshInstance3D@1295" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=690065351]
+transform = Transform3D(0.8253356, 0, -0.5646425, 0, 1, 0, 0.5646425, 0, 0.8253356, 9.614203, 0.3, 10.562267)
+material_override = SubResource("StandardMaterial3D_v2taa")
+mesh = SubResource("BoxMesh_ssvv2")
+
+[node name="@StaticBody3D@1297" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1295" unique_id=1245740365]
+
+[node name="@CollisionShape3D@1296" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1295/@StaticBody3D@1297" unique_id=765271928]
+shape = SubResource("BoxShape3D_bcxid")
+
+[node name="@MeshInstance3D@1298" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=1738317239]
+transform = Transform3D(-0.9016625, 0, -0.4324404, 0, 1, 0, 0.4324404, 0, -0.9016625, 7.2827554, 0.3, 10.383795)
+material_override = SubResource("StandardMaterial3D_v2taa")
+mesh = SubResource("BoxMesh_prhyh")
+
+[node name="@StaticBody3D@1300" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1298" unique_id=1717335729]
+
+[node name="@CollisionShape3D@1299" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1298/@StaticBody3D@1300" unique_id=2063355177]
+shape = SubResource("BoxShape3D_olfeg")
+
+[node name="@MeshInstance3D@1301" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=1425438322]
+transform = Transform3D(0.07632694, 0, 0.9970828, 0, 1, 0, -0.9970828, 0, 0.07632694, 8.603042, 0.3, 8.4539385)
+material_override = SubResource("StandardMaterial3D_v2taa")
+mesh = SubResource("BoxMesh_jidqk")
+
+[node name="@StaticBody3D@1303" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1301" unique_id=164801747]
+
+[node name="@CollisionShape3D@1302" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1301/@StaticBody3D@1303" unique_id=1914043627]
+shape = SubResource("BoxShape3D_myng0")
+
+[node name="@MeshInstance3D@1304" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=1031795155]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 0.5, 11)
+material_override = SubResource("StandardMaterial3D_yupwy")
+mesh = SubResource("CylinderMesh_tyryh")
+
+[node name="@StaticBody3D@1306" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1304" unique_id=220422808]
+
+[node name="@CollisionShape3D@1305" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1304/@StaticBody3D@1306" unique_id=177470879]
+shape = SubResource("CylinderShape3D_uto0p")
+
+[node name="@MeshInstance3D@1307" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=2062995677]
+transform = Transform3D(0.8253356, 0, -0.5646425, 0, 1, 0, 0.5646425, 0, 0.8253356, 6.614203, 0.3, 11.762267)
+material_override = SubResource("StandardMaterial3D_v2taa")
+mesh = SubResource("BoxMesh_jmnn2")
+
+[node name="@StaticBody3D@1309" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1307" unique_id=1430832944]
+
+[node name="@CollisionShape3D@1308" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1307/@StaticBody3D@1309" unique_id=1955035963]
+shape = SubResource("BoxShape3D_cyl37")
+
+[node name="@MeshInstance3D@1310" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=1102887319]
+transform = Transform3D(-0.9016625, 0, -0.4324404, 0, 1, 0, 0.4324404, 0, -0.9016625, 4.2827554, 0.3, 11.583795)
+material_override = SubResource("StandardMaterial3D_v2taa")
+mesh = SubResource("BoxMesh_yqs3i")
+
+[node name="@StaticBody3D@1312" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1310" unique_id=519095587]
+
+[node name="@CollisionShape3D@1311" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1310/@StaticBody3D@1312" unique_id=898267132]
+shape = SubResource("BoxShape3D_fo8r8")
+
+[node name="@MeshInstance3D@1313" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=1323296247]
+transform = Transform3D(0.07632694, 0, 0.9970828, 0, 1, 0, -0.9970828, 0, 0.07632694, 5.603041, 0.3, 9.653938)
+material_override = SubResource("StandardMaterial3D_v2taa")
+mesh = SubResource("BoxMesh_up0nc")
+
+[node name="@StaticBody3D@1315" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1313" unique_id=1454815529]
+
+[node name="@CollisionShape3D@1314" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1313/@StaticBody3D@1315" unique_id=1681172948]
+shape = SubResource("BoxShape3D_815na")
+
+[node name="@MeshInstance3D@1316" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=1674295100]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 0.5, 9)
+material_override = SubResource("StandardMaterial3D_yupwy")
+mesh = SubResource("CylinderMesh_yo0l6")
+
+[node name="@StaticBody3D@1318" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1316" unique_id=1917180929]
+
+[node name="@CollisionShape3D@1317" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1316/@StaticBody3D@1318" unique_id=1763854963]
+shape = SubResource("CylinderShape3D_qmc7c")
+
+[node name="@MeshInstance3D@1319" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=1515587499]
+transform = Transform3D(0.8253356, 0, -0.5646425, 0, 1, 0, 0.5646425, 0, 0.8253356, 15.614203, 0.3, 9.762267)
+material_override = SubResource("StandardMaterial3D_v2taa")
+mesh = SubResource("BoxMesh_geoi8")
+
+[node name="@StaticBody3D@1321" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1319" unique_id=1792088148]
+
+[node name="@CollisionShape3D@1320" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1319/@StaticBody3D@1321" unique_id=1500907613]
+shape = SubResource("BoxShape3D_bnngv")
+
+[node name="@MeshInstance3D@1322" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=955185495]
+transform = Transform3D(-0.9016625, 0, -0.4324404, 0, 1, 0, 0.4324404, 0, -0.9016625, 13.282756, 0.3, 9.583795)
+material_override = SubResource("StandardMaterial3D_v2taa")
+mesh = SubResource("BoxMesh_a6sng")
+
+[node name="@StaticBody3D@1324" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1322" unique_id=1411361823]
+
+[node name="@CollisionShape3D@1323" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1322/@StaticBody3D@1324" unique_id=263175523]
+shape = SubResource("BoxShape3D_va6h6")
+
+[node name="@MeshInstance3D@1325" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=260150981]
+transform = Transform3D(0.07632694, 0, 0.9970828, 0, 1, 0, -0.9970828, 0, 0.07632694, 14.603042, 0.3, 7.6539383)
+material_override = SubResource("StandardMaterial3D_v2taa")
+mesh = SubResource("BoxMesh_1nred")
+
+[node name="@StaticBody3D@1327" type="StaticBody3D" parent="TerrainMap/Props/@MeshInstance3D@1325" unique_id=975509116]
+
+[node name="@CollisionShape3D@1326" type="CollisionShape3D" parent="TerrainMap/Props/@MeshInstance3D@1325/@StaticBody3D@1327" unique_id=724106289]
+shape = SubResource("BoxShape3D_vgulg")
+
+[node name="w_bedna_velka" type="Node3D" parent="TerrainMap/Props" unique_id=967907166 instance=ExtResource("14_2gv7l")]
+transform = Transform3D(0.9659258, 0, 0.25881904, 0, 1, 0, -0.25881904, 0, 0.9659258, 16.6, 0, 4.2)
+
+[node name="@Node3D@1328" type="Node3D" parent="TerrainMap/Props" unique_id=2053697906 instance=ExtResource("13_hqov5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.8, 0, 11.4)
+
+[node name="@MeshInstance3D@1329" type="MeshInstance3D" parent="TerrainMap/Props" unique_id=846092433]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0.03, 8.8)
+material_override = SubResource("StandardMaterial3D_mmgsv")
+mesh = SubResource("BoxMesh_vyfmy")
+
+[node name="@OmniLight3D@1330" type="OmniLight3D" parent="TerrainMap/Props" unique_id=214461987]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2.6, 6)
+light_color = Color(1, 0.76, 0.45, 1)
+light_energy = 1.3
+omni_range = 9.0
+
+[node name="@OmniLight3D@1331" type="OmniLight3D" parent="TerrainMap/Props" unique_id=2108186863]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 2.6, 7)
+light_color = Color(1, 0.76, 0.45, 1)
+light_energy = 1.3
+omni_range = 9.0
+
+[node name="@OmniLight3D@1332" type="OmniLight3D" parent="TerrainMap/Props" unique_id=1315688982]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 2.6, 10.5)
+light_color = Color(1, 0.76, 0.45, 1)
+light_energy = 1.3
+omni_range = 9.0
+
+[node name="@Label3D@1333" type="Label3D" parent="TerrainMap/Props" unique_id=961640989]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 3.15, 2.05)
+modulate = Color(1, 0.95, 0.8, 1)
+outline_modulate = Color(0.15, 0.08, 0.02, 1)
+text = "U ZLATÉHO SUDU"
+font_size = 48
+outline_size = 8
+
+[node name="Marks" type="Node3D" parent="TerrainMap" unique_id=1372327633]
+
+[node name="Vchod" type="Marker3D" parent="TerrainMap/Marks" unique_id=1273193852]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 7.5)
+
+[node name="Vychod_hostinec" type="Area3D" parent="TerrainMap/Marks" unique_id=996165354]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 7.5)
+script = ExtResource("15_865k4")
+target_scene = "res://scenes/vesnice.tscn"
+target_spawn = "Z_hostince"
+size = Vector3(1, 2.5, 3)
+
+[node name="Vegetation" type="Node3D" parent="TerrainMap" unique_id=2142132311]
+script = ExtResource("16_yws30")
+types = Array[ExtResource("17_i87ya")]([ExtResource("18_fgbsb"), ExtResource("19_47o5w"), ExtResource("20_hamxj"), ExtResource("21_4e7m1"), ExtResource("22_xh75u"), ExtResource("23_r1vc2"), ExtResource("24_yr8fx"), ExtResource("25_sro4q"), ExtResource("26_1o7xv"), ExtResource("27_vlsni")])
+data = PackedFloat32Array()
+
+[node name="@OmniLight3D@1272" type="OmniLight3D" parent="." unique_id=612302680]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, 1.5, 3)
+light_color = Color(1, 0.6, 0.28, 1)
+light_energy = 3.4
+omni_range = 11.0
+
+[node name="Slunce" type="DirectionalLight3D" parent="." unique_id=2109880034]
+transform = Transform3D(0.7880108, 0.4575257, -0.41195792, 0, 0.66913056, 0.74314487, 0.6156615, -0.58560616, 0.5272821, 0, 0, 0)
+light_color = Color(1, 0.93, 0.8, 1)
+light_energy = 0.4
+shadow_enabled = true
+directional_shadow_max_distance = 70.0
+
+[node name="Hostinsky" type="Node3D" parent="." unique_id=913073658]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0, 3)
+script = ExtResource("28_t6d8a")
+speaker = "Hostinský Bohouš"
+lines = "Hostinec U Zlatého sudu."
+dialogue_id = "hostinsky"
+ppm = 115.0
+char_id = "obyvatel"
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1281525079]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.1, 7.5)
+script = ExtResource("29_4wy3w")
+
+[node name="Camera" type="Camera3D" parent="." unique_id=345912088]
+fov = 24.0
+script = ExtResource("30_t3i7i")

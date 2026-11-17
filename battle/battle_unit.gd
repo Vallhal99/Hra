@@ -154,8 +154,9 @@ static func make_kind(k: String) -> BattleUnit:
 			g.resist = {"dark": 0.0, "dagger": 0.5, "sword": 0.6, "axe": 0.6, "spear": 0.6}
 			g.drops = [["kost", 0.5], ["koreni", 0.3]]
 			g.texture = load("res://enemies/kostlivec.png")
-			g.ppm = 105.0
+			g.ppm = 100.0
 			g.proc = true
+			_rt(g, "kostlivec", "E")
 			g.tint = Color(0.55, 0.75, 1.3, 0.62)
 			g.xp_value = 38
 			return g
@@ -172,6 +173,24 @@ static func make_kind(k: String) -> BattleUnit:
 			kn.xp_value = 55
 			kn.drops = [["ruda", 0.7], ["kost", 0.5], ["lektvar", 0.3]]
 			return kn
+		"wolf":
+			var w: BattleUnit = _foe("Vlk", 62, 19, 3, 16, Color(0.5, 0.5, 0.55), 2, ["fire", "light", "ice"])
+			w.resist = {"dark": 0.5}
+			w.drops = [["bylina", 0.4], ["koreni", 0.3]]
+			w.texture = load("res://enemies/slime_Idle.png")
+			w.ppm = 105.0
+			_rt(w, "vlk", "E")
+			w.xp_value = 30
+			return w
+		"flame":
+			var fl: BattleUnit = _foe("Plamínek", 55, 21, 2, 12, Color(1.0, 0.5, 0.2), 3, ["ice", "wind"])
+			fl.resist = {"fire": 0.0, "ice": 1.6}
+			fl.drops = [["ruda", 0.3], ["lektvar", 0.2]]
+			fl.texture = load("res://enemies/slime_Idle.png")
+			fl.ppm = 105.0
+			_rt(fl, "plamen", "E")
+			fl.xp_value = 34
+			return fl
 		"skeleton":
 			return _skeleton(4, ["light", "axe", "fire", "staff"])
 		"bandit":
@@ -218,24 +237,31 @@ static func _skeleton(sh: int, weak_: Array) -> BattleUnit:
 	u.texture = load("res://enemies/kostlivec.png")
 	u.ppm = 105.0
 	u.proc = true
-	_load_rt(u, "kostlivec")
+	_rt(u, "kostlivec", "E")
+	u.ppm = 100.0
 	return u
 
 
-## animace prenesene z hrdiny (tools/retarget); kdyz chybi, zustane procedurální dýchání
-static func _load_rt(u: BattleUnit, nm: String) -> void:
-	var jp := "res://enemies/rt/%s_anims.json" % nm
-	if not FileAccess.file_exists(jp):
+const RT_MAP := {"Idle": ["Idle", "Breath"], "Attack": ["Slash", "Bite", "Castspell"], "Hurt": ["Block"], "Death": ["Death"]}
+
+
+## animace z npc/anim (packer): jeden smer ("E" = nepritel kouka doprava, "W" = druzina)
+static func _rt(u: BattleUnit, ch: String, d: String) -> void:
+	var meta: Dictionary = AnimActor.meta(ch)
+	if meta.is_empty():
 		return
-	var meta: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(jp))
-	for k in ["Idle", "Attack", "Hurt", "Death"]:
-		var png := "res://enemies/rt/%s_%s.png" % [nm, k]
-		if not meta.has(k) or not ResourceLoader.exists(png):
-			return
-	for k in ["Idle", "Attack", "Hurt", "Death"]:
-		u.anims[k] = {"tex": load("res://enemies/rt/%s_%s.png" % [nm, k]), "frames": int(meta[k]["frames"]), "fps": float(meta[k]["fps"])}
-	u.texture = u.anims["Idle"]["tex"]
-	u.hframes = u.anims["Idle"]["frames"]
+	var found := {}
+	for k in RT_MAP:
+		for src in RT_MAP[k]:
+			var png := "res://npc/anim/%s_%s_%s.png" % [ch, src, d]
+			if meta.has(src) and ResourceLoader.exists(png):
+				found[k] = {"tex": load(png), "frames": int(meta[src].frames), "fps": float(meta[src].fps)}
+				break
+	if not found.has("Idle"):
+		return
+	u.anims = found
+	u.texture = found["Idle"]["tex"]
+	u.hframes = found["Idle"]["frames"]
 	u.proc = false
 
 
@@ -249,6 +275,7 @@ static func _king() -> BattleUnit:
 	u.texture = load("res://enemies/kostlivec.png")
 	u.ppm = 58.0
 	u.proc = true
+	_rt(u, "kostlivec", "E")
 	return u
 
 

@@ -8,8 +8,11 @@ const MAX_ACTIVE := 3
 ## base = hp, sp, atk, def, spd; grow = přírůstek za úroveň
 const DEFS := {
 	"lia": {"name": "Lia", "title": "Prodavačka a léčitelka", "cls": "klerik", "wtype": "staff", "tex": "res://npc/prodavacka.png", "ppm": 125.0,
-		"base": [80, 40, 12, 6, 9], "grow": [9, 5, 1.2, 0.6, 0.3], "join_level": 1,
+		"base": [80, 40, 12, 6, 9], "grow": [9, 5, 1.2, 0.6, 0.3], "join_level": 99,
 		"bio": "Prodává lektvary a ví, jak jimi zachránit kůži. Mírná, ale s ostrým jazykem."},
+	"elis": {"name": "Elis", "title": "Učednice mágů", "cls": "mag", "wtype": "staff", "char": "spolecnice", "tex": "res://npc/prodavacka.png", "ppm": 115.0,
+		"base": [70, 60, 20, 5, 11], "grow": [8, 6, 1.9, 0.5, 0.4], "join_level": 99,
+		"bio": "Vyhnaná z věže mágů za příliš zvědavé otázky. Chladná hlava, horká kouzla a bodavý humor."},
 	"brum": {"name": "Brum", "title": "Kovář", "cls": "valecnik", "wtype": "axe", "tex": "res://npc/kovar.png", "ppm": 112.0,
 		"base": [150, 12, 22, 14, 6], "grow": [16, 2, 2.2, 1.4, 0.2], "join_level": 99,
 		"bio": "Mlčenlivý obr, který raději bije kladivem do kovadliny než do lidí. Pokud musí, tak i do lidí."},
@@ -24,7 +27,6 @@ var order: Array = []          ## pořadí aktivních parťáků
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	recruit("lia", true)
 	var h := get_node_or_null("/root/Hero")
 	if h:
 		h.leveled.connect(_on_hero_level)
@@ -87,6 +89,9 @@ func make_unit(id: String) -> BattleUnit:
 	u.texture = load(d.tex)
 	u.ppm = d.ppm
 	u.faces_right = true
+	if d.has("char"):
+		BattleUnit._rt(u, d.char, "W")
+		u.faces_right = false
 	return u
 
 

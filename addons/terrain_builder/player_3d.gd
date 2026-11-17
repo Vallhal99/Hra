@@ -24,6 +24,8 @@ var _row := 0
 
 func _ready() -> void:
 	add_to_group("player")
+	if not Engine.is_editor_hint() and ResourceLoader.exists("res://loot/party_trail.gd"):
+		add_child(load("res://loot/party_trail.gd").new())
 	floor_snap_length = 0.6
 	var cs := CollisionShape3D.new()
 	var cap := CapsuleShape3D.new()

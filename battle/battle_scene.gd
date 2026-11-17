@@ -997,6 +997,39 @@ func _menu(labels: Array, keys: Array, descs: Array, boostable := false, bp_avai
 	return res
 
 
+const FX_SHEETS := {"fireball": ["res://fx/spr_fireball.png", 8, 74.0, 44.0], "heal": ["res://fx/spr_heal.png", 8, 76.0, 74.0]}
+
+
+## Animovany efekt (sheet z fx/) na pozici; sam zmizi po prehrani
+func _fx_anim(id: String, pos: Vector3, size_m := 1.6, fps := 12.0, flip := false) -> Sprite3D:
+	var d: Array = FX_SHEETS[id]
+	var sp := Sprite3D.new()
+	sp.texture = load(d[0])
+	sp.hframes = int(d[1])
+	sp.pixel_size = size_m / float(d[3])
+	sp.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	sp.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+	sp.shaded = false
+	sp.double_sided = true
+	sp.no_depth_test = true
+	sp.flip_h = flip
+	sp.position = pos
+	add_child(sp)
+	var tw := create_tween()
+	tw.tween_method(func(t: float): sp.frame = mini(int(t), sp.hframes - 1), 0.0, float(sp.hframes), float(sp.hframes) / fps)
+	tw.tween_callback(sp.queue_free)
+	return sp
+
+
+func _fx_fireball(a: BattleUnit, t: BattleUnit) -> void:
+	var from := a.node.global_position + Vector3(0, _height(a) * 0.6, 0)
+	var to := t.node.global_position + Vector3(0, _height(t) * 0.5, 0)
+	var sp := _fx_anim("fireball", from, 0.9, 16.0, to.x < from.x)
+	var mv := create_tween()
+	mv.tween_property(sp, "position", to, 0.3).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	mv.tween_callback(func(): _fx_anim("fireball", to, 1.8, 14.0))
+
+
 func _perform(a: BattleUnit, targets: Array[BattleUnit], power: float, heal: int, text: String, kind: String, is_skill: bool) -> void:
 	var boost := 0
 	if a.is_hero:
@@ -1053,10 +1086,16 @@ func _perform(a: BattleUnit, targets: Array[BattleUnit], power: float, heal: int
 			await get_tree().create_timer(0.18).timeout
 		if is_limit:
 			_screen_flash(Color(1.0, 0.9, 0.5, 0.35), 0.4)
+		if heal == 0 and not buff_only and kind == "fire" and not melee:
+			for t in targets:
+				if t.alive():
+					_fx_fireball(a, t)
+			await get_tree().create_timer(0.34).timeout
 		for t in targets:
 			if not t.alive():
 				continue
 			if heal > 0:
+				_fx_anim("heal", t.node.global_position + Vector3(0, _height(t) * 0.5, 0), 2.0, 12.0)
 				var hv := mini(heal, t.max_hp - t.hp)
 				t.hp += hv
 				_popup(t, "+%d" % hv, Color(0.4, 1.0, 0.5))

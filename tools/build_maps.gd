@@ -42,6 +42,7 @@ func _run() -> void:
 	_reka()
 	_vesnice()
 	_obchod()
+	_hostinec()
 	_hvozd()
 	_jezero()
 	_jeskyne()
@@ -477,6 +478,9 @@ func _finish(path: String, spawn: Vector3, speaker_npcs: Array = []) -> void:
 		npc.lines = d[2]
 		if d.size() > 4:
 			npc.dialogue_id = d[4].get("dialogue", "")
+			npc.char_id = d[4].get("char", "")
+			npc.hide_if_member = d[4].get("hide_if", "")
+			npc.face = d[4].get("face", "S")
 			if d[4].has("tex"):
 				npc.texture = load(d[4]["tex"])
 			npc.ppm = d[4].get("ppm", 32.0)
@@ -569,8 +573,10 @@ func _rozcesti() -> void:
 	_mark("Z_jihu", Vector3(J.x, 0, 34.0))
 	_exit("Vychod_jih", Vector3(J.x, 0, 37.2), Vector3(8, 2.5, 1), "res://scenes/hvozd.tscn", "Ze_severu")
 	_foe_at("Slizak_r1", ["slime"], Vector2(37.0, 11.0), 3.0)
+	_foe_at("Vlk_r1", ["wolf"], Vector2(8.0, 8.0), 3.0)
 	_foe_at("Zbojnik_r1", ["bandit", "slime"], Vector2(10.0, 29.0), 3.0)
-	_finish("res://scenes/rozcesti.tscn", Vector3(J.x, 0, 3.5))
+	_finish("res://scenes/rozcesti.tscn", Vector3(J.x, 0, 3.5), [
+		["Elis", "Elis", "Hm?", J + Vector2(5.5, 1.0), {"dialogue": "elis", "char": "spolecnice", "ppm": 115.0, "hide_if": "elis", "face": "W"}]])
 
 
 # ======================= LOUKA U ŘEKY =======================
@@ -760,6 +766,13 @@ func _vesnice() -> void:
 	for h in hs:
 		var hn := _inst(h[0], h[1], h[2], h[3])
 		noveg.append(Rect2(h[1].x - 7.0, h[1].y - 7.0, 14.0, 14.0))
+		if h[0] == "lp_obchod_1":
+			var hb := _aabb_of(hn, hn.transform, true)
+			var hz := hb.get_center().z
+			var fx := hb.position.x
+			_exit("Vchod_hostinec", Vector3(fx - 0.7, _h(fx - 0.7, hz), hz), Vector3(1.4, 2.5, 2.8), "res://scenes/hostinec.tscn", "Vchod")
+			_mark("Z_hostince", Vector3(fx - 2.6, _h(fx - 2.6, hz), hz))
+			_label(hn.get_parent(), "HOSTINEC", Vector3(fx - 0.2, _h(fx, hz) + 3.4, hz), -90.0, 44)
 		if h[0] == "lp_obchod_2":
 			var bb := _aabb_of(hn, hn.transform, true)
 			var dx := bb.get_center().x
@@ -777,7 +790,7 @@ func _vesnice() -> void:
 	_inst("w_ohnisko_miska", Vector2(7.2, 35.8), 0.0, 1.0)
 	_inst("w_kotlik", Vector2(18.8, 31.8), 120.0, 1.0)
 	# trh u náměstí
-	_inst("w_trh", Vector2(40.0, 41.0), 180.0, 1.0)
+	_inst("w_trh", Vector2(40.0, 41.0), 0.0, 1.0)
 	_inst("w_bedna_mala", Vector2(35.2, 42.8), 20.0, 1.0)
 	_inst("w_sud", Vector2(44.6, 43.0), 0.0, 1.0)
 	_inst("w_vuz", Vector2(31.0, 44.0), 160.0, 1.0)
@@ -814,17 +827,17 @@ func _vesnice() -> void:
 		_inst("lp_barel", p, rng.randf_range(0, 360), rng.randf_range(0.9, 1.1))
 	_inst("lp_truhla", Vector2(47.0, 41.0), 200.0)
 	_inst("lp_truhla", Vector2(19.5, 14.0), 160.0)
-	_rocks(26, [1, 4], [Rect2(3.0, 25.0, 20.0, 14.0)])
+	_rocks(6, [1], [Rect2(0.0, 0.0, 80.0, 60.0)])
 	_edge_trees(110, 2.3)
 	# značky a východ
 	_mark("Ze_zapadu", Vector3(3.5, 0, 39.0))
 	_mark("Start", Vector3(3.5, 0, 39.0))
 	_exit("Vychod_zapad", Vector3(0.8, 0, 39.0), Vector3(1, 2.5, 7), "res://scenes/rozcesti.tscn", "Z_prava")
 	var npcs := [
-		["Vesnican1", "Vesničan", "Vítej ve vesnici!|Nahoře na kopci bydlí truhlář a kovář.|Pozor na vlky v lese.", Vector2(30.5, 36.0)],
+		["Vesnican1", "Vesničan", "Vítej ve vesnici!|Hostinec U Zlatého sudu je ta velká budova na východ od kašny.|Nahoře na kopci bydlí truhlář a kovář.|Pozor na vlky v lese.", Vector2(30.5, 36.0),
+			{"char": "obyvatel", "ppm": 115.0, "routine": [{"t0": 0.25, "t1": 0.40, "off": Vector3(0, 0, 0)}, {"t0": 0.40, "t1": 0.55, "off": Vector3(8.5, 0, 3.0)}, {"t0": 0.55, "t1": 0.74, "off": Vector3(0, 0, 0)}, {"t0": 0.74, "t1": 0.80, "off": Vector3(21.0, 0, 1.0)}, {"t0": 0.80, "t1": 0.25, "hide": true}]}],
 		["Vesnican2", "Stará Anna", "Kašna je tu starší než celá vesnice.|Voda z ní nikdy nevyschla.", Vector2(35.5, 31.5)],
 		["Kovar", "Kovář", "Hmpf.", Vector2(12.2, 34.8), {"dialogue": "kovar", "tex": "res://npc/kovar.png", "ppm": 112.0}],
-		["Hostinsky", "Hostinský Bohouš", "Hostinec U Zlatého sudu.", Vector2(20.5, 36.5), {"dialogue": "hostinsky"}],
 		["Strazny", "Strážný", "Kdo chce na kopec, musí po schodech.|Dávej na sebe pozor, cizinče.", Vector2(25.5, 28.0)]]
 	_finish("res://scenes/vesnice.tscn", Vector3(3.5, 0, 39.0), npcs)
 
@@ -916,6 +929,8 @@ func _hvozd() -> void:
 	_foe_at("Zbojnici_1", ["bandit", "bandit"], camp + Vector2(-1.0, -1.0), 3.0)
 	_foe_at("Zbojnici_2", ["bandit", "slime", "bandit"], camp + Vector2(2.5, 3.0), 2.5)
 	_foe_at("Slizak_1", ["slime"], Vector2(25.0, 20.0), 3.0)
+	_foe_at("Vlk_1", ["wolf", "wolf"], Vector2(14.0, 24.0), 3.5)
+	_foe_at("Vlk_2", ["wolf"], Vector2(36.0, 8.0), 3.0)
 	_foe_at("Slizak_2", ["slime", "slime"], Vector2(38.0, 15.0), 3.0)
 	_label(props, "JESKYNĚ", Vector3(cave_plaza.x, _h(cave_plaza.x, cave_plaza.y + 3.2) + 3.2, cave_plaza.y + 3.2), 0.0, 44)
 	_finish("res://scenes/hvozd.tscn", Vector3(26.0, 0, 3.5), [
@@ -1006,7 +1021,7 @@ func _jezero() -> void:
 	_foe_at("Slizak_j1", ["slime", "slime"], Vector2(28.0, 31.0), 3.0)
 	_foe_at("Kostlivec_j1", ["skeleton"], Vector2(41.0, 20.0), 2.5)
 	_finish("res://scenes/jezero.tscn", Vector3(4.0, 0, 21.5), [
-		["Rybar", "Rybář Tomáš", "Ryby nekoušou. Možná je to tím, že u jeskyně straší.|Nemáš náhodou červy?", Vector2(15.5, 18.3), {"dialogue": "rybar", "routine": [{"t0": 0.28, "t1": 0.80, "off": Vector3(0, 0, 0)}, {"t0": 0.80, "t1": 0.28, "hide": true}], "night": "Chrrr... (Rybář spí.)"}]])
+		["Rybar", "Rybář Tomáš", "Ryby nekoušou. Možná je to tím, že u jeskyně straší.|Nemáš náhodou červy?", Vector2(15.5, 18.3), {"dialogue": "rybar", "char": "rybar", "ppm": 115.0, "routine": [{"t0": 0.28, "t1": 0.80, "off": Vector3(0, 0, 0)}, {"t0": 0.80, "t1": 0.28, "hide": true}], "night": "Chrrr... (Rybář spí.)"}]])
 
 
 func _jeskyne() -> void:
@@ -1052,7 +1067,7 @@ func _jeskyne() -> void:
 	_mark("Vchod", Vector3(14.0, 0, 31.5))
 	_exit("Vychod_jeskyne", Vector3(14.0, 0, 35.2), Vector3(5, 2.5, 1.0), "res://scenes/hvozd.tscn", "Z_jeskyne")
 	_foe_at("Kostlivci_1", ["skeleton", "skeleton"], Vector2(14, 17), 3.0)
-	_foe_at("Kostlivci_2", ["skeleton", "slime", "skeleton"], Vector2(31, 14), 3.5)
+	_foe_at("Kostlivci_2", ["skeleton", "flame", "skeleton"], Vector2(31, 14), 3.5)
 	_foe_at("Strazce", ["skeleton", "skeleton", "bandit"], Vector2(35, 26), 2.0)
 	_finish("res://scenes/jeskyne.tscn", Vector3(14.0, 0, 31.5), [])
 	indoor = false
@@ -1126,6 +1141,73 @@ func _obchod() -> void:
 	_exit("Vychod_obchod", Vector3(8.0, 0.0, 11.75), Vector3(5.0, 2.5, 1.0), "res://scenes/vesnice.tscn", "Z_obchodu")
 	var npcs := [["Prodavacka", "Prodavačka", "Dobrý den!", Vector2(8.0, 4.4), {"dialogue": "prodavacka", "tex": "res://npc/prodavacka.png", "ppm": 125.0}]]
 	_finish("res://scenes/obchod.tscn", Vector3(8.0, 0.0, 10.0), npcs)
+
+
+# ======================= HOSTINEC (interiér) =======================
+func _hostinec() -> void:
+	_begin("Hostinec", 0, 18, 2, 13, 41)
+	indoor = true
+	sun_energy = 0.4
+	for x in range(0, 18):
+		for z in range(2, 13):
+			tm.cells[Vector2i(x, z)] = Vector2i(0, 2 if (x + z) % 3 else 6)
+			kind[Vector2i(x, z)] = 2
+	var wood := _wood()
+	var wall := StandardMaterial3D.new()
+	wall.albedo_color = Color(0.5, 0.36, 0.24)
+	wall.roughness = 0.95
+	var dark := StandardMaterial3D.new()
+	dark.albedo_color = Color(0.3, 0.18, 0.1)
+	var parent := props
+	_box(parent, Vector3(9, 1.9, 1.75), Vector3(18.6, 3.8, 0.5), wall, 0.0, true)
+	_box(parent, Vector3(-0.25, 1.9, 7.5), Vector3(0.5, 3.8, 11.4), wall, 0.0, true)
+	_box(parent, Vector3(18.25, 1.9, 7.5), Vector3(0.5, 3.8, 11.4), wall, 0.0, true)
+	_box(parent, Vector3(9, 3.65, 1.95), Vector3(18.6, 0.3, 0.3), dark)
+	# krb s ohnem (skupina ohniste = odpočinek)
+	_box(parent, Vector3(3.2, 1.3, 1.95), Vector3(3.0, 2.6, 0.5), _stone_mat(), 0.0, true)
+	var fire := Node3D.new()
+	fire.name = "Ohniste"
+	fire.add_to_group("ohniste", true)
+	fire.position = Vector3(3.2, 0.55, 2.35)
+	parent.add_child(fire)
+	fire.owner = scn
+	var fm := MeshInstance3D.new()
+	fm.name = "FlameMesh"
+	var qm := QuadMesh.new()
+	qm.size = Vector2(0.8, 1.1)
+	fm.mesh = qm
+	fire.add_child(fm)
+	fm.owner = scn
+	_omni(Vector3(3.2, 1.5, 3.0), Color(1.0, 0.6, 0.28), 3.4, 11.0)
+	# výčep
+	_box(parent, Vector3(12.5, 0.55, 4.0), Vector3(5.6, 1.1, 1.2), dark, 0.0, true)
+	_box(parent, Vector3(12.5, 1.12, 4.0), Vector3(5.9, 0.1, 1.4), wood)
+	for i in 4:
+		_inst("w_sud", Vector2(10.4 + i * 1.5, 2.55), i * 30.0, 1.0)
+	# stoly a lavice
+	for tp in [Vector2(4.5, 7.5), Vector2(8.5, 9.8), Vector2(5.5, 11.0), Vector2(14.5, 9.0)]:
+		_cyl(parent, Vector3(tp.x, 0.5, tp.y), 0.8, 1.0, wood, true)
+		for a in 3:
+			var ang := a * TAU / 3.0 + 0.6
+			_box(parent, Vector3(tp.x + cos(ang) * 1.35, 0.3, tp.y + sin(ang) * 1.35), Vector3(0.7, 0.6, 0.7), dark, -rad_to_deg(ang), true)
+	_inst("w_bedna_velka", Vector2(16.6, 4.2), 15.0, 1.0)
+	_inst("w_sud", Vector2(16.8, 11.4), 0.0, 1.0)
+	var rug := StandardMaterial3D.new()
+	rug.albedo_color = Color(0.45, 0.12, 0.12)
+	_box(parent, Vector3(7.0, 0.03, 8.8), Vector3(5.0, 0.05, 3.4), rug)
+	for lp in [Vector2(5.0, 6.0), Vector2(13.0, 7.0), Vector2(9.0, 10.5)]:
+		var lt := OmniLight3D.new()
+		lt.position = Vector3(lp.x, 2.6, lp.y)
+		lt.light_color = Color(1.0, 0.76, 0.45)
+		lt.light_energy = 1.3
+		lt.omni_range = 9.0
+		parent.add_child(lt)
+		lt.owner = scn
+	_label(parent, "U ZLATÉHO SUDU", Vector3(11.0, 3.15, 2.05), 0.0, 48)
+	_mark("Vchod", Vector3(2.0, 0.0, 7.5))
+	_exit("Vychod_hostinec", Vector3(-0.2, 0.0, 7.5), Vector3(1.0, 2.5, 3.0), "res://scenes/vesnice.tscn", "Z_hostince")
+	var npcs := [["Hostinsky", "Hostinský Bohouš", "Hostinec U Zlatého sudu.", Vector2(12.5, 3.0), {"dialogue": "hostinsky", "char": "obyvatel", "ppm": 115.0}]]
+	_finish("res://scenes/hostinec.tscn", Vector3(2.0, 0.0, 7.5), npcs)
 
 
 func _chest(p: Vector2, yaw: float, lock: int, loot: Array) -> void:
@@ -1380,10 +1462,10 @@ func _hrobka() -> void:
 	_mark("Vchod", Vector3(23.0, 0, 41.0))
 	_exit("Vychod_hrobka", Vector3(23.0, 0, 44.2), Vector3(5, 2.5, 1.0), "res://scenes/hrbitov.tscn", "Z_hrobky")
 	_foe_at("Hrobka_1", ["skeleton", "skeleton"], Vector2(23, 31), 2.0)
-	_foe_at("Hrobka_2", ["skeleton", "skeleton", "bandit"], Vector2(23, 25), 3.0)
+	_foe_at("Hrobka_2", ["skeleton", "flame", "bandit"], Vector2(23, 25), 3.0)
 	_foe_at("Hrobka_5", ["ghost", "ghost"], Vector2(23, 17), 2.0)
 	_foe_at("Hrobka_6", ["knight", "skeleton"], Vector2(23, 11), 1.5)
-	_foe_at("Hrobka_3", ["skeleton", "slime", "skeleton"], Vector2(7.5, 25), 2.5)
+	_foe_at("Hrobka_3", ["skeleton", "flame", "skeleton"], Vector2(7.5, 25), 2.5)
 	_foe_at("Hrobka_4", ["skeleton", "bandit", "skeleton"], Vector2(38.5, 25), 2.5)
 	_foe_at("Kral", ["king"], Vector2(23, 5.0), 0.4)
 	_finish("res://scenes/hrobka.tscn", Vector3(23.0, 0, 41.0), [])

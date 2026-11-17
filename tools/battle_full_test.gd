@@ -1,16 +1,22 @@
 extends SceneTree
 var t := 0.0
 var sc: Node
-var shots := [6.0, 12.0, 18.0, 24.0, 30.0]
+var shots := [2.0, 5.0, 8.0, 11.0, 14.0]
 var idx := 0
 var prefix := "/tmp/bf"
 func _initialize() -> void:
+	await process_frame
 	var a := OS.get_cmdline_user_args()
 	if a.size() > 0: prefix = a[0]
 	get_root().get_node("Hero").class_id = "mag"
 	get_root().get_node("Hero").level = 5
 	get_root().get_node("Inventory").equip["zbran"] = "zelezny_mec"
 	Engine.time_scale = 3.0
+	get_root().get_node("Hero").class_id = "mag"
+	get_root().get_node("Party").recruit("elis", true)
+	var bm := get_root().get_node("BattleManager")
+	bm.party.assign(BattleUnit.default_party())
+	bm.enemies.assign([BattleUnit.make_kind("wolf"), BattleUnit.make_kind("flame"), BattleUnit.make_kind("skeleton")])
 	sc = (load("res://battle/battle.tscn") as PackedScene).instantiate()
 	sc.autoplay = true
 	get_root().add_child(sc)
@@ -18,6 +24,9 @@ func _initialize() -> void:
 	for u in sc.enemies: u.hp = 60
 func _process(d: float) -> bool:
 	t += d
+	if idx == 0 and t > 1.0 and t < 1.1:
+		var at = get_root().get_node("Atmo")
+		print("SHAFT ", at._shafts[0].visible, " ", at._shafts[0].material_override.get_shader_parameter("strength"), " path=", at._scene_path)
 	if idx < shots.size() and t >= shots[idx]:
 		get_root().get_texture().get_image().save_png("%s_%d.png" % [prefix, idx])
 		idx += 1

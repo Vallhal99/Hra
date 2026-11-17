@@ -5,6 +5,8 @@ const INFO := {
 	"Slizák": {"desc": "Rosolovitá tvář lesů a luk. Neškodný, dokud se jich nenasbírá víc.", "where": "Louka, Rozcestí, Hvozd"},
 	"Kostlivec": {"desc": "Pozůstatek dávné bitvy. Světlo ho trápí, tma ho nechává chladným.", "where": "Louka u řeky, Jezero, Jeskyně, Hrobka"},
 	"Zbojník": {"desc": "Lupič s lukem. Útočí i zezadu, takže ho nenechte být.", "where": "Hvozd, Rozcestí"},
+	"Vlk": {"desc": "Hladový šedý lovec. Rychlý a vytrvalý, bojí se ohně a světla.", "where": "Hvozd, Rozcestí"},
+	"Plamínek": {"desc": "Malý duch ohně. Voda a led ho uhasí, oheň ho jen posílí.", "where": "Jeskyně, Hrobka"},
 	"Přízrak": {"desc": "Bludná duše. Meče jím jen proklouznou, světlo a oheň ho zraní.", "where": "Hřbitov, Hrobka"},
 	"Hrobní rytíř": {"desc": "Strážce krypty v zrezivělé zbroji. Pomalý, ale tvrdý.", "where": "Hrobka"},
 	"Kostěný král": {"desc": "Vládce hrobky. Ten, kdo zná jeho slabiny, má šanci.", "where": "Hrobka"},

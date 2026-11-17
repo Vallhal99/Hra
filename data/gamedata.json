@@ -1321,6 +1321,62 @@
      "text": "Kdyby něco, jen zavolej."
     }
    ]
+  },
+  {
+   "id": "elis",
+   "name": "Elis – setkání",
+   "start": "e1",
+   "nodes": [
+    {
+     "id": "e1",
+     "speaker": "Elis",
+     "text": "Stůj. Vidím, že nemíříš na trh, ale tam, kam nikdo rozumný nechodí. Do Hrobky pod mauzoleem, že?",
+     "choices": [
+      {
+       "text": "Víš o ní něco?",
+       "next": "e2"
+      },
+      {
+       "text": "Pojď se mnou. Hodí se mi mág.",
+       "next": "e_join"
+      },
+      {
+       "text": "Jen jdu okolo.",
+       "next": "e_bye"
+      }
+     ]
+    },
+    {
+     "id": "e2",
+     "speaker": "Elis",
+     "text": "Jsem učednice mágů z věže na severu. Vyhnali mě za příliš zvědavé otázky. Pečeť pod mauzoleem prý drží něco, co se nemá probouzet. A já chci vědět co.",
+     "choices": [
+      {
+       "text": "Tak pojď. Dvě hlavy a jedna hůl jsou víc než jedna.",
+       "next": "e_join"
+      },
+      {
+       "text": "Zatím ne.",
+       "next": "e_bye"
+      }
+     ]
+    },
+    {
+     "id": "e_join",
+     "speaker": "Elis",
+     "text": "Dobře. Ale ber to tak: když něco shoříme, byl to tvůj nápad. Jdu s tebou.",
+     "effects": [
+      {
+       "recruit": "elis"
+      }
+     ]
+    },
+    {
+     "id": "e_bye",
+     "speaker": "Elis",
+     "text": "Budu tady. Zvědavost nikam neutíká."
+    }
+   ]
   }
  ],
  "quests": [

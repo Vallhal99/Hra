@@ -58,7 +58,7 @@ func _process(dt: float) -> void:
 	var focus := t.global_position + Vector3(0, height_offset, 0)
 	if limit_to_map and not Engine.is_editor_hint():
 		# kamera se u okraje jen zpomalí, postava ale zůstane vždy na obrazovce (za okrajem je "sukně" lesa)
-		focus = _clamp_focus(focus).lerp(focus, 0.45)
+		focus = _clamp_focus(focus)
 	var off := Vector3(0, sin(deg_to_rad(pitch)), cos(deg_to_rad(pitch))) * distance
 	var goal := focus + off.rotated(Vector3.UP, deg_to_rad(yaw))
 	if _snap or Engine.is_editor_hint():

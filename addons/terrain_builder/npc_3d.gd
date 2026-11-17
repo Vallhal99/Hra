@@ -11,18 +11,39 @@ extends Node3D
 @export var vframes := 1
 @export var ppm := 32.0 ## pixelu na metr sprite
 @export var night_text := ""  ## co řekne v noci (prázdné = chová se normálně)
+@export var char_id := ""   ## animovana postava z res://npc/anim (obyvatel, rybar, spolecnice)
+@export var face := "S"
+@export var hide_if_member := ""   ## id druzinoveho clena: kdyz uz je v parte, NPC na mape zmizi
+var _act: Node
 var routine: Array = []       ## [{t0, t1, off: Vector3} | {t0, t1, hide: true}] podle denní doby (Atmo.tod)
 var _home := Vector3.ZERO
 var _body: StaticBody3D
 
 
 func _ready() -> void:
+	if hide_if_member != "" and not Engine.is_editor_hint():
+		var P := get_node_or_null("/root/Party")
+		if P and P.members.has(hide_if_member):
+			queue_free()
+			return
+	if char_id != "" and not Engine.is_editor_hint() and ResourceLoader.exists("res://npc/anim/%s.json" % char_id):
+		_act = load("res://npc/anim_actor.gd").new()
+		_act.char_id = char_id
+		_act.ppm = ppm
+		_act.dir = face
+		add_child(_act)
+		_finish_ready()
+		return
 	var spr := HD2DSprite.make(texture if texture else HD2DSprite.placeholder(Color(0.3, 0.5, 0.8)), hframes, vframes)
 	spr.pixel_size = 1.0 / ppm
 	spr.position.y = spr.texture.get_height() / float(vframes) * 0.5 / ppm
 	if ppm > 60.0:
 		spr.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	add_child(spr)
+	_finish_ready()
+
+
+func _finish_ready() -> void:
 	add_child(HD2DSprite.blob_shadow())
 	if Engine.is_editor_hint():
 		return
@@ -66,6 +87,7 @@ func _process(dt: float) -> void:
 				var tgt: Vector3 = _home + (e.off as Vector3)
 				var mv := tgt - position
 				mv.y = 0.0
+				_set_walk(mv)
 				if mv.length() > 0.08:
 					position += mv.normalized() * minf(1.6 * dt, mv.length())
 					var q := PhysicsRayQueryParameters3D.create(position + Vector3(0, 3, 0), position + Vector3(0, -5, 0))
@@ -75,7 +97,21 @@ func _process(dt: float) -> void:
 			break
 
 
+func _set_walk(mv: Vector3) -> void:
+	if _act == null:
+		return
+	var cam := get_viewport().get_camera_3d()
+	if mv.length() > 0.08:
+		_act.play("Walk", AnimActor.dir_of(mv, cam, _act.dir))
+	else:
+		_act.play("Idle", _act.dir)
+
+
 func interact(_who: Node) -> void:
+	if _act != null and _who is Node3D:
+		var cam := get_viewport().get_camera_3d()
+		var to: Vector3 = (_who as Node3D).global_position - global_position
+		_act.play("Idle", AnimActor.dir_of(to, cam, _act.dir))
 	var at := get_node_or_null("/root/Atmo")
 	if night_text != "" and at and at.is_night():
 		var dn := get_node_or_null("/root/Dialogue")

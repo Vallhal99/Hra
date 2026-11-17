@@ -150,7 +150,7 @@ metallic_specular = 0.25
 roughness = 0.92
 texture_filter = 5
 
-[node name="w_plochy_kamen" type="Node3D" unique_id=1110254460]
+[node name="w_plochy_kamen" type="Node3D" unique_id=1168449214]
 
 [node name="Model" type="Node3D" parent="." unique_id=672872992 instance=ExtResource("1_6iovx")]
 

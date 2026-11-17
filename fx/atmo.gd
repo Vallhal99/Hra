@@ -6,7 +6,7 @@ signal weather_changed(w: String)
 
 const DAY_LENGTH := 900.0  ## sekund reálného času na jeden herní den
 const INDOOR := ["obchod", "jeskyne", "hrobka", "chram", "hostinec"]
-const FOREST := ["rozcesti", "louka", "louka_reka", "battle"]
+const FOREST := ["rozcesti", "louka", "louka_reka"]
 
 var tod := 0.40            ## 0 = půlnoc, 0.25 = svítání, 0.5 = poledne, 0.75 = soumrak
 var weather := "clear"     ## clear | rain | leaves
@@ -51,11 +51,12 @@ func sun_factor() -> float:
 
 
 func get_state() -> Dictionary:
-	return {"tod": tod, "weather": weather}
+	return {"tod": tod, "weather": weather, "day": day}
 
 
 func set_state(d: Dictionary) -> void:
 	tod = float(d.get("tod", tod))
+	day = int(d.get("day", 1))
 	weather = str(d.get("weather", weather))
 
 
@@ -66,9 +67,54 @@ func set_weather(w: String) -> void:
 		weather_changed.emit(w)
 
 
+var day := 1
+var _clock: Label
+var _clock_panel: PanelContainer
+
+
+func clock_text() -> String:
+	var mins := int(tod * 1440.0)
+	return "%02d:%02d" % [mins / 60, mins % 60]
+
+
+func _build_clock() -> void:
+	var cl := CanvasLayer.new()
+	cl.layer = 40
+	add_child(cl)
+	_clock_panel = PanelContainer.new()
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0.08, 0.06, 0.04, 0.72)
+	sb.border_color = Color(0.85, 0.68, 0.3)
+	sb.set_border_width_all(2)
+	sb.set_corner_radius_all(6)
+	sb.set_content_margin_all(6)
+	_clock_panel.add_theme_stylebox_override("panel", sb)
+	_clock_panel.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	_clock_panel.position = Vector2(-150, 10)
+	_clock_panel.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	_clock = Label.new()
+	_clock.add_theme_font_size_override("font_size", 20)
+	_clock.add_theme_color_override("font_color", Color(1.0, 0.92, 0.7))
+	_clock_panel.add_child(_clock)
+	cl.add_child(_clock_panel)
+	_clock_panel.visible = false
+
+
+func _update_clock() -> void:
+	var show_it := get_tree().get_first_node_in_group("player") != null
+	var bm := get_node_or_null("/root/BattleManager")
+	if bm and bm.active:
+		show_it = false
+	_clock_panel.visible = show_it
+	if show_it:
+		var sym := "☀" if (tod > 0.25 and tod < 0.75) else "☾"
+		_clock.text = "%s  %s  ·  Den %d" % [sym, clock_text(), day]
+
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_build_rig()
+	_build_clock()
 
 
 # ---------------------------------------------------------------- částice
@@ -264,7 +310,11 @@ func _process(dt: float) -> void:
 		return
 	_scan_scene()
 	# denní doba
+	var tod0 := tod
 	tod = fposmod(tod + dt / DAY_LENGTH, 1.0)
+	if tod < tod0:
+		day += 1
+	_update_clock()
 	if _cave:
 		tod = 0.5
 	# počasí se mění samo
@@ -347,10 +397,14 @@ func _scan_scene() -> void:
 
 
 func _attach_flames(sc: Node) -> void:
+	if sc == null or not sc.is_inside_tree():
+		return
 	for m in sc.find_children("*Flame*", "MeshInstance3D", true, false):
 		var mi := m as MeshInstance3D
 		var par := mi.get_parent()
-		if par == null or par.has_meta("flamed"):
+		if par == null or not par.is_inside_tree() or not mi.is_inside_tree():
+			continue
+		if par.has_meta("flamed"):
 			mi.visible = false
 			continue
 		par.set_meta("flamed", true)
@@ -365,7 +419,8 @@ func _attach_flames(sc: Node) -> void:
 		par.add_child(fx)
 		fx.global_position = mi.global_position - Vector3(0, 0.25 * sz, 0)
 	for m in sc.find_children("*Flame*", "MeshInstance3D", true, false):
-		(m as MeshInstance3D).visible = false
+		if (m as Node).is_inside_tree():
+			(m as MeshInstance3D).visible = false
 
 
 func _apply(cam: Camera3D) -> void:
@@ -432,7 +487,7 @@ func _apply(cam: Camera3D) -> void:
 	(_dust.draw_pass_1.material as StandardMaterial3D).albedo_color = Color(1.0, 0.95, 0.8, 0.5)
 	_set_flies(_night > 0.45 and rl < 0.3, 1.0)
 	_shaft_mat.set_shader_parameter("strength", 0.0)
-	var str_ := clear_day * (0.06 + 0.05 * warm) * (0.3 if _scene_path.contains("battle") or _scene_path == "" else 1.0)
+	var str_ := smoothstep(0.18, 0.5, e) * (1.0 - rl) * (0.06 + 0.05 * warm) * (0.3 if _scene_path.contains("battle") or _scene_path == "" else 1.0)
 	var nm := _scene_path.get_file().get_basename()
 	for s in _shafts:
 		var mm := s.material_override as ShaderMaterial

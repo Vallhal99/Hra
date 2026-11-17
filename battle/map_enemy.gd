@@ -20,11 +20,14 @@ var _state := "patrol"
 var _wait := 0.0
 var _target := Vector3.ZERO
 var _spr: Sprite3D
+var _act: AnimActor
+const ACTORS := {"skeleton": "kostlivec", "knight": "kostlivec", "ghost": "kostlivec", "king": "kostlivec", "wolf": "vlk", "flame": "plamen"}
 var _anim: Dictionary = {}
 var _t := 0.0
 var _bang: Label3D
 var _key := ""
 var _done := false
+var _moving := false
 
 
 static func resolve(key: String, victory: bool, fled: bool) -> void:
@@ -49,23 +52,31 @@ func _ready() -> void:
 	_target = _home
 	var u := BattleUnit.make_kind(kinds[0])
 	_spr = Sprite3D.new()
+	if ACTORS.has(kinds[0]) and AnimActor.has_char(ACTORS[kinds[0]]):
+		_act = AnimActor.new()
+		_act.char_id = ACTORS[kinds[0]]
+		_act.ppm = u.ppm
+		_act.modulate = u.tint
+		add_child(_act)
+		_spr = _act
 	var tex: Texture2D = u.texture
 	var hf := u.hframes
 	if u.anims.has("Idle"):
 		tex = u.anims["Idle"]["tex"]
 		hf = int(u.anims["Idle"]["frames"])
 		_anim = u.anims["Idle"]
-	_spr.texture = tex
-	_spr.modulate = u.tint
-	_spr.hframes = hf
-	_spr.pixel_size = 1.0 / u.ppm
-	_spr.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
-	_spr.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-	_spr.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
-	_spr.shaded = true
-	_spr.double_sided = true
-	_spr.position.y = tex.get_height() * 0.5 / u.ppm
-	add_child(_spr)
+	if _act == null:
+		_spr.texture = tex
+		_spr.modulate = u.tint
+		_spr.hframes = hf
+		_spr.pixel_size = 1.0 / u.ppm
+		_spr.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
+		_spr.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+		_spr.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
+		_spr.shaded = true
+		_spr.double_sided = true
+		_spr.position.y = tex.get_height() * 0.5 / u.ppm
+		add_child(_spr)
 	add_child(HD2DSprite.blob_shadow())
 	_bang = Label3D.new()
 	_bang.text = "!"
@@ -111,7 +122,10 @@ func _physics_process(dt: float) -> void:
 	if dlg and dlg.active:
 		return
 	_t += dt
-	if _anim.has("fps") and _spr.hframes > 1:
+	if _act != null:
+		var cam := get_viewport().get_camera_3d()
+		_act.play("Walk" if _moving else "Idle", AnimActor.dir_of(_face, cam, _act.dir))
+	elif _anim.has("fps") and _spr.hframes > 1:
 		_spr.frame = int(_t * float(_anim["fps"])) % _spr.hframes
 	var pl := get_tree().get_first_node_in_group("player") as Node3D
 	if pl == null:
@@ -129,6 +143,7 @@ func _physics_process(dt: float) -> void:
 		_wait -= dt
 		var move := _target - global_position
 		move.y = 0.0
+		_moving = move.length() >= 0.2
 		if move.length() < 0.2:
 			if _wait <= 0.0:
 				_wait = randf_range(1.5, 4.0)
@@ -149,6 +164,7 @@ func _physics_process(dt: float) -> void:
 		if dist > sight * 1.9:
 			_set_state("patrol")
 			return
+		_moving = true
 		if dist > 0.01:
 			_face = to.normalized()
 			global_position = _ground(global_position + _face * chase_speed * dt)
