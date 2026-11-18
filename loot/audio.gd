@@ -2,9 +2,9 @@ extends Node
 ## Autoload "Audio": hudba podle mapy (plynulý přechod) a zvukové efekty. Vše je generované (audio/*.wav).
 
 const MUSIC := {
-	"louka": "m_pole", "rozcesti": "m_pole", "hvozd": "m_pole", "jezero": "m_pole",
-	"vesnice": "m_vesnice", "obchod": "m_vesnice", "hrbitov": "m_hrbitov", "hrobka": "m_hrobka", "jeskyne": "m_jeskyne",
-	"battle": "m_boj", "main_menu": "m_vesnice"}
+	"louka": "m_pozadi", "rozcesti": "m_pozadi", "hvozd": "m_pozadi", "jezero": "m_pozadi",
+	"vesnice": "m_pozadi", "obchod": "m_pozadi", "hostinec": "m_pozadi", "hrbitov": "m_hrbitov", "hrobka": "m_hrobka", "jeskyne": "m_jeskyne",
+	"battle": "m_boj", "main_menu": "m_pozadi"}
 var _a: AudioStreamPlayer
 var _b: AudioStreamPlayer
 var _cur := ""
@@ -40,7 +40,10 @@ func _on_node(n: Node) -> void:
 func _load(nm: String) -> AudioStream:
 	if _cache.has(nm):
 		return _cache[nm]
-	var st = load("res://audio/%s.wav" % nm)
+	var path := "res://audio/%s.mp3" % nm
+	if not ResourceLoader.exists(path):
+		path = "res://audio/%s.wav" % nm
+	var st = load(path)
 	_cache[nm] = st
 	return st
 
@@ -70,6 +73,8 @@ func music(nm: String) -> void:
 		w.loop_mode = AudioStreamWAV.LOOP_FORWARD
 		w.loop_begin = 0
 		w.loop_end = w.data.size() / 2
+	if st is AudioStreamMP3:
+		(st as AudioStreamMP3).loop = true
 	var old := _a
 	_a = _b
 	_b = old
