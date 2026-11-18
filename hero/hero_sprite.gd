@@ -193,6 +193,9 @@ static func _draw_sword(img: Image, w: int, h: int, n: int, a: String, d: String
 		var hy: float = float(cfg[1]) + bob
 		var ang := deg_to_rad(float(cfg[2]))
 		var up := Vector2(sin(ang), -cos(ang))
+		if track.size() == n and track[f].size() > 2:
+			ang = deg_to_rad(clampf(float(track[f][2]), -100.0, 100.0))
+			up = Vector2(sin(ang), -cos(ang))
 		if track.size() == n:
 			hx = x0 + float(track[f][0]) + up.x * 5.0
 			hy = float(track[f][1]) + up.y * 5.0

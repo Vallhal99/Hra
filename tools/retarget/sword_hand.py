@@ -51,8 +51,12 @@ def blobs(frame_masks, i):
     return hands or [comps[0][1]]
 
 res = {}
-for anim in ["Idle", "Walk", "Run"]:
-    for d in ["S", "SE", "E", "NE", "N", "NW", "W", "SW"]:
+BATTLE = ["Swordslash", "Attackcombo3hit", "Attackthrust", "Castspell", "Attackranged", "Block", "Victory"]
+SHOULDER = np.array([72.0, 105.0])   # ramenni kloub hrdiny v profilu (W) v pixelech framu
+jobs = [(a, d) for a in ["Idle", "Walk", "Run"] for d in ["S", "SE", "E", "NE", "N", "NW", "W", "SW"]]
+jobs += [(a, "W") for a in BATTLE]
+for anim, d in jobs:
+    if True:
         key = f"{anim} ({d})"
         try:
             fm = R.frames_masks(key)
@@ -69,12 +73,25 @@ for anim in ["Idle", "Walk", "Run"]:
         for fi in range(len(fm["rukavice"])):
             bl = blobs(fm, fi)
             if not bl:
-                track.append(prev.tolist() if prev is not None else anchor.tolist())
+                track.append(list(prev) if prev is not None else anchor.tolist())
                 continue
             ref = prev if prev is not None else anchor
             c = min(bl, key=lambda p: np.hypot(*(p - ref)))
-            track.append([round(float(c[0]), 1), round(float(c[1]), 1)])
-            prev = np.array(track[-1])
+            row = [round(float(c[0]), 1), round(float(c[1]), 1)]
+            if anim in BATTLE:   # cepel pokracuje smerem od ramene k ruce (predlokti)
+                v = c - SHOULDER
+                row.append(round(math.degrees(math.atan2(v[0], -v[1])), 1))
+            track.append(row)
+            prev = np.array(track[-1][:2])
+        if anim in BATTLE and len(track) > 2:
+            a = np.array(track, float)
+            for i in range(1, len(a)):          # skok ruky > 28 px = spatny blob -> vezmi predchozi
+                if np.hypot(*(a[i, :2] - a[i - 1, :2])) > 28:
+                    a[i] = a[i - 1]
+            k = a.copy()                       # vyhlazeni uhlu a pozice (3 framy)
+            for i in range(1, len(a) - 1):
+                k[i] = (a[i - 1] + 2 * a[i] + a[i + 1]) / 4
+            track = [[round(float(v), 1) for v in r] for r in k]
         res[key] = track
 json.dump(res, open(os.path.join(R.ROOT, "hero", "sword_hand.json"), "w"))
 print(len(res), "animaci ->", "hero/sword_hand.json")
