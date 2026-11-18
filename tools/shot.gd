@@ -11,6 +11,10 @@ func _initialize() -> void:
 	var sc := ps.instantiate()
 	get_root().add_child(sc)
 	current_scene = sc
+	if OS.get_environment("NOFOE") != "":
+		for n in sc.find_children("*", "Node3D", true, false):
+			if n.get_script() != null and str(n.get_script().resource_path).ends_with("map_enemy.gd"):
+				n.queue_free()
 	var at := get_root().get_node_or_null("Atmo")
 	if at and OS.get_environment("WEATHER") != "":
 		at.set_weather(OS.get_environment("WEATHER"))

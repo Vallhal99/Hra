@@ -713,7 +713,7 @@ texture_filter = 5
 [sub_resource type="BoxShape3D" id="BoxShape3D_k6icb"]
 size = Vector3(2.015763, 1.3984, 1.371014)
 
-[node name="w_hrob" type="Node3D" unique_id=424950394]
+[node name="w_hrob" type="Node3D" unique_id=1685805272]
 
 [node name="Model" type="Node3D" parent="." unique_id=1725889438 instance=ExtResource("1_6wr2f")]
 
@@ -776,8 +776,8 @@ surface_material_override/0 = SubResource("StandardMaterial3D_m4ohm")
 surface_material_override/1 = SubResource("StandardMaterial3D_4w1gy")
 surface_material_override/2 = SubResource("StandardMaterial3D_7oioj")
 
-[node name="Kolize" type="StaticBody3D" parent="." unique_id=589140578]
+[node name="Kolize" type="StaticBody3D" parent="." unique_id=788726806]
 
-[node name="@CollisionShape3D@77" type="CollisionShape3D" parent="Kolize" unique_id=1944155465]
+[node name="@CollisionShape3D@77" type="CollisionShape3D" parent="Kolize" unique_id=933378040]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.012090445, 0.59, 0.0044239163)
 shape = SubResource("BoxShape3D_k6icb")

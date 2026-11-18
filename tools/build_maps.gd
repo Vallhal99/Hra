@@ -1026,53 +1026,74 @@ func _jezero() -> void:
 
 func _jeskyne() -> void:
 	indoor = true
-	sun_energy = 0.12
-	_begin("Jeskyne", 0, 44, 0, 36, 409)
-	var rooms := [[Vector2(14, 29), 4.0], [Vector2(14, 17), 6.0], [Vector2(31, 14), 7.0], [Vector2(35, 27), 4.5]]
-	var corridors := [[Vector2(14, 34), Vector2(14, 23)], [Vector2(14, 17), Vector2(31, 14)], [Vector2(31, 14), Vector2(35, 27)]]
-	for x in range(0, 44):
-		for z in range(0, 36):
+	sun_energy = 0.3
+	_begin("Jeskyne", 0, 60, 0, 48, 409)
+	# přehledné uspořádání: vstup (dole) -> předsíň -> sál se sochou -> východní sál -> strážce (nahoře vpravo)
+	# a odbočka k pokladu (dole vpravo)
+	var rooms := [[Vector2(12, 40), 5.5], [Vector2(12, 25), 7.5], [Vector2(32, 23), 8.0], [Vector2(47, 10), 7.0], [Vector2(47, 38), 5.5]]
+	var corridors := [[Vector2(12, 45), Vector2(12, 33)], [Vector2(12, 25), Vector2(32, 23)], [Vector2(32, 23), Vector2(47, 10)], [Vector2(32, 23), Vector2(47, 38)]]
+	var path_c := [[Vector2(12, 46), Vector2(12, 25)], [Vector2(12, 25), Vector2(32, 23)], [Vector2(32, 23), Vector2(47, 10)], [Vector2(32, 23), Vector2(47, 38)]]
+	for x in range(0, 60):
+		for z in range(0, 48):
 			var c := Vector2i(x, z)
 			var p := Vector2(x + 0.5, z + 0.5)
-			var nzv := nz.get_noise_2d(x * 0.8, z * 0.8)
+			var nzv := nz.get_noise_2d(x * 0.5, z * 0.5)
 			var open := false
 			for r in rooms:
-				if p.distance_to(r[0]) < float(r[1]) + 0.8 * nzv:
+				if p.distance_to(r[0]) < float(r[1]) + 0.5 * nzv:
 					open = true
 			for cr in corridors:
-				if _seg_dist(p, [cr[0], cr[1]]) < 1.9 + 0.4 * nzv:
+				if _seg_dist(p, [cr[0], cr[1]]) < 2.4 + 0.2 * nzv:
 					open = true
 			if open:
-				tm.cells[c] = Vector2i(0, 3 if nzb.get_noise_2d(x, z) > -0.1 else 2)
+				var on_path := false
+				for pc in path_c:
+					if _seg_dist(p, [pc[0], pc[1]]) < 1.0:
+						on_path = true
+				tm.cells[c] = Vector2i(0, 2)   # celá průchozí podlaha = jednotná světlá dlažba (stěny jsou tmavé)
 				kind[c] = 2
 			else:
 				tm.cells[c] = Vector2i(9 + (1 if nzb.get_noise_2d(x, z) > 0.3 else 0), 3)
 				kind[c] = 0
-	# krystaly svítí
-	var cr_spots := [Vector2(10.5, 15.5), Vector2(19.0, 19.5), Vector2(27.0, 10.0), Vector2(36.5, 17.0), Vector2(12.0, 30.5), Vector2(38.0, 29.5)]
+	# osvětlení: pochodně u vchodu a podél cesty, modré krystaly v sálech
+	for tp in [Vector2(10.0, 44.0), Vector2(14.0, 44.0), Vector2(10.0, 36.0), Vector2(14.0, 36.0)]:
+		_omni(Vector3(tp.x, 1.8, tp.y), Color(1.0, 0.72, 0.4), 2.2, 10.0)
+	for lp in [Vector2(12, 30), Vector2(20, 24), Vector2(26, 23.5), Vector2(38, 18), Vector2(42, 13), Vector2(38, 30), Vector2(43, 34)]:
+		_omni(Vector3(lp.x, 1.8, lp.y), Color(0.55, 0.8, 1.0), 2.0, 9.0)
+	var cr_spots := [Vector2(6.5, 22.0), Vector2(18.0, 28.0), Vector2(27.0, 17.0), Vector2(38.5, 26.5), Vector2(42.0, 5.5), Vector2(52.0, 14.0), Vector2(51.5, 41.0), Vector2(6.5, 38.0)]
 	for p in cr_spots:
 		_inst("w_krystaly", p, rng.randf_range(0, 360), 1.2)
 		_omni(Vector3(p.x, _h(p.x, p.y) + 1.4, p.y), Color(0.45, 0.8, 1.0), 2.6, 9.0)
-	_omni(Vector3(14, 1.8, 33), Color(1.0, 0.8, 0.5), 2.0, 8.0)
-	for nm in ["w_kamen_stredni", "w_kamen_maly", "w_balvan", "w_kamen_dvojice", "w_oblazky"]:
-		for i in 3:
-			var q := Vector2(rng.randf_range(8, 38), rng.randf_range(10, 31))
-			var c2 := Vector2i(floori(q.x), floori(q.y))
-			if tm.cells.has(c2) and (tm.cells[c2] as Vector2i).x == 0:
-				_inst(nm, q, rng.randf_range(0, 360), rng.randf_range(0.8, 1.2))
-	_inst("w_hrob", Vector2(33.0, 9.5), 0.0)
-	_chest(Vector2(36.0, 30.0), 200.0, 1, [["ruda", 2], ["gold", 80]])
-	_inst("w_bedna_otevrena", Vector2(33.5, 29.0), 20.0)
-	_inst("w_socha", Vector2(31.0, 17.5), 180.0)
-	_mark("Vchod", Vector3(14.0, 0, 31.5))
-	_exit("Vychod_jeskyne", Vector3(14.0, 0, 35.2), Vector3(5, 2.5, 1.0), "res://scenes/hvozd.tscn", "Z_jeskyne")
-	_foe_at("Kostlivci_1", ["skeleton", "skeleton"], Vector2(14, 17), 3.0)
-	_foe_at("Kostlivci_2", ["skeleton", "flame", "skeleton"], Vector2(31, 14), 3.5)
-	_foe_at("Strazce", ["skeleton", "skeleton", "bandit"], Vector2(35, 26), 2.0)
-	_finish("res://scenes/jeskyne.tscn", Vector3(14.0, 0, 31.5), [])
+	# kameny jen u zdí (ne na cestě)
+	var deco := ["w_kamen_stredni", "w_kamen_maly", "w_balvan", "w_kamen_dvojice", "w_oblazky"]
+	var placed := 0
+	var tries := 0
+	while placed < 22 and tries < 600:
+		tries += 1
+		var q := Vector2(rng.randf_range(3, 57), rng.randf_range(3, 45))
+		var c2 := Vector2i(floori(q.x), floori(q.y))
+		if not tm.cells.has(c2) or (tm.cells[c2] as Vector2i) != Vector2i(0, 2):
+			continue
+		var near_wall := false
+		for d in [Vector2i(2, 0), Vector2i(-2, 0), Vector2i(0, 2), Vector2i(0, -2)]:
+			var nb: Vector2i = c2 + d
+			if tm.cells.has(nb) and (tm.cells[nb] as Vector2i).x >= 9:
+				near_wall = true
+		if near_wall:
+			_inst(deco[placed % deco.size()], q, rng.randf_range(0, 360), rng.randf_range(0.8, 1.2))
+			placed += 1
+	_inst("w_hrob", Vector2(47.0, 6.0), 0.0)
+	_chest(Vector2(50.0, 38.0), 200.0, 1, [["ruda", 2], ["gold", 80]])
+	_inst("w_bedna_otevrena", Vector2(50.5, 40.5), 20.0)
+	_inst("w_socha", Vector2(12.0, 22.0), 180.0)
+	_mark("Vchod", Vector3(12.0, 0, 42.5))
+	_exit("Vychod_jeskyne", Vector3(12.0, 0, 47.2), Vector3(5, 2.5, 1.0), "res://scenes/hvozd.tscn", "Z_jeskyne")
+	_foe_at("Kostlivci_1", ["skeleton", "skeleton"], Vector2(12, 26), 3.0)
+	_foe_at("Kostlivci_2", ["skeleton", "flame", "skeleton"], Vector2(32, 23), 3.5)
+	_foe_at("Strazce", ["skeleton", "skeleton", "bandit"], Vector2(46, 12), 2.0)
+	_finish("res://scenes/jeskyne.tscn", Vector3(12.0, 0, 42.5), [])
 	indoor = false
 	sun_energy = 0.95
-
 
 func _obchod() -> void:
 	_begin("Obchod", 0, 16, 2, 12, 31)

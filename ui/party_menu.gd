@@ -12,15 +12,134 @@ static func open(tree: SceneTree, tab := 0) -> void:
 	_build(tree, cl, tab)
 
 
+const GOLD := Color(0.93, 0.78, 0.42)
+const INK := Color(0.05, 0.06, 0.11)
+
+
+static func _sbox(bg: Color, border := Color(0, 0, 0, 0), bw := 0, radius := 6, margin := 10) -> StyleBoxFlat:
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = bg
+	sb.border_color = border
+	sb.set_border_width_all(bw)
+	sb.set_corner_radius_all(radius)
+	sb.set_content_margin_all(margin)
+	sb.anti_aliasing = true
+	return sb
+
+
+## Jednotný vzhled menu: tmavé sklo, zlaté akcenty, zaoblené karty
+static func _theme() -> Theme:
+	var t := Theme.new()
+	t.set_stylebox("panel", "PanelContainer", _sbox(Color(0.07, 0.08, 0.15, 0.92), Color(0.93, 0.78, 0.42, 0.55), 1, 8, 14))
+	t.set_stylebox("panel", "TabContainer", _sbox(Color(0, 0, 0, 0), Color(0, 0, 0, 0), 0, 0, 6))
+	var tab_n := _sbox(Color(0.1, 0.11, 0.2, 0.7), Color(1, 1, 1, 0.08), 1, 6, 10)
+	tab_n.border_width_bottom = 0
+	tab_n.corner_radius_bottom_left = 0
+	tab_n.corner_radius_bottom_right = 0
+	tab_n.content_margin_left = 16
+	tab_n.content_margin_right = 16
+	var tab_s := _sbox(Color(0.2, 0.17, 0.1, 0.95), GOLD, 2, 6, 10)
+	tab_s.border_width_bottom = 0
+	tab_s.border_width_top = 3
+	tab_s.corner_radius_bottom_left = 0
+	tab_s.corner_radius_bottom_right = 0
+	tab_s.content_margin_left = 16
+	tab_s.content_margin_right = 16
+	var tab_h := tab_n.duplicate()
+	tab_h.bg_color = Color(0.18, 0.18, 0.3, 0.9)
+	t.set_stylebox("tab_unselected", "TabContainer", tab_n)
+	t.set_stylebox("tab_selected", "TabContainer", tab_s)
+	t.set_stylebox("tab_hovered", "TabContainer", tab_h)
+	t.set_stylebox("tab_focus", "TabContainer", StyleBoxEmpty.new())
+	t.set_color("font_selected_color", "TabContainer", Color(1.0, 0.92, 0.6))
+	t.set_color("font_unselected_color", "TabContainer", Color(0.7, 0.74, 0.88))
+	t.set_color("font_hovered_color", "TabContainer", Color(1, 1, 1))
+	t.set_font_size("font_size", "TabContainer", 19)
+	t.set_constant("h_separation", "TabContainer", 4)
+	for st in ["normal", "hover", "pressed", "focus", "disabled"]:
+		var b := _sbox(Color(0.13, 0.14, 0.26, 0.9), Color(1, 1, 1, 0.14), 1, 6, 8)
+		match st:
+			"hover":
+				b.bg_color = Color(0.22, 0.2, 0.12, 0.95)
+				b.border_color = GOLD
+			"pressed":
+				b.bg_color = Color(0.3, 0.24, 0.1, 1.0)
+				b.border_color = GOLD
+			"focus":
+				b.bg_color = Color(0.2, 0.19, 0.14, 0.95)
+				b.border_color = GOLD
+				b.set_border_width_all(2)
+			"disabled":
+				b.bg_color = Color(0.08, 0.08, 0.12, 0.7)
+				b.border_color = Color(1, 1, 1, 0.05)
+		t.set_stylebox(st, "Button", b)
+		t.set_stylebox(st, "OptionButton", b)
+	t.set_color("font_color", "Button", Color(0.9, 0.92, 1.0))
+	t.set_color("font_hover_color", "Button", Color(1.0, 0.93, 0.62))
+	t.set_color("font_focus_color", "Button", Color(1.0, 0.93, 0.62))
+	t.set_color("font_disabled_color", "Button", Color(0.5, 0.52, 0.6))
+	t.set_font_size("font_size", "Button", 18)
+	t.set_font_size("font_size", "OptionButton", 17)
+	t.set_stylebox("background", "ProgressBar", _sbox(Color(0, 0, 0, 0.55), Color(1, 1, 1, 0.12), 1, 4, 0))
+	t.set_stylebox("fill", "ProgressBar", _sbox(GOLD, Color(0, 0, 0, 0), 0, 4, 0))
+	var gr := _sbox(Color(0.93, 0.78, 0.42, 0.5), Color(0, 0, 0, 0), 0, 4, 0)
+	t.set_stylebox("grabber", "VScrollBar", gr)
+	t.set_stylebox("grabber_highlight", "VScrollBar", gr)
+	t.set_stylebox("grabber_pressed", "VScrollBar", gr)
+	t.set_stylebox("scroll", "VScrollBar", _sbox(Color(0, 0, 0, 0.3), Color(0, 0, 0, 0), 0, 4, 0))
+	return t
+
+
+static func _gauge(col: Color, v: float, cap: float, w := 130) -> ProgressBar:
+	var pb := ProgressBar.new()
+	pb.min_value = 0
+	pb.max_value = cap
+	pb.value = clampf(v, 0.0, cap)
+	pb.show_percentage = false
+	pb.custom_minimum_size = Vector2(w, 10)
+	pb.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	pb.add_theme_stylebox_override("fill", _sbox(col, Color(0, 0, 0, 0), 0, 4, 0))
+	return pb
+
+
+## portrét z animovaného spritu (hlava a ramena)
+static func _portrait(m: Dictionary) -> Control:
+	var tr := TextureRect.new()
+	tr.custom_minimum_size = Vector2(110, 110)
+	tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	tr.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	var tex: Texture2D = null
+	var rect := Rect2(0, 0, 148, 130)
+	var P: Node = (Engine.get_main_loop() as SceneTree).root.get_node("Party")
+	if m.get("hero", false):
+		var inv: Node = (Engine.get_main_loop() as SceneTree).root.get_node("Inventory")
+		var sh: Dictionary = load("res://hero/hero_sprite.gd").sheet("Idle", "S", inv.equip)
+		tex = sh.tex
+		rect = Rect2(0, 0, 148, 130)
+	else:
+		var d: Dictionary = P.DEFS.get(m.get("id", ""), {})
+		if d.has("char") and AnimActor.has_char(d.char):
+			var mt: Dictionary = AnimActor.meta(d.char)["Idle"]
+			tex = AnimActor.tex(d.char, "Idle")
+			rect = Rect2(0, 0, mt.w, mt.h * 0.55)
+		elif d.has("tex"):
+			tex = load(d.tex)
+			rect = Rect2(0, 0, tex.get_width(), tex.get_height() * 0.55)
+	if tex != null:
+		var at := AtlasTexture.new()
+		at.atlas = tex
+		at.region = rect
+		tr.texture = at
+	var fr := PanelContainer.new()
+	fr.add_theme_stylebox_override("panel", _sbox(Color(0.02, 0.03, 0.07, 0.9), GOLD, 2, 8, 2))
+	fr.add_child(tr)
+	return fr
+
+
 static func _panel() -> PanelContainer:
 	var pc := PanelContainer.new()
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.04, 0.05, 0.12, 0.96)
-	sb.border_color = Color(0.85, 0.75, 0.45)
-	sb.set_border_width_all(2)
-	sb.set_corner_radius_all(6)
-	sb.set_content_margin_all(18)
-	pc.add_theme_stylebox_override("panel", sb)
+	pc.add_theme_stylebox_override("panel", _sbox(Color(0.09, 0.1, 0.19, 0.9), Color(0.93, 0.78, 0.42, 0.45), 1, 8, 14))
 	return pc
 
 
@@ -31,22 +150,62 @@ static func _lbl(t: String, size := 20, col := Color(0.92, 0.93, 1.0), wrap := f
 	l.add_theme_color_override("font_color", col)
 	if wrap:
 		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		l.custom_minimum_size = Vector2(760, 0)
+		l.custom_minimum_size = Vector2(520, 0)
 	return l
 
 
 static func _build(tree: SceneTree, cl: CanvasLayer, tab: int) -> void:
 	for c in cl.get_children():
 		c.queue_free()
+	# pozadí: ztmavení + vinětace
+	var dim := ColorRect.new()
+	dim.color = Color(0.02, 0.02, 0.05, 0.72)
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	cl.add_child(dim)
+	var gt := GradientTexture2D.new()
+	gt.fill = GradientTexture2D.FILL_RADIAL
+	gt.fill_from = Vector2(0.5, 0.5)
+	gt.fill_to = Vector2(1.0, 0.9)
+	var gg := Gradient.new()
+	gg.colors = PackedColorArray([Color(0.25, 0.2, 0.1, 0.0), Color(0.0, 0.0, 0.0, 0.65)])
+	gt.gradient = gg
+	var vig := TextureRect.new()
+	vig.texture = gt
+	vig.set_anchors_preset(Control.PRESET_FULL_RECT)
+	vig.stretch_mode = TextureRect.STRETCH_SCALE
+	vig.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	cl.add_child(vig)
+	var root := MarginContainer.new()
+	root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	for side in ["left", "right"]:
+		root.add_theme_constant_override("margin_" + side, 90)
+	root.add_theme_constant_override("margin_top", 36)
+	root.add_theme_constant_override("margin_bottom", 30)
+	root.theme = _theme()
+	cl.add_child(root)
 	var pc := _panel()
-	pc.set_anchors_preset(Control.PRESET_CENTER)
-	pc.offset_left = -470
-	pc.offset_right = 470
-	pc.offset_top = -300
-	pc.offset_bottom = 300
-	cl.add_child(pc)
+	root.add_child(pc)
 	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 8)
 	pc.add_child(vb)
+	# hlavička: název, zlato, čas
+	var head := HBoxContainer.new()
+	vb.add_child(head)
+	var ttl := _lbl("◆  MENU", 30, GOLD)
+	head.add_child(ttl)
+	var sp := Control.new()
+	sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	head.add_child(sp)
+	var inv: Node = tree.root.get_node("Inventory")
+	var at: Node = tree.root.get_node_or_null("Atmo")
+	var info := "◈ %d zlata" % int(inv.gold)
+	if at:
+		info += "      %s  ·  Den %d" % [at.clock_text(), at.day]
+	head.add_child(_lbl(info, 20, Color(0.95, 0.9, 0.7)))
+	var line := ColorRect.new()
+	line.color = Color(0.93, 0.78, 0.42, 0.6)
+	line.custom_minimum_size = Vector2(0, 2)
+	vb.add_child(line)
 	var tc := TabContainer.new()
 	tc.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	vb.add_child(tc)
@@ -61,7 +220,8 @@ static func _build(tree: SceneTree, cl: CanvasLayer, tab: int) -> void:
 		tc.set_tab_title(i, ["Družina", "Dovednosti", "Výbava", "Vaření", "Bestiář", "Postavy", "Nastavení"][i])
 	tc.current_tab = tab
 	var close := Button.new()
-	close.text = "Zavřít (Esc)"
+	close.text = "Zavřít  (Esc)"
+	close.custom_minimum_size = Vector2(0, 40)
 	close.pressed.connect(func():
 		cl.queue_free()
 		tree.paused = false)
@@ -92,14 +252,44 @@ static func _tab_party(tree: SceneTree, cl: CanvasLayer) -> Control:
 	var v := VBoxContainer.new()
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	sc.add_child(v)
+	v.add_theme_constant_override("separation", 12)
 	for m in _members():
 		var pc := _panel()
 		v.add_child(pc)
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 16)
+		pc.add_child(row)
+		row.add_child(_portrait(m))
 		var b := VBoxContainer.new()
-		pc.add_child(b)
-		b.add_child(_lbl("%s — %s, úroveň %d" % [m.name, _cname(m.cls), m.lv], 24, Color(1, 0.9, 0.5)))
-		b.add_child(_lbl("ŽP %d   SP %d   Útok %d   Obrana %d   Rychlost %d" % m.st, 20))
-		b.add_child(_lbl(str(m.bio), 17, Color(0.7, 0.75, 0.9), true))
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		b.add_theme_constant_override("separation", 6)
+		row.add_child(b)
+		var hd := HBoxContainer.new()
+		b.add_child(hd)
+		hd.add_child(_lbl(str(m.name), 26, Color(1, 0.9, 0.5)))
+		var sp2 := Control.new()
+		sp2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		hd.add_child(sp2)
+		hd.add_child(_lbl("%s  ·  úr. %d" % [_cname(m.cls), m.lv], 19, Color(0.75, 0.8, 1.0)))
+		if int(m.need) > 0:
+			var xb := _gauge(Color(0.93, 0.78, 0.42), float(m.xp), float(m.need), 300)
+			xb.custom_minimum_size = Vector2(0, 8)
+			xb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			b.add_child(xb)
+		var gd := GridContainer.new()
+		gd.columns = 5
+		gd.add_theme_constant_override("h_separation", 18)
+		b.add_child(gd)
+		var names := ["ŽP", "SP", "Útok", "Obrana", "Rychlost"]
+		var caps := [200.0, 100.0, 60.0, 40.0, 20.0]
+		var cols := [Color(0.9, 0.3, 0.32), Color(0.35, 0.6, 1.0), Color(1.0, 0.65, 0.25), Color(0.5, 0.85, 0.5), Color(0.8, 0.5, 1.0)]
+		for i in 5:
+			var cell := VBoxContainer.new()
+			cell.add_theme_constant_override("separation", 2)
+			cell.add_child(_lbl("%s  %d" % [names[i], int(m.st[i])], 17))
+			cell.add_child(_gauge(cols[i], float(m.st[i]), caps[i], 110))
+			gd.add_child(cell)
+		b.add_child(_lbl(str(m.bio), 16, Color(0.68, 0.73, 0.88), true))
 		var hb := HBoxContainer.new()
 		b.add_child(hb)
 		hb.add_child(_lbl("Podpovolání:", 18))

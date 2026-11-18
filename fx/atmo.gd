@@ -315,8 +315,6 @@ func _process(dt: float) -> void:
 	if tod < tod0:
 		day += 1
 	_update_clock()
-	if _cave:
-		tod = 0.5
 	# počasí se mění samo
 	if locked_weather == "" and not _indoor:
 		_wtimer -= dt
@@ -424,7 +422,8 @@ func _attach_flames(sc: Node) -> void:
 
 
 func _apply(cam: Camera3D) -> void:
-	var e := sin((tod - 0.25) * TAU)
+	var tod_r := 0.5 if _cave else tod     # v jeskyni se vizuálně svítí stále, herní čas ale běží dál
+	var e := sin((tod_r - 0.25) * TAU)
 	_sun_e = e
 	var day := smoothstep(-0.12, 0.32, e)
 	_night = 1.0 - day
@@ -443,13 +442,13 @@ func _apply(cam: Camera3D) -> void:
 		return
 	if _cave:
 		if env:
-			env.ambient_light_color = Color(0.62, 0.5, 0.42) if _crypt else Color(0.25, 0.32, 0.5)
-			env.ambient_light_energy = 0.75 if _crypt else 0.55
+			env.ambient_light_color = Color(0.62, 0.5, 0.42) if _crypt else Color(0.5, 0.6, 0.85)
+			env.ambient_light_energy = 0.75 if _crypt else 1.15
 			env.background_color = Color(0.03, 0.02, 0.02) if _crypt else Color(0.02, 0.03, 0.06)
 			env.fog_light_color = Color(0.2, 0.14, 0.11) if _crypt else Color(0.12, 0.16, 0.26)
-			env.fog_density = 0.02
+			env.fog_density = 0.02 if _crypt else 0.007
 		if sun:
-			sun.light_energy = 0.12
+			sun.light_energy = 0.12 if _crypt else 0.4
 			sun.light_color = Color(0.5, 0.6, 1.0)
 		_rain.emitting = false
 		_leaves.emitting = false
@@ -467,7 +466,7 @@ func _apply(cam: Camera3D) -> void:
 		sun.light_color = _lerpc(moon, dayc, day)
 		sun.light_energy = lerpf(0.38, 0.78, day) * (1.0 - 0.55 * rl)
 		var elev := lerpf(8.0, 62.0, maxf(e, 0.0))
-		sun.rotation_degrees = Vector3(-lerpf(45.0, elev, day), -30.0 + tod * 70.0, 0.0)
+		sun.rotation_degrees = Vector3(-lerpf(45.0, elev, day), -30.0 + tod_r * 70.0, 0.0)
 	if env:
 		var amb_day := _lerpc(Color(0.62, 0.72, 0.95), Color(0.85, 0.6, 0.62), warm * 0.7)
 		env.ambient_light_color = _lerpc(Color(0.2, 0.26, 0.5), amb_day, day).lerp(Color(0.5, 0.55, 0.62), rl * 0.5)
