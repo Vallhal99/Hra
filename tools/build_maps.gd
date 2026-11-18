@@ -870,33 +870,37 @@ func _foe_at(nm: String, kinds_: Array, p: Vector2, patrol_ := 3.0) -> void:
 
 
 func _hvozd() -> void:
-	_begin("Hvozd", 0, 52, 0, 46, 211)
-	var main_path := [Vector2(26, 0), Vector2(26, 9), Vector2(23, 17), Vector2(25, 25), Vector2(31, 29), Vector2(37, 31)]
-	var west := [Vector2(23, 17), Vector2(16, 25), Vector2(11, 33), Vector2(9, 38)]
-	var east := [Vector2(26, 9), Vector2(34, 12), Vector2(43, 17), Vector2(52, 22)]
-	var camp := Vector2(38, 31)
-	var cave_plaza := Vector2(9, 38)
-	for x in range(0, 52):
-		for z in range(0, 46):
+	_begin("Hvozd", 0, 72, 0, 64, 211)
+	# čitelná kostra: sever -> křižovatka -> západ (jeskyně) / východ (jezero) / jih (tábor)
+	var cross := Vector2(36, 24)
+	var main_path := [Vector2(36, 0), Vector2(36, 10), cross, Vector2(38, 36), Vector2(50, 46), Vector2(55, 50)]
+	var west := [cross, Vector2(26, 28), Vector2(18, 36), Vector2(13, 46), Vector2(12, 52)]
+	var east := [cross, Vector2(48, 22), Vector2(60, 25), Vector2(72, 27)]
+	var camp := Vector2(55, 51)
+	var cave_plaza := Vector2(12, 53)
+	for x in range(0, 72):
+		for z in range(0, 64):
 			var c := Vector2i(x, z)
 			var p := Vector2(x + 0.5, z + 0.5)
 			var nzv := nz.get_noise_2d(x * 0.8, z * 0.8)
 			var dp := minf(_seg_dist(p, main_path), minf(_seg_dist(p, west), _seg_dist(p, east)))
-			var in_camp := p.distance_to(camp) < 7.5 + 1.0 * nzv
-			var in_cave := p.distance_to(cave_plaza) < 4.2 + 0.6 * nzv
-			if dp < 2.2 + 0.5 * nzv or in_camp or in_cave:
-				var onp := dp < 1.3 or p.distance_to(camp) < 5.0 or in_cave
+			var in_camp := p.distance_to(camp) < 8.0 + 0.8 * nzv
+			var in_cave := p.distance_to(cave_plaza) < 5.0 + 0.5 * nzv
+			var in_cross := p.distance_to(cross) < 4.2 + 0.4 * nzv
+			if dp < 2.4 + 0.3 * nzv or in_camp or in_cave or in_cross:
+				var onp := dp < 1.6 or p.distance_to(camp) < 5.5 or in_cave or in_cross
 				tm.cells[c] = Vector2i(0, 2 if onp else 1)
 				kind[c] = 2 if onp else 1
-			elif dp < 4.5 + nzv and nzb.get_noise_2d(x, z) > 0.0:
-				tm.cells[c] = Vector2i(0, 4 if nz.get_noise_2d(x * 1.5, z) > 0 else 1)
+			elif dp < 6.0 + 1.5 * nzv:
+				tm.cells[c] = Vector2i(0, 1)   # plochá louka kolem cest (bez kopců)
 				kind[c] = 1
 			else:
 				_forest(c, 3)
-	noveg.append(Rect2(camp.x - 6.5, camp.y - 6.5, 13, 13))
-	noveg.append(Rect2(cave_plaza.x - 4, cave_plaza.y - 4, 8, 8))
-	_edge_trees(110, 2.2)
-	_rocks(10, [1], [Rect2(camp.x - 8, camp.y - 8, 16, 16)])
+	noveg.append(Rect2(camp.x - 7, camp.y - 7, 14, 14))
+	noveg.append(Rect2(cave_plaza.x - 5, cave_plaza.y - 5, 10, 10))
+	noveg.append(Rect2(cross.x - 4, cross.y - 4, 8, 8))
+	_edge_trees(170, 2.2)
+	_rocks(8, [1], [Rect2(camp.x - 9, camp.y - 9, 18, 18), Rect2(cave_plaza.x - 7, cave_plaza.y - 7, 14, 14)])
 	# tábor zbojníků
 	_inst("lp_stan", camp + Vector2(-3.6, -2.4), 30.0)
 	_inst("lp_stan", camp + Vector2(3.4, -3.0), 330.0)
@@ -910,31 +914,30 @@ func _hvozd() -> void:
 	_inst("w_truhla", camp + Vector2(5.8, -0.4), 270.0)
 	_inst("w_vlajka", camp + Vector2(-0.5, -4.4), 0.0)
 	_inst("w_strasak", camp + Vector2(-6.0, -3.5), 20.0)
-	# vchod do jeskyně: skalní masiv
-	_inst("w_kamenny_kopec", cave_plaza + Vector2(0.0, 5.2), 0.0, 1.6)
-	_inst("w_skala", cave_plaza + Vector2(-3.3, 3.8), 40.0)
-	_inst("w_skala", cave_plaza + Vector2(3.3, 3.8), 300.0)
-	_inst("w_krystaly", cave_plaza + Vector2(-2.6, 1.0), 0.0)
-	_inst("w_ohnisko_miska", cave_plaza + Vector2(2.6, 0.2), 0.0)
-	_inst("w_hrob", Vector2(17.0, 21.0), 20.0)
-	_inst("w_houba", Vector2(30.0, 4.0))
-	_inst("w_menhir", Vector2(43.0, 6.0), 15.0)
-	_inst("w_rozcestnik", Vector2(24.2, 16.2), 40.0)
-	_mark("Ze_severu", Vector3(26.0, 0, 3.5))
+	# vchod do jeskyně: otevřené náměstí, dvě skály po stranách
+	_inst("w_skala", cave_plaza + Vector2(-3.6, 3.6), 40.0)
+	_inst("w_skala", cave_plaza + Vector2(3.6, 3.6), 300.0)
+	_inst("w_krystaly", cave_plaza + Vector2(-3.0, 0.5), 0.0)
+	_inst("w_ohnisko_miska", cave_plaza + Vector2(3.0, 0.2), 0.0)
+	_inst("w_hrob", Vector2(24.0, 14.0), 20.0)
+	_inst("w_houba", Vector2(42.0, 6.0))
+	_inst("w_menhir", Vector2(58.0, 14.0), 15.0)
+	_inst("w_rozcestnik", Vector2(39.5, 21.5), 40.0)
+	_mark("Ze_severu", Vector3(36.0, 0, 3.5))
 	_mark("Z_jeskyne", Vector3(cave_plaza.x, 0, cave_plaza.y + 1.5))
-	_mark("Ze_zapadu", Vector3(48.0, 0, 21.5))
-	_exit("Vychod_sever", Vector3(26.0, 0, 0.8), Vector3(7, 2.5, 1), "res://scenes/rozcesti.tscn", "Z_jihu")
-	_exit("Vchod_jeskyne", Vector3(cave_plaza.x, 0, cave_plaza.y + 3.6), Vector3(4.0, 2.5, 1.4), "res://scenes/jeskyne.tscn", "Vchod")
-	_exit("Vychod_vychod", Vector3(51.2, 0, 22.0), Vector3(1, 2.5, 7), "res://scenes/jezero.tscn", "Z_zapadu")
+	_mark("Ze_zapadu", Vector3(68.0, 0, 27.0))
+	_exit("Vychod_sever", Vector3(36.0, 0, 0.8), Vector3(8, 2.5, 1), "res://scenes/rozcesti.tscn", "Z_jihu")
+	_exit("Vchod_jeskyne", Vector3(cave_plaza.x, 0, cave_plaza.y + 3.6), Vector3(5.0, 2.5, 1.4), "res://scenes/jeskyne.tscn", "Vchod")
+	_exit("Vychod_vychod", Vector3(71.2, 0, 27.0), Vector3(1, 2.5, 8), "res://scenes/jezero.tscn", "Z_zapadu")
 	_foe_at("Zbojnici_1", ["bandit", "bandit"], camp + Vector2(-1.0, -1.0), 3.0)
 	_foe_at("Zbojnici_2", ["bandit", "slime", "bandit"], camp + Vector2(2.5, 3.0), 2.5)
-	_foe_at("Slizak_1", ["slime"], Vector2(25.0, 20.0), 3.0)
-	_foe_at("Vlk_1", ["wolf", "wolf"], Vector2(14.0, 24.0), 3.5)
-	_foe_at("Vlk_2", ["wolf"], Vector2(36.0, 8.0), 3.0)
-	_foe_at("Slizak_2", ["slime", "slime"], Vector2(38.0, 15.0), 3.0)
+	_foe_at("Slizak_1", ["slime"], Vector2(36.0, 16.0), 3.0)
+	_foe_at("Vlk_1", ["wolf", "wolf"], Vector2(20.0, 33.0), 3.5)
+	_foe_at("Vlk_2", ["wolf"], Vector2(52.0, 22.0), 3.0)
+	_foe_at("Slizak_2", ["slime", "slime"], Vector2(42.0, 40.0), 3.0)
 	_label(props, "JESKYNĚ", Vector3(cave_plaza.x, _h(cave_plaza.x, cave_plaza.y + 3.2) + 3.2, cave_plaza.y + 3.2), 0.0, 44)
-	_finish("res://scenes/hvozd.tscn", Vector3(26.0, 0, 3.5), [
-		["Hlidka", "Zběhlý hlídač", "Pst! Tábor zbojníků je na jihovýchodě. Jestli jdeš tam, nevolej na ně.|V noci spí... aspoň někteří.", Vector2(25.0, 6.0), {"dialogue": "hlidka"}]])
+	_finish("res://scenes/hvozd.tscn", Vector3(36.0, 0, 3.5), [
+		["Hlidka", "Zběhlý hlídač", "Pst! Tábor zbojníků je na jihovýchodě. Jestli jdeš tam, nevolej na ně.|V noci spí... aspoň někteří.", Vector2(34.5, 6.0), {"dialogue": "hlidka"}]])
 
 
 func _jezero() -> void:
